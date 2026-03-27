@@ -1,7 +1,8 @@
 import random
 import numpy as np
 from collections import deque
-import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 
 # ----------------------- Environment -----------------------
@@ -119,49 +120,49 @@ class Environment:
             self.instability_duration = max(0, self.instability_duration * 0.85)
 
         # --- 6. Collapse risk accumulation (slow burn) ---
-        self.state["collapse_risk"] += max(0, net) * 0.025
-        self.state["collapse_risk"] += 0.006 * self.instability_duration
+        self.state["collapse_risk"] += max(0, net) * 0.012
+        self.state["collapse_risk"] += 0.003 * self.instability_duration
         
         # --- PROLONGED WAR EFFECT: War duration amplifies collapse risk ---
         if self.war_duration > 10:
-            war_fatigue = 0.008 * (self.war_duration - 10)
+            war_fatigue = 0.004 * (self.war_duration - 10)
             self.state["collapse_risk"] += war_fatigue
             
         if self.war_duration > 20:
-            severe_war_fatigue = 0.012 * (self.war_duration - 20)
+            severe_war_fatigue = 0.006 * (self.war_duration - 20)
             self.state["collapse_risk"] += severe_war_fatigue
 
         # --- 7. Economic + legitimacy fatigue over time ---
-        if self.instability_duration > 6:
-            fatigue = 0.008 * (self.instability_duration - 5)
+        if self.instability_duration > 8:
+            fatigue = 0.004 * (self.instability_duration - 8)
 
             self.state["economy"] *= (1 - fatigue)
-            self.state["legitimacy"] *= (1 - fatigue * 0.7)
+            self.state["legitimacy"] *= (1 - fatigue * 0.5)
         
         # --- PROLONGED WAR: Accelerated economic and legitimacy erosion ---
-        if self.war_duration > 15:
-            war_economic_drain = 0.01 * (self.war_duration - 15)
+        if self.war_duration > 18:
+            war_economic_drain = 0.005 * (self.war_duration - 18)
             self.state["economy"] *= (1 - war_economic_drain)
-            self.state["legitimacy"] *= (1 - war_economic_drain * 0.6)
+            self.state["legitimacy"] *= (1 - war_economic_drain * 0.4)
 
         # --- 8. Delayed security loyalty erosion (very hard to break) ---
         if (
-            self.state["economy"] < 0.25 and
-            self.state["legitimacy"] < 0.30 and
-            self.instability_duration > 10
+            self.state["economy"] < 0.20 and
+            self.state["legitimacy"] < 0.25 and
+            self.instability_duration > 12
         ):
-            self.state["security_loyalty"] *= 0.99
+            self.state["security_loyalty"] *= 0.995
         
         # --- PROLONGED WAR: Security forces become exhausted and demoralized ---
-        if self.war_duration > 25 and self.state["economy"] < 0.30:
-            self.state["security_loyalty"] *= 0.985
+        if self.war_duration > 28 and self.state["economy"] < 0.25:
+            self.state["security_loyalty"] *= 0.992
 
         # --- 9. Elite cohesion: mostly stable, but can degrade slowly ---
-        self.state["elite_cohesion"] *= 0.995
+        self.state["elite_cohesion"] *= 0.998
         
         # --- PROLONGED WAR: Elite cohesion fractures under sustained pressure ---
-        if self.war_duration > 20:
-            elite_war_fatigue = 0.003 * (self.war_duration - 20)
+        if self.war_duration > 22:
+            elite_war_fatigue = 0.002 * (self.war_duration - 22)
             self.state["elite_cohesion"] *= (1 - elite_war_fatigue)
 
         # --- 10. Elite fracture (nonlinear trigger) ---
@@ -174,18 +175,18 @@ class Environment:
         collapse_risk = self.state["collapse_risk"]
         
         # --- PROLONGED WAR: Increases shock probability ---
-        war_shock_multiplier = 1.0 + (0.02 * min(self.war_duration, 30))
+        war_shock_multiplier = 1.0 + (0.015 * min(self.war_duration, 30))
 
-        if collapse_risk > 0.65 and elite_fragility > 0.5:
-            shock_prob = (0.15 + 0.4 * elite_fragility) * war_shock_multiplier
+        if collapse_risk > 0.75 and elite_fragility > 0.65:
+            shock_prob = (0.08 + 0.3 * elite_fragility) * war_shock_multiplier
 
             if np.random.rand() < shock_prob:
                 self.state["system_collapse"] = True
                 return
 
         # extreme crisis fallback (rare but possible)
-        if collapse_risk > 0.85:
-            shock_prob = (0.10 + 0.5 * (1 - self.state["elite_cohesion"])) * war_shock_multiplier
+        if collapse_risk > 0.90:
+            shock_prob = (0.06 + 0.4 * (1 - self.state["elite_cohesion"])) * war_shock_multiplier
 
             if np.random.rand() < shock_prob:
                 self.state["system_collapse"] = True
@@ -285,16 +286,16 @@ def post_war_collapse_check(env, steps_after_war=50):
         )
 
         # --- 5. Shock-based collapse ---
-        if env.state["collapse_risk"] > 0.65 and elite_fragility > 0.5:
+        if env.state["collapse_risk"] > 0.80 and elite_fragility > 0.70:
 
-            shock_prob = 0.12 + 0.4 * elite_fragility
+            shock_prob = 0.08 + 0.3 * elite_fragility
 
             if np.random.rand() < shock_prob:
                 env.state["system_collapse"] = True
 
-        if env.state["collapse_risk"] > 0.85:
+        if env.state["collapse_risk"] > 0.92:
 
-            shock_prob = 0.1 + 0.5 * (1 - env.state["elite_cohesion"])
+            shock_prob = 0.06 + 0.4 * (1 - env.state["elite_cohesion"])
 
             if np.random.rand() < shock_prob:
                 env.state["system_collapse"] = True
@@ -389,61 +390,61 @@ def apply_action(state, actor, action , env=None):
         if action == "escalate":
             # Realistic: Big tension spike, short-term legitimacy boost (nationalism),
             # military power slightly hurt by counter-strikes, unrest reduced by repression + rally effect
-            change_percent("tension", 0.45)                    # Strong escalation
-            change_percent("legitimacy", 0.08)                 # Rally around the flag
-            change_percent("military_power", -0.06)            # Damage from Israeli/US strikes
-            change_percent("public_unrest", -0.09)             # Repression + nationalist unity
-            change_percent("international_support", -0.12)     # Further isolation
-            change_percent("elite_cohesion", 0.05)             # Hardliners consolidate
-            change_percent("security_loyalty", 0.04)
+            change_percent("tension", 0.40)                    # Strong escalation
+            change_percent("legitimacy", 0.10)                 # Rally around the flag
+            change_percent("military_power", -0.05)            # Damage from Israeli/US strikes
+            change_percent("public_unrest", -0.12)             # Repression + nationalist unity
+            change_percent("international_support", -0.10)     # Further isolation
+            change_percent("elite_cohesion", 0.06)             # Hardliners consolidate
+            change_percent("security_loyalty", 0.05)
 
         elif action == "block_negotiation":
-            change_percent("international_support", -0.14)
-            change_percent("tension", 0.22)
-            change_percent("economy", -0.05)                   # Blocks any relief
+            change_percent("international_support", -0.12)
+            change_percent("tension", 0.20)
+            change_percent("economy", -0.04)                   # Blocks any relief
 
     elif actor == "Moderate":
         if action == "negotiate":
             # Realistic: Limited effect because hardliners dominate
-            change_percent("tension", -0.18)
-            change_percent("international_support", 0.07)
-            change_percent("economy", 0.035)
-            change_percent("security_loyalty", -0.06)          # Military/IRGC unhappy with talks
-            change_percent("elite_cohesion", -0.04)            # Hardliners resist
+            change_percent("tension", -0.20)
+            change_percent("international_support", 0.08)
+            change_percent("economy", 0.04)
+            change_percent("security_loyalty", -0.05)          # Military/IRGC unhappy with talks
+            change_percent("elite_cohesion", -0.03)            # Hardliners resist
 
         elif action == "reform":
             # Reforms are very difficult during war
-            change_percent("legitimacy", 0.06)
-            change_percent("economy", 0.05)
-            change_percent("public_unrest", -0.05)
-            change_percent("military_power", -0.08)            # Big backlash from IRGC
-            change_percent("elite_cohesion", -0.07)            # Strong elite resistance
+            change_percent("legitimacy", 0.07)
+            change_percent("economy", 0.06)
+            change_percent("public_unrest", -0.06)
+            change_percent("military_power", -0.07)            # Big backlash from IRGC
+            change_percent("elite_cohesion", -0.06)            # Strong elite resistance
 
     elif actor == "USA":
         if action == "strike":
-            change_percent("tension", 0.60)
-            damage = 0.10 + 0.02 * min(env.cumulative_strikes, 5)
+            change_percent("tension", 0.55)
+            damage = 0.08 + 0.015 * min(env.cumulative_strikes, 5)
             change_percent("military_power", -damage)
 
-            change_percent("economy", -0.10)
+            change_percent("economy", -0.08)
 
             if env.cumulative_strikes < 2:
-                change_percent("legitimacy", 0.04)
-                change_percent("public_unrest", -0.02)
-                change_percent("elite_cohesion", 0.03)
+                change_percent("legitimacy", 0.05)
+                change_percent("public_unrest", -0.03)
+                change_percent("elite_cohesion", 0.04)
             else:
-                change_percent("legitimacy", -0.08)
-                change_percent("public_unrest", 0.10)
-                change_percent("elite_cohesion", -0.06)
+                change_percent("legitimacy", -0.06)
+                change_percent("public_unrest", 0.08)
+                change_percent("elite_cohesion", -0.05)
 
-                if env.cumulative_strikes > 4 and state["economy"] < 0.3:
-                    change_percent("security_loyalty", -0.05)
+                if env.cumulative_strikes > 5 and state["economy"] < 0.25:
+                    change_percent("security_loyalty", -0.04)
 
         elif action == "negotiate":
             # Realistic: Tension drops, but limited gains while fighting continues
-            change_percent("tension", -0.28)
-            change_percent("international_support", 0.08)
-            change_percent("economy", 0.055)
+            change_percent("tension", -0.30)
+            change_percent("international_support", 0.10)
+            change_percent("economy", 0.06)
 
 
     # Final clipping
@@ -562,9 +563,9 @@ def step(env, agents):
 
 
     if (
-        env.state["elite_cohesion"] < 0.25 and
-        env.state["security_loyalty"] < 0.3 and
-        env.state["public_unrest"] > 0.7
+        env.state["elite_cohesion"] < 0.20 and
+        env.state["security_loyalty"] < 0.25 and
+        env.state["public_unrest"] > 0.75
     ):
         env.state["system_collapse"] = True
 
@@ -632,9 +633,9 @@ def train_agents(n_episodes=1000, max_steps=30):
     hardliner = RLAgent("Hardliner", {
         "power": 0.85,
         "economy": 0.30,
-        "legitimacy": 0.15,
+        "legitimacy": 0.25,
         "tension": 0.55,
-        "unrest": -0.25,
+        "unrest": -0.15,
         "influence": 0.55
     }, [
         "escalate",
@@ -725,6 +726,112 @@ def train_agents(n_episodes=1000, max_steps=30):
     return agents, env
 
 
+# ----------------------- Plotting Function -----------------------
+def plot_war_duration_vs_collapse(war_durations, collapse_status, collapse_risk_over_time, filename='war_collapse_analysis.png'):
+    """
+    Create comprehensive visualization of war duration vs regime collapse
+    
+    Args:
+        war_durations: List of max war durations for each scenario
+        collapse_status: List of boolean collapse outcomes
+        collapse_risk_over_time: Dict mapping war_duration -> list of collapse_risk values
+    """
+    fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+    fig.suptitle('War Duration vs Regime Collapse Analysis', fontsize=16, fontweight='bold')
+    
+    # Plot 1: Scatter plot of war duration vs collapse
+    ax1 = axes[0, 0]
+    collapsed = [d for d, c in zip(war_durations, collapse_status) if c]
+    survived = [d for d, c in zip(war_durations, collapse_status) if not c]
+    
+    ax1.scatter(survived, [0]*len(survived), alpha=0.6, s=50, c='green', label='Regime Survived', marker='o')
+    ax1.scatter(collapsed, [1]*len(collapsed), alpha=0.6, s=50, c='red', label='Regime Collapsed', marker='X')
+    ax1.set_xlabel('War Duration (steps/days)', fontsize=12)
+    ax1.set_ylabel('Outcome', fontsize=12)
+    ax1.set_yticks([0, 1])
+    ax1.set_yticklabels(['Survived', 'Collapsed'])
+    ax1.set_title('Collapse Outcomes by War Duration', fontsize=13, fontweight='bold')
+    ax1.legend(loc='upper left')
+    ax1.grid(True, alpha=0.3)
+    ax1.axvline(x=10, color='orange', linestyle='--', alpha=0.5, label='Early→Prolonged')
+    ax1.axvline(x=25, color='red', linestyle='--', alpha=0.5, label='Prolonged→Extended')
+    
+    # Plot 2: Collapse probability by war duration bins
+    ax2 = axes[0, 1]
+    bins = [0, 5, 10, 15, 20, 25, 30, 50]
+    bin_labels = ['0-5', '6-10', '11-15', '16-20', '21-25', '26-30', '30+']
+    collapse_rates = []
+    bin_centers = []
+    
+    for i in range(len(bins)-1):
+        in_bin = [(d, c) for d, c in zip(war_durations, collapse_status) if bins[i] <= d < bins[i+1]]
+        if in_bin:
+            collapse_rate = sum(c for _, c in in_bin) / len(in_bin)
+            collapse_rates.append(collapse_rate * 100)
+            bin_centers.append((bins[i] + bins[i+1]) / 2)
+    
+    colors = ['green' if r < 5 else 'yellow' if r < 10 else 'orange' if r < 20 else 'red' for r in collapse_rates]
+    bars = ax2.bar(range(len(collapse_rates)), collapse_rates, color=colors, alpha=0.7, edgecolor='black')
+    ax2.set_xlabel('War Duration (steps/days)', fontsize=12)
+    ax2.set_ylabel('Collapse Probability (%)', fontsize=12)
+    ax2.set_title('Collapse Probability by War Duration', fontsize=13, fontweight='bold')
+    ax2.set_xticks(range(len(collapse_rates)))
+    ax2.set_xticklabels([bin_labels[i] for i in range(len(collapse_rates))], rotation=45)
+    ax2.grid(True, alpha=0.3, axis='y')
+    
+    # Add percentage labels on bars
+    for i, (bar, rate) in enumerate(zip(bars, collapse_rates)):
+        height = bar.get_height()
+        ax2.text(bar.get_x() + bar.get_width()/2., height,
+                f'{rate:.1f}%', ha='center', va='bottom', fontsize=9, fontweight='bold')
+    
+    # Plot 3: Average collapse risk over war duration
+    ax3 = axes[1, 0]
+    if collapse_risk_over_time:
+        durations_sorted = sorted(collapse_risk_over_time.keys())
+        avg_risks = [np.mean(collapse_risk_over_time[d]) for d in durations_sorted]
+        max_risks = [np.max(collapse_risk_over_time[d]) for d in durations_sorted]
+        min_risks = [np.min(collapse_risk_over_time[d]) for d in durations_sorted]
+        
+        ax3.plot(durations_sorted, avg_risks, 'b-', linewidth=2, label='Average Collapse Risk')
+        ax3.fill_between(durations_sorted, min_risks, max_risks, alpha=0.3, color='blue', label='Min-Max Range')
+        ax3.axhline(y=0.65, color='orange', linestyle='--', alpha=0.7, label='High Risk Threshold (0.65)')
+        ax3.axhline(y=0.85, color='red', linestyle='--', alpha=0.7, label='Critical Risk Threshold (0.85)')
+        ax3.axvspan(0, 10, alpha=0.1, color='green', label='Early War')
+        ax3.axvspan(10, 25, alpha=0.1, color='yellow', label='Prolonged War')
+        ax3.axvspan(25, max(durations_sorted), alpha=0.1, color='red', label='Extended War')
+        
+        ax3.set_xlabel('War Duration (steps/days)', fontsize=12)
+        ax3.set_ylabel('Collapse Risk', fontsize=12)
+        ax3.set_title('Collapse Risk Evolution During War', fontsize=13, fontweight='bold')
+        ax3.legend(loc='upper left', fontsize=9)
+        ax3.grid(True, alpha=0.3)
+        ax3.set_ylim(0, 1)
+    
+    # Plot 4: Histogram of war durations at collapse
+    ax4 = axes[1, 1]
+    if collapsed:
+        ax4.hist(collapsed, bins=15, color='red', alpha=0.7, edgecolor='black')
+        ax4.axvline(x=np.mean(collapsed), color='darkred', linestyle='--', linewidth=2, 
+                   label=f'Mean: {np.mean(collapsed):.1f} steps')
+        ax4.axvline(x=np.median(collapsed), color='orange', linestyle='--', linewidth=2,
+                   label=f'Median: {np.median(collapsed):.1f} steps')
+        ax4.set_xlabel('War Duration at Collapse (steps/days)', fontsize=12)
+        ax4.set_ylabel('Frequency', fontsize=12)
+        ax4.set_title('Distribution of War Duration at Collapse', fontsize=13, fontweight='bold')
+        ax4.legend()
+        ax4.grid(True, alpha=0.3, axis='y')
+    else:
+        ax4.text(0.5, 0.5, 'No collapses observed', ha='center', va='center', 
+                transform=ax4.transAxes, fontsize=14)
+        ax4.set_title('Distribution of War Duration at Collapse', fontsize=13, fontweight='bold')
+    
+    plt.tight_layout()
+    plt.savefig(filename, dpi=300, bbox_inches='tight')
+    print(f"\n✓ Plot saved as '{filename}'")
+    plt.close()
+
+
 # ----------------------- Evaluation -----------------------
 def evaluate(agents, n_eval=300):
     env = Environment()
@@ -745,6 +852,11 @@ def evaluate(agents, n_eval=300):
     war_duration_at_collapse = []
     collapse_by_war_phase = {"early": 0, "prolonged": 0, "extended": 0, "no_war": 0}
     total_by_war_phase = {"early": 0, "prolonged": 0, "extended": 0, "no_war": 0}
+    
+    # For plotting
+    all_war_durations = []
+    all_collapse_status = []
+    collapse_risk_by_duration = {}
 
     for _ in range(n_eval):
         env.reset()
@@ -755,8 +867,10 @@ def evaluate(agents, n_eval=300):
 
         outcome = None
         max_war_duration = 0
+        step_count = 0
 
         for _ in range(30):
+            step_count += 1
 
 
             if np.random.rand() < 0.1:
@@ -771,6 +885,12 @@ def evaluate(agents, n_eval=300):
 
             step(env, agents)
             max_war_duration = max(max_war_duration, env.war_duration)
+            
+            # Track collapse risk by war duration for plotting
+            if env.war_duration > 0:
+                if env.war_duration not in collapse_risk_by_duration:
+                    collapse_risk_by_duration[env.war_duration] = []
+                collapse_risk_by_duration[env.war_duration].append(env.state["collapse_risk"])
 
             if env.state.get("system_collapse", False):
                 outcome = "COLLAPSE"
@@ -785,6 +905,10 @@ def evaluate(agents, n_eval=300):
         total_by_war_phase[phase] += 1
         if outcome == "COLLAPSE":
             collapse_by_war_phase[phase] += 1
+        
+        # Store for plotting
+        all_war_durations.append(max_war_duration)
+        all_collapse_status.append(outcome == "COLLAPSE")
 
         results[outcome] += 1
 
@@ -831,6 +955,9 @@ def evaluate(agents, n_eval=300):
         if prolonged_war_collapses + extended_war_collapses > 0:
             prolonged_collapse_pct = (prolonged_war_collapses + extended_war_collapses) / len(war_duration_at_collapse) * 100
             print(f"\n**{prolonged_collapse_pct:.1f}% of collapses occurred during prolonged/extended war**")
+    
+    # Generate visualization
+    plot_war_duration_vs_collapse(all_war_durations, all_collapse_status, collapse_risk_by_duration)
 
 
 
