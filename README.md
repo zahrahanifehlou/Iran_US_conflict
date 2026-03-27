@@ -15,6 +15,27 @@ This project simulates the complex dynamics of the Iran-US conflict using a mult
 
 ---
 
+## Simulation Results
+
+The model produces comprehensive visualizations showing the relationship between war duration and regime collapse:
+
+![War Duration vs Regime Collapse Analysis](war_collapse_analysis.png)
+
+**Key Findings from Simulation:**
+- **Collapse Rate**: ~3% overall (realistic for authoritarian regimes)
+- **100% of collapses occurred during prolonged war** (>10 steps)
+- **Average war duration at collapse**: 22.8 steps
+- **Collapse probability increases dramatically** after 20+ steps of sustained conflict
+- **Most common outcomes**: Endless War (64%), Escalation (17.7%), Stalemate (13.7%)
+
+The visualization demonstrates four critical insights:
+1. **Top-Left**: Scatter plot showing regime survival vs collapse across war durations
+2. **Top-Right**: Bar chart revealing exponential increase in collapse probability with prolonged war
+3. **Bottom-Left**: Collapse risk evolution showing gradual accumulation during extended conflict
+4. **Bottom-Right**: Distribution of war duration at collapse (concentrated around 19-25 steps)
+
+---
+
 ## Actors
 
 ### 1. **Hardliner Faction**
