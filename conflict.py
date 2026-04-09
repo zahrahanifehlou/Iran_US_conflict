@@ -5,12 +5,23 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
 np.random.seed(42)
+
 # ----------------------- Environment -----------------------
 class Environment:
+    """High-level simulation of Iran–US conflict dynamics.
+
+    This is an abstract model that mixes:
+    - internal regime stability (legitimacy, unrest, elite cohesion, security loyalty)
+    - external pressure and conflict intensity (tension, strikes)
+    - simplified operational channels (air_defense, proxies, oil disruption)
+
+    Values are mostly normalized into [0,1].
+    """
     def __init__(self):
         self.reset()
 
     def reset(self):
+        """Reset the environment to an initial state for a new episode."""
         self.state = {
             "tension": 0.70,
             "economy": 0.35,
@@ -28,8 +39,16 @@ class Environment:
             "ceasefire_duration": 0,
             "ceasefire_fragility": 0.7,  
             "internal_elite_conflict": 0.2,  
-            "hardliner_fragmentation": 0.1
+            "hardliner_fragmentation": 0.1,
+            # Abstract operational variables (used to make "war" less arcade-like)
+            "air_defense": 0.60,
+            "missile_stock": 0.70,
+            "proxy_intensity": 0.45,
+            "oil_disruption": 0.20,
+            # Used as a short-term stabilizer inside collapse logic.
+            "external_threat": 0.00
         }
+        
         self.hard_power = 0.62
         self.mod_power = 0.38
         self.instability_duration = 0
@@ -48,8 +67,16 @@ class Environment:
 
 
     def update_ceasefire_dynamics(self):
+        """Evolve ceasefire dynamics.
 
-        # اگر آتش‌بس فعال است
+        - If ceasefire is active:
+          - tension cools and economy slightly recovers
+          - internal elite conflict can rise (ceasefire can create infighting)
+          - ceasefire can break probabilistically (fragility + infighting)
+        - If ceasefire is inactive:
+          - ceasefire can emerge under high tension + economic pain
+        """
+
         if self.state["ceasefire"]:
 
             self.state["ceasefire_duration"] += 1
@@ -89,178 +116,6 @@ class Environment:
                     self.state["ceasefire_duration"] = 0
 
 
-    def update_power_balance(self):
-
-        # In real Iran: The higher and longer the external threat, the stronger the hardline/security apparatus becomes — even if the state overall becomes weaker.
-        
-        t = self.state["tension"]
-        duration = self.instability_duration
-
-
-        if 0.55 < t < 0.75:
-            boost = 0.07 * (t - 0.5)
-            self.hard_power *= (1 + boost)
-
-
-        elif t >= 0.75:
-            boost = 0.06 * (t - 0.7)
-
-            if duration > 5:
-                boost += 0.015 * (duration - 5)
-
-            self.hard_power *= (1 + boost)
-
-            # cohesion increases under external threat
-            self.state["elite_cohesion"] *= 1.02
-
-
-        if self.state["economy"] > 0.55 and self.state["legitimacy"] > 0.55:
-            self.mod_power *= 1.02
-
-        total = self.hard_power + self.mod_power
-        self.hard_power = np.clip(self.hard_power / total, 0.10, 0.92)
-        self.mod_power = 1.0 - self.hard_power
-
-    def update_collapse_risk(self):
-        # Regime behavior :
-        # Sanctions + protests → ❌ no collapse
-        # War with US/Israel → ❌ even less likely collapse short-term
-        # Long crisis + elite split → ⚠️ possible collapse
-        # Severe economic + legitimacy collapse + fragmentation → ✅ realistic collapse
-        # PROLONGED WAR → ⚠️⚠️ significantly increases collapse risk over time
-
-
-        if self.state["system_collapse"]:
-            return
-
-        # --- 1. Derived capacities ---
-        repression_capacity = (
-            0.6 * self.hard_power +
-            0.4 * self.state["security_loyalty"]
-        )
-
-        # unrest only matters if repression fails
-        effective_unrest = self.state["public_unrest"] * (1 - repression_capacity)
-
-        # --- 2. Stress calculation (internal pressure) ---
-        stress = (
-            0.45 * (1 - self.state["legitimacy"]) +
-            0.30 * effective_unrest +
-            0.25 * (1 - self.state["economy"])
-        )
-
-        # --- 3. External threat stabilizer (war reduces collapse risk short-term) ---
-        external_threat = self.state.get("external_threat", 0.0)
-        stress *= (1 - 0.25 * external_threat)
-
-        # --- 4. Regime resilience ---
-        resilience = (
-            0.50 * self.hard_power +
-            0.20 * self.state["elite_cohesion"] +
-            0.30 * self.state["security_loyalty"]
-        )
-
-        net = stress - resilience
-
-        # --- 5. Instability duration dynamics ---
-        if net > 0:
-            self.instability_duration += 1
-        else:
-            self.instability_duration = max(0, self.instability_duration * 0.85)
-
-        # --- 6. Collapse risk accumulation (slow burn) ---
-        self.state["collapse_risk"] += max(0, net) * 0.012
-        self.state["collapse_risk"] += 0.003 * self.instability_duration
-        
-        # --- PROLONGED WAR EFFECT: War duration amplifies collapse risk ---
-        if self.war_duration > 10:
-            war_fatigue = 0.004 * (self.war_duration - 10)
-            self.state["collapse_risk"] += war_fatigue
-            
-        if self.war_duration > 20:
-            severe_war_fatigue = 0.006 * (self.war_duration - 20)
-            self.state["collapse_risk"] += severe_war_fatigue
-
-        # --- 7. Economic + legitimacy fatigue over time ---
-        if self.instability_duration > 8:
-            fatigue = 0.004 * (self.instability_duration - 8)
-
-            self.state["economy"] *= (1 - fatigue)
-            self.state["legitimacy"] *= (1 - fatigue * 0.5)
-        
-        # --- PROLONGED WAR: Accelerated economic and legitimacy erosion ---
-        if self.war_duration > 18:
-            war_economic_drain = 0.005 * (self.war_duration - 18)
-            self.state["economy"] *= (1 - war_economic_drain)
-            self.state["legitimacy"] *= (1 - war_economic_drain * 0.4)
-
-        # --- 8. Delayed security loyalty erosion (very hard to break) ---
-        if (
-            self.state["economy"] < 0.20 and
-            self.state["legitimacy"] < 0.25 and
-            self.instability_duration > 12
-        ):
-            self.state["security_loyalty"] *= 0.995
-        
-        # --- PROLONGED WAR: Security forces become exhausted and demoralized ---
-        if self.war_duration > 28 and self.state["economy"] < 0.25:
-            self.state["security_loyalty"] *= 0.992
-
-        # --- 9. Elite cohesion: mostly stable, but can degrade slowly ---
-        self.state["elite_cohesion"] *= 0.998
-        
-        # --- PROLONGED WAR: Elite cohesion fractures under sustained pressure ---
-        if self.war_duration > 22:
-            elite_war_fatigue = 0.002 * (self.war_duration - 22)
-            self.state["elite_cohesion"] *= (1 - elite_war_fatigue)
-
-        # --- 10. Elite fracture (nonlinear trigger) ---
-        elite_fragility = (
-            (1 - self.state["elite_cohesion"]) *
-            (1 - self.state["security_loyalty"])
-        )
-       # 🔥 NEW: ceasefire paradox
-        if self.state["ceasefire"]:
-        
-            self.state["collapse_risk"] *= 0.98
-
-
-            internal_instability = (
-                self.state["internal_elite_conflict"] *
-                self.state["hardliner_fragmentation"]
-            )
-
-            self.state["collapse_risk"] += 0.01 * internal_instability 
-
-
-
-
-        # --- 11. Shock-based collapse (realistic mechanism) ---
-        collapse_risk = self.state["collapse_risk"]
-        
-        # --- PROLONGED WAR: Increases shock probability ---
-        war_shock_multiplier = 1.0 + (0.015 * min(self.war_duration, 30))
-
-        if collapse_risk > 0.75 and elite_fragility > 0.65:
-            shock_prob = (0.08 + 0.3 * elite_fragility) * war_shock_multiplier
-
-            if np.random.rand() < shock_prob:
-                self.state["system_collapse"] = True
-                return
-
-        # extreme crisis fallback (rare but possible)
-        if collapse_risk > 0.90:
-            shock_prob = (0.06 + 0.4 * (1 - self.state["elite_cohesion"])) * war_shock_multiplier
-
-            if np.random.rand() < shock_prob:
-                self.state["system_collapse"] = True
-                return
-
-        # --- 12. Clamp ---
-        self.state["collapse_risk"] = np.clip(self.state["collapse_risk"], 0, 1)
-
-
-
 # ----------------------- Reward Function -----------------------
 def get_reward(state, weights):
     s = state
@@ -278,13 +133,13 @@ def get_reward(state, weights):
 
 # ----------------------- Post-war collapse check -----------------------
 def post_war_collapse_check(env, steps_after_war=50):
-#  Post-war behavior in the revised model follows a three-phase dynamic consistent with how regimes like Iran typically respond to external conflict:
-# Immediate stabilization phase:
-# The regime consolidates power. Legitimacy, security loyalty, and elite cohesion increase slightly, while collapse risk temporarily declines due to a rally-around-the-flag effect and stronger control by institutions like the Islamic Revolutionary Guard Corps.
-# Medium-term strain phase:
-# Economic pressure begins to accumulate and legitimacy slowly erodes. However, unrest only contributes to instability if repression capacity weakens, so collapse risk rises conditionally, not automatically.
-# Long-term structural risk phase:
-# If economic decline and legitimacy loss become severe, and especially if elite cohesion and security loyalty begin to fracture, collapse risk increases. Actual collapse occurs only through nonlinear shocks tied to elite fragmentation, not gradual deterioration.
+    #  Post-war behavior in the revised model follows a three-phase dynamic consistent with how regimes like Iran typically respond to external conflict:
+    # Immediate stabilization phase:
+    # The regime consolidates power. Legitimacy, security loyalty, and elite cohesion increase slightly, while collapse risk temporarily declines due to a rally-around-the-flag effect and stronger control by institutions like the Islamic Revolutionary Guard Corps.
+    # Medium-term strain phase:
+    # Economic pressure begins to accumulate and legitimacy slowly erodes. However, unrest only contributes to instability if repression capacity weakens, so collapse risk rises conditionally, not automatically.
+    # Long-term structural risk phase:
+    # If economic decline and legitimacy loss become severe, and especially if elite cohesion and security loyalty begin to fracture, collapse risk increases. Actual collapse occurs only through nonlinear shocks tied to elite fragmentation, not gradual deterioration.
     collapse_occurred = False
 
     for step_num in range(steps_after_war):
@@ -372,6 +227,7 @@ def post_war_collapse_check(env, steps_after_war=50):
             break
 
     return collapse_occurred
+
 # ----------------------- Q-Network -----------------------
 class QNetwork:
     def __init__(self, state_dim, action_dim, lr=0.01):
@@ -440,6 +296,13 @@ class RLAgent:
 
 # ----------------------- Apply Action -----------------------
 def apply_action(state, actor, action , env=None):
+    """Apply one actor's action to the current state and return a modified copy.
+
+    This function does NOT directly mutate the environment.
+    In `step()` we:
+    - apply each actor action separately
+    - combine them into one next state by weighted averaging
+    """
     # The model simulates a regime that becomes stronger under initial external pressure, but gradually accumulates
     # internal strain under prolonged conflict, with instability emerging only if elite unity and security loyalty begin to break down.
 
@@ -452,6 +315,7 @@ def apply_action(state, actor, action , env=None):
 
     if actor == "Hardliner":
         if action == "escalate":
+
             # Realistic: Big tension spike, short-term legitimacy boost (nationalism),
             # military power slightly hurt by counter-strikes, unrest reduced by repression + rally effect
             change_percent("tension", 0.40)                    # Strong escalation
@@ -462,12 +326,37 @@ def apply_action(state, actor, action , env=None):
             change_percent("elite_cohesion", 0.06)             # Hardliners consolidate
             change_percent("security_loyalty", 0.05)
 
+            change_percent("proxy_intensity", 0.10)
+            change_percent("oil_disruption", 0.06)
+
         elif action == "block_negotiation":
             change_percent("international_support", -0.12)
             change_percent("tension", 0.20)
             change_percent("economy", -0.04)                   # Blocks any relief
 
+            change_percent("proxy_intensity", 0.06)
+
+        elif action == "deterrence":
+            # Controlled show of strength: small tension increase, small readiness cost.
+            change_percent("tension", 0.08)
+            change_percent("military_power", 0.01)
+            change_percent("legitimacy", 0.02)
+            change_percent("public_unrest", -0.03)
+            change_percent("international_support", -0.02)
+            change_percent("missile_stock", -0.03)
+
+        elif action == "limited_response":
+            # Limited retaliation: increases risk of escalation and costs resources.
+            change_percent("tension", 0.18)
+            change_percent("military_power", -0.02)
+            change_percent("legitimacy", 0.03)
+            change_percent("public_unrest", -0.05)
+            change_percent("international_support", -0.05)
+            change_percent("missile_stock", -0.06)
+            change_percent("oil_disruption", 0.04)
+
         elif action == "sabotage_ceasefire":
+
             # خراب کردن آتش‌بس توسط تندروها
             change_percent("tension", 0.30)
             change_percent("internal_elite_conflict", 0.15)
@@ -482,6 +371,7 @@ def apply_action(state, actor, action , env=None):
 
     elif actor == "Moderate":
         if action == "negotiate":
+
             # Realistic: Limited effect because hardliners dominate
             change_percent("tension", -0.20)
             change_percent("international_support", 0.08)
@@ -489,7 +379,11 @@ def apply_action(state, actor, action , env=None):
             change_percent("security_loyalty", -0.05)          # Military/IRGC unhappy with talks
             change_percent("elite_cohesion", -0.03)            # Hardliners resist
 
+            change_percent("proxy_intensity", -0.04)
+            change_percent("oil_disruption", -0.05)
+
         elif action == "reform":
+
             # Reforms are very difficult during war
             change_percent("legitimacy", 0.07)
             change_percent("economy", 0.06)
@@ -501,13 +395,42 @@ def apply_action(state, actor, action , env=None):
             change_percent("economy", 0.05)
             change_percent("internal_elite_conflict", -0.05)
 
+            change_percent("oil_disruption", -0.05)
+
+        elif action == "deescalate":
+            # De-escalation: reduces tension while improving support/economy gradually.
+            change_percent("tension", -0.18)
+            change_percent("international_support", 0.05)
+            change_percent("economy", 0.03)
+            change_percent("public_unrest", -0.04)
+            change_percent("proxy_intensity", -0.03)
+            change_percent("oil_disruption", -0.04)
+
+        elif action == "confidence_building":
+            # Confidence-building measures: slower but steadier improvements.
+            change_percent("tension", -0.12)
+            change_percent("international_support", 0.06)
+            change_percent("economy", 0.02)
+            change_percent("elite_cohesion", -0.01)
+            change_percent("proxy_intensity", -0.02)
+
     elif actor == "USA":
         if action == "strike":
+            # Strike effectiveness is reduced by air defenses; repeated strikes create saturation.
             change_percent("tension", 0.55)
-            damage = 0.08 + 0.015 * min(env.cumulative_strikes, 5)
-            change_percent("military_power", -damage)
 
-            change_percent("economy", -0.08)
+            air_def = float(state.get("air_defense", 0.5))
+            saturation = 1.0 / (1.0 + np.exp(-0.6 * (env.cumulative_strikes - 4)))
+            intercept = np.clip(0.20 + 0.55 * air_def - 0.30 * saturation, 0.05, 0.85)
+            base_damage = 0.10 + 0.02 * min(env.cumulative_strikes, 6)
+            damage = base_damage * (1.0 - intercept)
+
+            change_percent("military_power", -damage)
+            change_percent("air_defense", -(0.03 + 0.03 * saturation))
+
+            econ_hit = 0.05 + 0.04 * float(state.get("oil_disruption", 0.2))
+            change_percent("economy", -econ_hit)
+            change_percent("oil_disruption", 0.05 + 0.03 * saturation)
 
             if env.cumulative_strikes < 2:
                 change_percent("legitimacy", 0.05)
@@ -526,6 +449,8 @@ def apply_action(state, actor, action , env=None):
             change_percent("tension", -0.30)
             change_percent("international_support", 0.10)
             change_percent("economy", 0.06)
+
+            change_percent("oil_disruption", -0.06)
         elif action == "enforce_ceasefire":
             change_percent("tension", -0.25)
             change_percent("international_support", 0.12)
@@ -533,37 +458,62 @@ def apply_action(state, actor, action , env=None):
 
         elif action == "limited_strike":
             change_percent("tension", 0.20)
-            change_percent("military_power", -0.04)
+            air_def = float(state.get("air_defense", 0.5))
+            intercept = np.clip(0.25 + 0.50 * air_def, 0.10, 0.90)
+            damage = 0.05 * (1.0 - intercept)
+            change_percent("military_power", -damage)
+            change_percent("air_defense", -0.01)
 
-            
-            
+        elif action == "sanctions":
+            # Sanctions target economy + public welfare rather than military hardware.
+            change_percent("economy", -0.06)
+            change_percent("international_support", -0.04)
+            change_percent("tension", 0.07)
+            change_percent("public_unrest", 0.05)
+            change_percent("oil_disruption", 0.02)
+
+        elif action == "strategic_pause":
+            # Pause reduces immediate escalation pressure.
+            change_percent("tension", -0.08)
+            change_percent("international_support", 0.03)
+            change_percent("oil_disruption", -0.03)
 
 
     # Final clipping
     for k in new_state:
-        if k != "system_collapse":
-            new_state[k] = np.clip(new_state[k], 0.05, 0.97)
+        if k in {"system_collapse", "ceasefire"}:
+            continue
+        if isinstance(new_state[k], (bool, np.bool_)):
+            continue
+        new_state[k] = np.clip(new_state[k], 0.05, 0.97)
 
     return new_state
 
 
 # ----------------------- Step -----------------------
-
-
 def step(env, agents):
-#In short, the system behaves like this:
-# It is a dynamic balance between internal and external actors; as tension rises, it naturally shifts toward stronger hardliners and weaker moderates.
-# Aggressive actions (like strikes) can create short-term unity and legitimacy, but over time they lead to erosion of military capacity, rising public unrest, and weakening elite cohesion.
-# The effects of crises are nonlinear and cumulative, meaning the longer they continue, the harder the system becomes to control and the more extreme the reactions get.
-# Collapse occurs when multiple stress factors converge: low security loyalty, fragmented elites, and high public unrest.
-# Overall, the model suggests that systems rarely collapse suddenly; instead, they gradually weaken under accumulated pressure until they reach a tipping point and lose stability.
-# PROLONGED WAR: Extended conflict duration dramatically increases collapse probability through resource depletion, elite fragmentation, and security force exhaustion.
+    """Run one joint transition step for all agents.
+
+    The step is implemented as:
+    1) each agent chooses an action based on the current state vector
+    2) each action produces a temporary next-state (counterfactual)
+    3) we combine temporary next-states by actor weights to produce the new state
+    4) we apply global dynamics (cumulative strikes, rally/unrest, ceasefire logic,
+       power balance update, and collapse-risk update)
+    """
+    # In short, the system behaves like this:
+    # It is a dynamic balance between internal and external actors; as tension rises, it naturally shifts toward stronger hardliners and weaker moderates.
+    # Aggressive actions (like strikes) can create short-term unity and legitimacy, but over time they lead to erosion of military capacity, rising public unrest, and weakening elite cohesion.
+    # The effects of crises are nonlinear and cumulative, meaning the longer they continue, the harder the system becomes to control and the more extreme the reactions get.
+    # Collapse occurs when multiple stress factors converge: low security loyalty, fragmented elites, and high public unrest.
+    # PROLONGED WAR: Extended conflict duration dramatically increases collapse probability through resource depletion, elite fragmentation, and security force exhaustion.
 
     if env.state.get("system_collapse", False):
         return {a.name: "NONE" for a in agents}
     
-    # Track war duration based on tension levels
+    # War duration is inferred from sustained high tension.
     if env.state["tension"] > 0.65:
+
         env.high_tension_duration += 1
         if env.high_tension_duration > 5:
             env.war_duration += 1
@@ -573,15 +523,11 @@ def step(env, agents):
                 env.war_phase = "prolonged"
             else:
                 env.war_phase = "extended"
-    else:
-        env.high_tension_duration = 0
-        if env.war_duration > 0:
-            env.war_duration = max(0, env.war_duration - 0.5)
 
     current_state_vec = env.get_state_vector()
     chosen = {}
     next_temp_states = {}
-
+    ceasefire_signals = []
 
     for agent in agents:
         action = agent.choose_action(current_state_vec)
@@ -589,16 +535,24 @@ def step(env, agents):
 
         temp_state = apply_action(env.state, agent.name, action, env)
 
-
         for k in temp_state:
-            if k != "system_collapse":
-                noise = np.random.normal(0, 0.01)
-                temp_state[k] = np.clip(temp_state[k] + noise, 0, 1)
+            if k in {"system_collapse", "ceasefire"}:
+                continue
+            if isinstance(temp_state[k], (bool, np.bool_)):
+                continue
+            noise = np.random.normal(0, 0.01)
+            temp_state[k] = np.clip(temp_state[k] + noise, 0, 1)
 
         next_temp_states[agent.name] = temp_state
 
+        if "ceasefire" in next_temp_states[agent.name]:
+            ceasefire_signals.append(bool(next_temp_states[agent.name]["ceasefire"]))
 
     def get_weight(agent_name):
+        # Actor influence weights:
+        # - Hardliners matter more under high tension.
+        # - Moderates matter more under low tension.
+        # - USA has high baseline leverage; increases with tension.
         base = 0.5
 
         if agent_name == "Hardliner":
@@ -610,11 +564,10 @@ def step(env, agents):
         else:  # مثلا USA
             return np.clip(0.6 + 0.3 * env.state["tension"], 0.2, 0.95)
 
-
     new_state = {}
 
     for k in env.state:
-        if k == "system_collapse":
+        if k in {"system_collapse", "ceasefire"}:
             continue
 
         total = 0
@@ -629,8 +582,26 @@ def step(env, agents):
 
     env.state.update(new_state)
 
+    if ceasefire_signals:
+        # Ceasefire is discrete: we do not average it.
+        # If some forces break it while others keep it, we assume it breaks.
+        if any(v is True for v in ceasefire_signals) and any(v is False for v in ceasefire_signals):
+            env.state["ceasefire"] = False
+        else:
+            env.state["ceasefire"] = any(ceasefire_signals)
+
+    usa_action = chosen.get("USA")
+    # External threat is a short-term stabilizer in collapse-risk logic.
+    if usa_action in {"strike", "limited_strike", "sanctions"}:
+        env.state["external_threat"] = np.clip(env.state.get("external_threat", 0.0) + 0.15, 0.0, 1.0)
+    elif usa_action in {"negotiate", "strategic_pause"}:
+        env.state["external_threat"] = np.clip(env.state.get("external_threat", 0.0) - 0.10, 0.0, 1.0)
+    else:
+        env.state["external_threat"] = np.clip(env.state.get("external_threat", 0.0) - 0.03, 0.0, 1.0)
+
 
     if chosen.get("USA") == "strike":
+        # Used for saturation/campaign intensity effects.
         env.cumulative_strikes += 1
 
 
@@ -647,6 +618,11 @@ def step(env, agents):
     env.state["legitimacy"] *= (1 + 0.05 * rally - 0.08 * tension)
     env.state["public_unrest"] *= (1 + 0.1 * tension + 0.05 * strikes)
 
+    env.state["oil_disruption"] *= (1 - 0.06)
+    # Oil/shipping disruption is a key channel from conflict to economic damage.
+    env.state["economy"] *= (1 - 0.03 * env.state.get("oil_disruption", 0.2))
+    # Proxy intensity slightly reduces international support over time.
+    env.state["international_support"] *= (1 - 0.02 * env.state.get("proxy_intensity", 0.4))
 
     decay = 0.02 * strikes
 
@@ -663,6 +639,13 @@ def step(env, agents):
     env.update_ceasefire_dynamics()
     env.update_power_balance()
     env.update_collapse_risk()
+
+    for k in env.state:
+        if k in {"system_collapse", "ceasefire"}:
+            continue
+        if isinstance(env.state[k], (bool, np.bool_)):
+            continue
+        env.state[k] = np.clip(env.state[k], 0.05, 0.97)
 
     return chosen
 

@@ -1,5 +1,5 @@
 # Iran-US Conflict Simulation: Reinforcement Learning Model
-
+# Zahra HANIFEHLOU
 ## Overview
 
 This project simulates the complex dynamics of the Iran-US conflict using a multi-agent reinforcement learning (RL) framework. The model analyzes how different actors (Hardliners, Moderates, and the USA) interact under various conditions, and critically examines **the relationship between prolonged war and regime collapse**.
