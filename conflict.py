@@ -4,7 +4,7 @@ from collections import deque
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
-
+np.random.seed(42)
 # ----------------------- Environment -----------------------
 class Environment:
     def __init__(self):
@@ -23,7 +23,12 @@ class Environment:
             "security_loyalty": 0.50,
             "collapse_risk": 0.0 ,
             "post_war_collapse": 0.0 ,
-            "next_state_vec": 0.0
+            "next_state_vec": 0.0,
+            "ceasefire": False,
+            "ceasefire_duration": 0,
+            "ceasefire_fragility": 0.7,  
+            "internal_elite_conflict": 0.2,  
+            "hardliner_fragmentation": 0.1
         }
         self.hard_power = 0.62
         self.mod_power = 0.38
@@ -41,36 +46,80 @@ class Environment:
         s.pop("system_collapse", None)
         return np.array(list(s.values()), dtype=np.float32)
 
+
+    def update_ceasefire_dynamics(self):
+
+        # اگر آتش‌بس فعال است
+        if self.state["ceasefire"]:
+
+            self.state["ceasefire_duration"] += 1
+
+     
+            self.state["tension"] *= 0.97
+
+     
+            self.state["economy"] *= 1.01
+
+            # 🔥 
+            self.state["internal_elite_conflict"] *= 1.03
+            self.state["hardliner_fragmentation"] *= 1.04
+
+ 
+            self.state["security_loyalty"] *= 0.998
+
+
+            break_prob = (
+                self.state["ceasefire_fragility"] *
+                (0.4 + self.state["internal_elite_conflict"] +
+                0.5 * self.state["hardliner_fragmentation"])
+            )
+
+            if np.random.rand() < break_prob:
+                self.state["ceasefire"] = False
+
+       
+                self.state["tension"] *= 1.25
+                self.state["public_unrest"] *= 1.15
+
+        else:
+ 
+            if self.state["tension"] > 0.75 and self.state["economy"] < 0.4:
+                if np.random.rand() < 0.15:
+                    self.state["ceasefire"] = True
+                    self.state["ceasefire_duration"] = 0
+
+
     def update_power_balance(self):
 
         # In real Iran: The higher and longer the external threat, the stronger the hardline/security apparatus becomes — even if the state overall becomes weaker.
-            t = self.state["tension"]
-            duration = self.instability_duration
+        
+        t = self.state["tension"]
+        duration = self.instability_duration
 
 
-            if 0.55 < t < 0.75:
-                boost = 0.07 * (t - 0.5)
-                self.hard_power *= (1 + boost)
+        if 0.55 < t < 0.75:
+            boost = 0.07 * (t - 0.5)
+            self.hard_power *= (1 + boost)
 
 
-            elif t >= 0.75:
-                boost = 0.06 * (t - 0.7)
+        elif t >= 0.75:
+            boost = 0.06 * (t - 0.7)
 
-                if duration > 5:
-                    boost += 0.015 * (duration - 5)
+            if duration > 5:
+                boost += 0.015 * (duration - 5)
 
-                self.hard_power *= (1 + boost)
+            self.hard_power *= (1 + boost)
 
-                # cohesion increases under external threat
-                self.state["elite_cohesion"] *= 1.02
+            # cohesion increases under external threat
+            self.state["elite_cohesion"] *= 1.02
 
 
-            if self.state["economy"] > 0.55 and self.state["legitimacy"] > 0.55:
-                self.mod_power *= 1.02
+        if self.state["economy"] > 0.55 and self.state["legitimacy"] > 0.55:
+            self.mod_power *= 1.02
 
-            total = self.hard_power + self.mod_power
-            self.hard_power = np.clip(self.hard_power / total, 0.10, 0.92)
-            self.mod_power = 1.0 - self.hard_power
+        total = self.hard_power + self.mod_power
+        self.hard_power = np.clip(self.hard_power / total, 0.10, 0.92)
+        self.mod_power = 1.0 - self.hard_power
 
     def update_collapse_risk(self):
         # Regime behavior :
@@ -170,6 +219,21 @@ class Environment:
             (1 - self.state["elite_cohesion"]) *
             (1 - self.state["security_loyalty"])
         )
+       # 🔥 NEW: ceasefire paradox
+        if self.state["ceasefire"]:
+        
+            self.state["collapse_risk"] *= 0.98
+
+
+            internal_instability = (
+                self.state["internal_elite_conflict"] *
+                self.state["hardliner_fragmentation"]
+            )
+
+            self.state["collapse_risk"] += 0.01 * internal_instability 
+
+
+
 
         # --- 11. Shock-based collapse (realistic mechanism) ---
         collapse_risk = self.state["collapse_risk"]
@@ -403,6 +467,19 @@ def apply_action(state, actor, action , env=None):
             change_percent("tension", 0.20)
             change_percent("economy", -0.04)                   # Blocks any relief
 
+        elif action == "sabotage_ceasefire":
+            # خراب کردن آتش‌بس توسط تندروها
+            change_percent("tension", 0.30)
+            change_percent("internal_elite_conflict", 0.15)
+            change_percent("hardliner_fragmentation", 0.10)
+            new_state["ceasefire"] = False
+
+        elif action == "power_struggle":
+            # دعوای داخلی داخل حاکمیت
+            change_percent("elite_cohesion", -0.12)
+            change_percent("internal_elite_conflict", 0.20)
+            change_percent("public_unrest", 0.08)
+
     elif actor == "Moderate":
         if action == "negotiate":
             # Realistic: Limited effect because hardliners dominate
@@ -419,6 +496,10 @@ def apply_action(state, actor, action , env=None):
             change_percent("public_unrest", -0.06)
             change_percent("military_power", -0.07)            # Big backlash from IRGC
             change_percent("elite_cohesion", -0.06)            # Strong elite resistance
+        elif action == "preserve_ceasefire":
+            change_percent("tension", -0.15)
+            change_percent("economy", 0.05)
+            change_percent("internal_elite_conflict", -0.05)
 
     elif actor == "USA":
         if action == "strike":
@@ -445,6 +526,17 @@ def apply_action(state, actor, action , env=None):
             change_percent("tension", -0.30)
             change_percent("international_support", 0.10)
             change_percent("economy", 0.06)
+        elif action == "enforce_ceasefire":
+            change_percent("tension", -0.25)
+            change_percent("international_support", 0.12)
+            env.state["ceasefire"] = True
+
+        elif action == "limited_strike":
+            change_percent("tension", 0.20)
+            change_percent("military_power", -0.04)
+
+            
+            
 
 
     # Final clipping
@@ -568,7 +660,7 @@ def step(env, agents):
         env.state["public_unrest"] > 0.75
     ):
         env.state["system_collapse"] = True
-
+    env.update_ceasefire_dynamics()
     env.update_power_balance()
     env.update_collapse_risk()
 
