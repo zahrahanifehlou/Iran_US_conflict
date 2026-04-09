@@ -87,18 +87,43 @@ class Environment:
      
             self.state["economy"] *= 1.01
 
-            # 🔥 
+            # 
             self.state["internal_elite_conflict"] *= 1.03
             self.state["hardliner_fragmentation"] *= 1.04
 
  
             self.state["security_loyalty"] *= 0.998
 
+            # Ceasefire rarely means "peace"; covert actions and spoilers continue.
+            # Higher internal elite tension increases probability of low-grade incidents.
+            incident_prob = np.clip(
+                0.03 +
+                0.10 * self.state["internal_elite_conflict"] +
+                0.08 * self.state["hardliner_fragmentation"],
+                0.0,
+                0.30
+            )
+
+            if np.random.rand() < incident_prob:
+                # Incident: tension rises a bit, economy/support take a small hit.
+                # This does not necessarily end the ceasefire immediately.
+                self.state["tension"] *= 1.04
+                self.state["oil_disruption"] *= 1.03
+                self.state["international_support"] *= 0.995
+                self.state["ceasefire_fragility"] = np.clip(self.state["ceasefire_fragility"] * 1.01, 0.05, 0.97)
+
+            # Ceasefire economic recovery is constrained by sanctions and oil/shipping disruption.
+            self.state["economy"] *= (1 - 0.015 * self.state.get("oil_disruption", 0.2))
 
             break_prob = (
                 self.state["ceasefire_fragility"] *
-                (0.4 + self.state["internal_elite_conflict"] +
-                0.5 * self.state["hardliner_fragmentation"])
+                (
+                    0.30 +
+                    0.90 * self.state["internal_elite_conflict"] +
+                    0.80 * self.state["hardliner_fragmentation"] +
+                    0.40 * self.state.get("proxy_intensity", 0.4) +
+                    0.20 * self.state.get("external_threat", 0.0)
+                )
             )
 
             if np.random.rand() < break_prob:
@@ -114,6 +139,190 @@ class Environment:
                 if np.random.rand() < 0.15:
                     self.state["ceasefire"] = True
                     self.state["ceasefire_duration"] = 0
+
+
+    def update_power_balance(self):
+        # In real Iran: The higher and longer the external threat, the stronger the hardline/security apparatus becomes — even if the state overall becomes weaker.
+        
+        t = self.state["tension"]
+        duration = self.instability_duration
+
+
+        if 0.55 < t < 0.75:
+            boost = 0.07 * (t - 0.5)
+            self.hard_power *= (1 + boost)
+
+
+        elif t >= 0.75:
+            boost = 0.06 * (t - 0.7)
+
+
+            if duration > 5:
+                boost += 0.015 * (duration - 5)
+
+
+            self.hard_power *= (1 + boost)
+
+
+            # cohesion increases under external threat
+            self.state["elite_cohesion"] *= 1.02
+
+
+        if self.state["economy"] > 0.55 and self.state["legitimacy"] > 0.55:
+            self.mod_power *= 1.02
+
+
+        total = self.hard_power + self.mod_power
+        self.hard_power = np.clip(self.hard_power / total, 0.10, 0.92)
+        self.mod_power = 1.0 - self.hard_power
+
+    def update_collapse_risk(self):
+        # Regime behavior :
+        # Sanctions + protests → no collapse
+        # War with US/Israel → even less likely collapse short-term
+        # Long crisis + elite split → possible collapse
+        # Severe economic + legitimacy collapse + fragmentation → realistic collapse
+        # PROLONGED WAR → significantly increases collapse risk over time
+
+
+        if self.state["system_collapse"]:
+            return
+
+
+        # --- 1. Derived capacities ---
+        repression_capacity = (
+            0.6 * self.hard_power +
+            0.4 * self.state["security_loyalty"]
+        )
+
+
+        # unrest only matters if repression fails
+        effective_unrest = self.state["public_unrest"] * (1 - repression_capacity)
+
+
+        # --- 2. Stress calculation (internal pressure) ---
+        stress = (
+            0.45 * (1 - self.state["legitimacy"]) +
+            0.30 * effective_unrest +
+            0.25 * (1 - self.state["economy"])
+        )
+
+
+        # --- 3. External threat stabilizer (war reduces collapse risk short-term) ---
+        external_threat = self.state.get("external_threat", 0.0)
+        stress *= (1 - 0.25 * external_threat)
+
+
+        # --- 4. Regime resilience ---
+        resilience = (
+            0.50 * self.hard_power +
+            0.20 * self.state["elite_cohesion"] +
+            0.30 * self.state["security_loyalty"]
+        )
+
+
+        net = stress - resilience
+
+
+        # --- 5. Instability duration dynamics ---
+        if net > 0:
+            self.instability_duration += 1
+        else:
+            self.instability_duration = max(0, self.instability_duration * 0.85)
+
+
+        # --- 6. Collapse risk accumulation (slow burn) ---
+        self.state["collapse_risk"] += max(0, net) * 0.012
+        self.state["collapse_risk"] += 0.003 * self.instability_duration
+        
+
+        # --- PROLONGED WAR EFFECT: War duration amplifies collapse risk ---
+        if self.war_duration > 10:
+            war_fatigue = 0.004 * (self.war_duration - 10)
+            self.state["collapse_risk"] += war_fatigue
+            
+
+        if self.war_duration > 20:
+            severe_war_fatigue = 0.006 * (self.war_duration - 20)
+            self.state["collapse_risk"] += severe_war_fatigue
+
+
+        # --- 7. Economic + legitimacy fatigue over time ---
+        if self.instability_duration > 8:
+            fatigue = 0.004 * (self.instability_duration - 8)
+
+
+            self.state["economy"] *= (1 - fatigue)
+            self.state["legitimacy"] *= (1 - fatigue * 0.5)
+        
+
+        # --- PROLONGED WAR: Accelerated economic and legitimacy erosion ---
+        if self.war_duration > 18:
+            war_economic_drain = 0.005 * (self.war_duration - 18)
+            self.state["economy"] *= (1 - war_economic_drain)
+            self.state["legitimacy"] *= (1 - war_economic_drain * 0.4)
+
+
+        # --- 8. Delayed security loyalty erosion (very hard to break) ---
+        if (
+            self.state["economy"] < 0.20 and
+            self.state["legitimacy"] < 0.25 and
+            self.instability_duration > 12
+        ):
+            self.state["security_loyalty"] *= 0.995
+        
+
+        # --- PROLONGED WAR: Security forces become exhausted and demoralized ---
+        if self.war_duration > 28 and self.state["economy"] < 0.25:
+            self.state["security_loyalty"] *= 0.992
+
+
+        # --- 9. Elite cohesion: mostly stable, but can degrade slowly ---
+        self.state["elite_cohesion"] *= 0.998
+        
+
+        # --- PROLONGED WAR: Elite cohesion fractures under sustained pressure ---
+        if self.war_duration > 22:
+            elite_war_fatigue = 0.002 * (self.war_duration - 22)
+            self.state["elite_cohesion"] *= (1 - elite_war_fatigue)
+
+
+        # --- 10. Elite fracture (nonlinear trigger) ---
+        elite_fragility = (
+            (1 - self.state["elite_cohesion"]) *
+            (1 - self.state["security_loyalty"])
+        )
+
+
+        # --- 11. Shock-based collapse (realistic mechanism) ---
+        collapse_risk = self.state["collapse_risk"]
+        
+
+        # --- PROLONGED WAR: Increases shock probability ---
+        war_shock_multiplier = 1.0 + (0.015 * min(self.war_duration, 30))
+
+
+        if collapse_risk > 0.75 and elite_fragility > 0.65:
+            shock_prob = (0.08 + 0.3 * elite_fragility) * war_shock_multiplier
+
+
+            if np.random.rand() < shock_prob:
+                self.state["system_collapse"] = True
+                return
+
+
+        # extreme crisis fallback (rare but possible)
+        if collapse_risk > 0.90:
+            shock_prob = (0.06 + 0.4 * (1 - self.state["elite_cohesion"])) * war_shock_multiplier
+
+
+            if np.random.rand() < shock_prob:
+                self.state["system_collapse"] = True
+                return
+
+
+        # --- 12. Clamp ---
+        self.state["collapse_risk"] = np.clip(self.state["collapse_risk"], 0, 1)
 
 
 # ----------------------- Reward Function -----------------------

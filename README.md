@@ -1,5 +1,5 @@
 # Iran-US Conflict Simulation: Reinforcement Learning Model
-# Zahra HANIFEHLOU
+
 
 ## Overview
 
