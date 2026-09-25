@@ -35,11 +35,40 @@ def gas_from_brent(brent: float) -> float:
     return clamp(3.10 + 0.024 * (brent - 70), 2.5, 7.5)
 
 
+INSURANCE_BASE = {          # war-risk premium, % of hull value per transit
+    "open": 0.6,
+    "threatened": 2.5,
+    "partially_closed": 6.0,
+    "closed": 12.0,
+}
+
+
+def _fair_gold(state: SituationState) -> float:
+    return 1900 + 110 * state.war_intensity + 200 * (state.hormuz_status != "open")
+
+
+def _fair_insurance(state: SituationState) -> float:
+    base = INSURANCE_BASE.get(state.hormuz_status, 2.5)
+    return base + 0.35 * state.tanker_incidents_7d
+
+
+def tick_markets(state: SituationState, weight: float = 0.30) -> None:
+    """Secondary markets shadow Brent: WTI spread, gold, war-risk insurance."""
+    state.wti = clamp(state.brent - 4.2 - 0.15 * state.hormuz_insurance,
+                      60, 175)
+    state.gold = clamp(
+        state.gold + weight * (_fair_gold(state) - state.gold), 1500, 4500)
+    state.hormuz_insurance = clamp(
+        state.hormuz_insurance + weight *
+        (_fair_insurance(state) - state.hormuz_insurance), 0.4, 20)
+
+
 def tick_brent(state: SituationState, weight: float = 0.30) -> None:
     """Intra-round: market drifts part-way toward fair value after each act."""
     state.brent = clamp(
         state.brent + weight * (fair_brent(state) - state.brent), 70, 180)
     state.us_gas_price = gas_from_brent(state.brent)
+    tick_markets(state, weight)
 
 
 def apply_single_action(state: SituationState, action) -> list[str]:
@@ -83,6 +112,32 @@ def apply_single_action(state: SituationState, action) -> list[str]:
         state.regime_stability = clamp(state.regime_stability - 0.03, 0, 1)
         notes.append(f"{action.agent_id}: Iranian street pressure rising")
 
+    # ---- great-power levers -------------------------------------------
+    if hit("s-400", "s400", "air defence", "air defense", "arms sale",
+           "military aid", "satellite targeting"):
+        state.war_intensity = clamp(state.war_intensity + 0.3, 0, 10)
+        state.regime_stability = clamp(state.regime_stability + 0.02, 0, 1)
+        notes.append(f"{action.agent_id}: Russian-style materiel bolsters Tehran")
+
+    if hit("yuan", "barter", "discounted crude", "buy iranian",
+           "teapot refiner"):
+        state.iran_econ_pressure = clamp(state.iran_econ_pressure - 0.4, 0, 10)
+        state.brent = clamp(state.brent - 1.0, 70, 180)   # more barrels float
+        notes.append(f"{action.agent_id}: sanctioned-crude channels ease "
+                     "Iran's pressure")
+
+    if hit("spare capacity", "raise output", "increase production",
+           "opec", "east-west pipeline", "red sea terminal"):
+        state.brent = clamp(state.brent - 3.0, 70, 180)
+        state.hormuz_insurance = clamp(state.hormuz_insurance - 0.8, 0.4, 20)
+        notes.append(f"{action.agent_id}: supply relief calms the market")
+
+    if hit("mediat", "broker", "good offices", "beijing", "muscat",
+           "host talks"):
+        state.talks_channel = "open"
+        state.war_intensity = clamp(state.war_intensity - 0.3, 0, 10)
+        notes.append(f"{action.agent_id}: third-party mediation opens a track")
+
     return notes
 
 
@@ -115,3 +170,4 @@ def apply_market(state: SituationState, brent_call: float | None,
     state.brent_forecast = clamp(
         forecast_call if forecast_call is not None else fair + 4, 70, 200)
     state.us_gas_price = gas_from_brent(state.brent)
+    tick_markets(state)

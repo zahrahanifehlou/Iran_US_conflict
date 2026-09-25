@@ -52,8 +52,14 @@ class Agent:
 
     # ---------------------------------------------------------- acting
     def act(self, state: SituationState, posts: list[XPost],
-            escalation_allowed: bool, transcript: list[str]) -> AgentAction:
+            escalation_allowed: bool, transcript: list[str],
+            live_wire: list[str] | None = None) -> AgentAction:
         feed = "\n".join(f"  {p.fmt()}" for p in posts)
+        wire = ""
+        if live_wire:
+            wire = ("LIVE WIRE — real-world headlines right now (treat as "
+                    "actual events unfolding in parallel):\n"
+                    + "\n".join(f"  - {h}" for h in live_wire) + "\n\n")
         prior = "\n".join(transcript[-4:]) if transcript else "  (you move first)"
         gate = (
             "Jev PERMITS escalation this turn." if escalation_allowed
@@ -76,6 +82,7 @@ class Agent:
         user = (
             f"SITUATION ({state.date_range}):\n{state.human_summary()}\n\n"
             f"{self._memory_block()}"
+            f"{wire}"
             f"RECENT X/TWITTER POSTS:\n{feed}\n\n"
             f"WHAT OTHERS JUST DID:\n{prior}\n\n"
             f"RULES: {gate} You MUST reference at least one post above by "

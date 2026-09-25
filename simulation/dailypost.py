@@ -53,7 +53,7 @@ def save_daily_post(log: dict, round_no: int,
     """Write posts/dayN_tweet.txt: the post text plus a reminder of which
     image to attach. Returns the file path."""
     os.makedirs(out_dir, exist_ok=True)
-    image = f"day{round_no}_predictions.png"
+    image = f"media/day{round_no}_predictions.png"
     path = os.path.join(out_dir, f"day{round_no}_tweet.txt")
     with open(path, "w") as f:
         f.write(compose_post(log) + "\n\n")

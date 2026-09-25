@@ -8,7 +8,7 @@
 [![Charts](https://img.shields.io/badge/charts-matplotlib-11557c)](https://matplotlib.org)
 [![Runs](https://img.shields.io/badge/runs-100%25%20local-success)](config.py)
 
-A fully local multi-agent geopolitical simulation. Eight LLM agents play
+A fully local multi-agent geopolitical simulation. Eleven LLM agents play
 state and non-state actors in a fictionalized September-2026 Iran–US–Israel
 war; a fast typed decision layer called **Jev** governs who may act, who may
 escalate, and how probable war / deal / collapse are — every single day.
@@ -44,7 +44,7 @@ The split is deliberate:
 Swap any model via env: `SIM_JEV_MODEL`, `SIM_AGENT_MODEL`,
 `SIM_FAST_MODEL` (see `config.py`).
 
-## The eight agents
+## The eleven agents
 
 | Agent | What drives it |
 |---|---|
@@ -56,20 +56,25 @@ Swap any model via env: `SIM_JEV_MODEL`, `SIM_AGENT_MODEL`,
 | **Oil market** | Pure price logic. Reads Hormuz status, tanker incidents, war intensity; always outputs `BRENT:` + `FORECAST:`. |
 | **US public / midterm voters** | Cheap gas, no endless wars, no body bags — but a loud "finish the job" minority. Politicians read them. |
 | **Iran sentiment tracker** | Street-level metrics: mood, protest level, war fatigue, nationalism rally, black market. Reports, never acts. |
+| **China** | Keep Hormuz open (most of its Gulf crude transits it); buy discounted Iranian barrels via yuan channels; pose as THE mediator while America burns credibility; study US war-prosecution for the Taiwan file. |
+| **Russia** | High oil prices fund its war economy; US bandwidth diverted from Ukraine; arms/air-defence sales to Tehran; keep Iran alive but dependent; veto cover at the UNSC. Wants the war long and expensive — for America. |
+| **Saudi Arabia** | No Iranian bomb, but no war on Saudi soil; high oil revenue funds Vision 2030 yet Hormuz closure strangles Saudi exports too; spare capacity is leverage — released only for hard US security guarantees. |
 
 ## How one day runs
 
 ```
 SituationState ──> Jev: who acts next?  ──loop──>  for each chosen agent:
-                       │                            Jev: escalation permitted?  (noul)
-                       │                            Jev: needs human review?    (noul)
-                       │                            agent speaks (cites X posts)
-                       │                            world nudges -> snapshot
-                       ▼
+   ▲                 │                            Jev: escalation permitted?  (noul)
+   └─ live wire      │                            Jev: needs human review?    (noul)
+     (real headlines │                            agent speaks (cites X posts
+      each morning)  │                             + sees live wire)
+                     │                            world nudges -> snapshot
+                     ▼
               Jev scores: P(war 72h) · P(deal 7d) · P(collapse)
+                          -> calibrated against Jev's own track record
               oil settle: market call vs Jev realism check (fair-value override)
               MIDNIGHT LEARNING: ground truth -> agents reflect -> predictions
-              render all charts -> checkpoint dump -> next day
+              render all charts -> posts/dayN_tweet.txt -> checkpoint dump
 ```
 
 Jev's seven questions per round:
@@ -84,6 +89,17 @@ Jev's seven questions per round:
 | Oil reaction realistic? | `noul` | if NO → fair-value model overrides the market call |
 | Needs human review? | `noul` | flagged actions run under a "review hold" |
 
+**Score calibration** (`jev/calibrate.py`) — small System-1 models anchor
+on a prior (everything drifts toward ~0.23). After each day, the three
+headline scores are re-issued through a calibrator that knows Jev's own
+track record: `calibrated = 0.75·(raw − 0.5·bias) + 0.25·base_rate`,
+where *bias* is mean(raw − realized) over past days and *base_rate* the
+empirical event frequency. Realized events are judged from the sim's own
+day-over-day deltas (war = intensity jump or Hormuz degradation; deal =
+intensity drop or Brent −$8; collapse = econ-pressure/protest spike).
+With under two scored days the raw value passes through untouched;
+calibrated answers are marked `source: jev-calibrated` in the log.
+
 ## The world model
 
 `simulation/world.py` maps what agents *say and do* onto state variables:
@@ -93,6 +109,15 @@ Jev's seven questions per round:
   Hormuz to `partially_closed`); "ceasefire/deal/framework/corridor"
   strengthens the diplomatic track and cools intensity; "sanction" raises
   economic pressure; "protest/bazaar shut" raises street pressure.
+  Great-power levers have their own keywords: "s-400/arms sale/military
+  aid" lifts intensity but shores up Tehran; "yuan/barter/discounted
+  crude" eases Iran's economic pressure and adds supply; "spare capacity/
+  raise output/east-west pipeline" cuts Brent and insurance; "mediate/
+  broker/muscat/beijing" opens a diplomatic track.
+- **Markets beyond Brent** — WTI tracks Brent minus a crisis-widened
+  spread; gold drifts toward `1900 + 110·intensity + 200·(Hormuz≠open)`;
+  war-risk insurance is `base(Hormuz) + 0.35·incidents` (open 0.6% →
+  closed 12% of hull). All three tick toward fair value alongside Brent.
 - **Oil** — `fair_brent = 82 + Hormuz_premium + 1.2·intensity + 2·incidents`.
   Premium: open $0, threatened $18, partially closed $35, closed $60.
   Intra-day, Brent drifts 30% toward fair value after every act; at settle,
@@ -112,8 +137,9 @@ After each day closes:
 
 1. **Ground truth** — the day's actual state changes, the settled Brent,
    Jev's scores, plus the **real-world wire**: at midnight the sim fetches
-   the actual Brent/WTI close (Yahoo Finance) and the day's top conflict
-   headlines (Google News RSS) into `real_events/dayN.txt`, so agents grade
+   the actual Brent/WTI/Gold close (Yahoo Finance) and the day's top
+   conflict headlines (Google News RSS) into `real_events/dayN.txt`, so
+   agents grade
    their predictions against reality, not just the simulation. A
    hand-written `real_events/dayN.txt` always takes precedence if it
    already exists; if the fetch fails the day simply runs on simulated
@@ -133,12 +159,12 @@ After each day closes:
 
 | File | Contents |
 |---|---|
-| `roundN_animation.gif` | Animated 4-panel build, one frame per agent act: Brent path, war intensity (✕ = Jev denied an escalation request, ★ = human-review flag), Iran street/regime, US domestic — plus an event ticker and Jev's closing scores. |
-| `roundN_summary.png` | The final animation frame as a static chart. |
-| `dayN_learning.png` | Midnight board: each agent's lesson, prediction, P_war/P_deal, Brent call, W–L scorecard — and today's influence ranking. |
-| `dayN_predictions.png` | Focused predictions: per-agent P(war)/P(deal) bars, Brent direction glyph, predicted event text, Jev's scores as reference lines. |
-| `dayN_before_after.png` | Dumbbell chart: last night's call (grey) vs. tonight's post-learning update (colored arrow) for P(war) and P(deal). |
-| `sim_history.png` | Cumulative: Brent & gas across days (Hormuz-constrained days shaded red), the Jev war/deal/collapse probability track, cumulative agent influence. |
+| `media/roundN_animation.gif` | Animated 4-panel build, one frame per agent act: Brent path, war intensity (✕ = Jev denied an escalation request, ★ = human-review flag), Iran street/regime, US domestic — plus an event ticker and Jev's closing scores. |
+| `media/roundN_summary.png` | The final animation frame as a static chart. |
+| `media/dayN_learning.png` | Midnight board: each agent's lesson, prediction, P_war/P_deal, Brent call, W–L scorecard — and today's influence ranking. |
+| `media/dayN_predictions.png` | Focused predictions: per-agent P(war)/P(deal) bars, Brent direction glyph, predicted event text, Jev's scores as reference lines. |
+| `media/dayN_before_after.png` | Dumbbell chart: last night's call (grey) vs. tonight's post-learning update (colored arrow) for P(war) and P(deal). |
+| `media/sim_history.png` | Cumulative: Brent & gas across days (Hormuz-constrained days shaded red), the Jev war/deal/collapse probability track, cumulative agent influence. |
 
 ## CLI
 
@@ -175,20 +201,6 @@ Behavior:
 - After checkpointing it writes the day's ready-to-post summary file
   (see below).
 
-## Daily post file (manual X/Twitter)
-
-After each midnight cycle the sim writes `posts/dayN_tweet.txt`
-(`simulation/dailypost.py`) — a ready-to-paste post for
-@zahra_hnf16553 containing:
-
-- day/date, Jev P(war 72h) · P(deal 7d) · P(Iran collapse), the Brent
-  settle, the day's most influential agent's predicted event, and an
-  explicit *"AI simulation — not a real-world forecast"* disclaimer —
-  plus a reminder to attach `dayN_predictions.png`.
-
-There is no API integration — open the file, paste the text into X,
-attach the PNG, done. The file is regenerated fresh each midnight along
-with all other artifacts.
 
 ## Configuration
 
@@ -226,46 +238,51 @@ ollama_client.py         stdlib-only /api/chat client (think=false handled)
 jev/                     decision layer
   types.py               JevAnswer (choice|noul|score), TurnGate, RoundVerdict
   client.py              typed questions -> JSON -> validation -> heuristic fallback
+  calibrate.py           de-anchors scores using Jev's own realized track record
 agents/
-  personas.py            the 8 in-character system prompts
+  personas.py            the 11 in-character system prompts
   base.py                generation, output parsing, memory + learn()
 simulation/
   state.py               SituationState, Sept-2026 seed, date advance, resume
   xfeed.py               seeded X/Twitter posts per round (agents must cite)
   world.py               action->state rules, fair-Brent model, drift
   director.py            the day loop, Jev gates, midnight learning, artifacts
-  viz.py                 GIF animation + learning/prediction/history PNGs
+  viz.py                 GIF animation + learning/prediction/history PNGs -> media/
   daemon.py              resident 00:00 scheduler with checkpointing
+  realworld.py           Brent/WTI/Gold + headlines fetch (no keys needed)
+  dailypost.py           writes posts/dayN_tweet.txt for manual posting
 real_events/dayN.txt     optional real-world injection for the learning cycle
+posts/dayN_tweet.txt     ready-to-paste daily post (manual X/Twitter)
+media/                   all generated PNG/GIF artifacts
 ```
 
 ## Gallery
 
 Round 1 — the day unfolds act by act; each frame is one agent's move:
 
-![Round 1 animation](round1_animation.gif)
+![Round 1 animation](media/round1_animation.gif)
 
 Round 2 — Hormuz partially closed; watch Brent climb past $150 while Jev
 keeps denying escalation (black ✕ markers on the war panel):
 
-![Round 2 animation](round2_animation.gif)
+![Round 2 animation](media/round2_animation.gif)
 
 Midnight learning board — per-agent lessons, predictions for tomorrow,
 and who actually moved the world state:
 
-![Day 1 learning](day1_learning.png)
+![Day 1 learning](media/day1_learning.png)
 
 Focused predictions — tonight's calls vs Jev's reference lines:
 
-![Day 3 predictions](day3_predictions.png)
+![Day 3 predictions](media/day3_predictions.png)
 
 Before vs after learning — how beliefs moved overnight:
 
-![Day 3 before/after](day3_before_after.png)
+![Day 3 before/after](media/day3_before_after.png)
 
 Cumulative history — oil track, Jev probability track, influence totals:
 
-![Simulation history](sim_history.png)
+![Simulation history](media/sim_history.png)
 
 ## Steer the simulation
 

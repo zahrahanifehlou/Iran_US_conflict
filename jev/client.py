@@ -241,6 +241,9 @@ def _heuristic_value(kind: str, question: str, state: dict,
         "us_public": 0.3,
         "iranian_people": 0.25 + 0.05 * pressure,
         "eu": 0.2,
+        "china": 0.35 + (0.08 if hormuz != "open" else 0.0),
+        "russia": 0.3 + 0.02 * war,
+        "saudi": 0.28 + (0.10 if hormuz != "open" else 0.0),
         "end_round": 0.15,
     }
     pool = [o for o in options]

@@ -20,7 +20,7 @@ from datetime import datetime
 
 YF_CHART = ("https://query1.finance.yahoo.com/v8/finance/chart/"
             "{sym}?interval=1d&range=5d")
-SYMBOLS = (("BZ=F", "Brent"), ("CL=F", "WTI"))
+SYMBOLS = (("BZ=F", "Brent"), ("CL=F", "WTI"), ("GC=F", "Gold"))
 NEWS_RSS = (
     "https://news.google.com/rss/search?"
     "q=Iran%20Israel%20war%20OR%20Strait%20of%20Hormuz%20OR%20Brent%20crude"

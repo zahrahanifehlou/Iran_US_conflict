@@ -8,6 +8,7 @@ typed scores. Pure matplotlib, Agg backend — no display needed.
 
 from __future__ import annotations
 
+import os
 import textwrap
 
 import matplotlib
@@ -23,6 +24,12 @@ C_GAS = "#2980b9"
 C_SUP = "#16a085"
 HOLD_FRAMES = 7          # extra frames on the final state
 FPS = 1.5
+OUT_DIR = "media"        # all PNG/GIF artifacts land here
+
+
+def _out(name: str) -> str:
+    os.makedirs(OUT_DIR, exist_ok=True)
+    return os.path.join(OUT_DIR, name)
 
 
 def _jev_footer(verdict: dict) -> str:
@@ -166,8 +173,8 @@ def render_round(log: dict, round_no: int,
     date_range = log.get("date_range") or \
         log.get("state_full", {}).get("date_range", "")
     prefix = prefix or f"round{round_no}"
-    gif_path = f"{prefix}_animation.gif"
-    png_path = f"{prefix}_summary.png"
+    gif_path = _out(f"{prefix}_animation.gif")
+    png_path = _out(f"{prefix}_summary.png")
     n_frames = len(snaps) + HOLD_FRAMES
 
     # --- animated figure ---------------------------------------------
@@ -216,7 +223,7 @@ def render_learning(log: dict, round_no: int,
     learning = log.get("learning", {})
     influence = log.get("influence", {})
     prefix = prefix or f"day{round_no}"
-    path = f"{prefix}_learning.png"
+    path = _out(f"{prefix}_learning.png")
 
     fig = plt.figure(figsize=(15, 13))
     gs = fig.add_gridspec(1, 2, width_ratios=[2.4, 1], left=0.02,
@@ -275,6 +282,7 @@ SHORT_LABELS = {
     "trump": "Trump", "netanyahu": "Netanyahu", "iran_hardliners": "IRGC",
     "iranian_people": "Iranians", "eu": "EU", "oil_market": "Oil mkt",
     "us_public": "US public", "iran_sentiment": "IR street",
+    "china": "China", "russia": "Russia", "saudi": "Saudi",
 }
 
 
@@ -283,6 +291,7 @@ SHORT_LABELS = {
 # ==================================================================
 def render_history(history: list[dict],
                    path: str = "sim_history.png") -> str:
+    path = _out(path)
     if not history:
         return path
     days = [h["day"] for h in history]
@@ -296,6 +305,11 @@ def render_history(history: list[dict],
     ax = axes[0]
     ax.plot(days, [h["brent"] for h in history], color=C_BRENT, lw=2.4,
             marker="o", label="Brent $/bbl")
+    if any(h.get("wti") for h in history):
+        ax.plot(days, [h.get("wti") or 0 for h in history],
+                color="#e8743b", lw=1.4, ls=":", alpha=0.7,
+                label="WTI $/bbl")
+        ax.legend(fontsize=8, loc="upper left")
     ax2 = ax.twinx()
     ax2.plot(days, [h["gas"] for h in history], color=C_GAS, lw=1.8,
              ls="--", marker="v", label="US gas $/gal")
@@ -364,8 +378,8 @@ def render_predictions(log: dict, round_no: int,
     learning = log.get("learning", {})
     verdict = log.get("verdict", {})
     prefix = prefix or f"day{round_no}"
-    p_path = f"{prefix}_predictions.png"
-    b_path = f"{prefix}_before_after.png"
+    p_path = _out(f"{prefix}_predictions.png")
+    b_path = _out(f"{prefix}_before_after.png")
 
     ids = [a for a in learning if learning[a].get("prediction")]
     names = [SHORT_LABELS.get(i, i) for i in ids]

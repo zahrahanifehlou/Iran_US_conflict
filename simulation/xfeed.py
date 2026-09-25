@@ -88,6 +88,35 @@ ROUND_POSTS: dict[int, list[XPost]] = {
               "Bread queues in Shiraz and Mashhad reported; Basij deploying "
               "around university campuses ahead of Friday prayers. [fa]",
               frozenset({"iran_sentiment", "iranian_people"})),
+        XPost("SpokespersonCHN",
+              "China calls for maximum restraint and opposes unilateral "
+              "measures that escalate tensions. Beijing stands ready to "
+              "host contacts between the parties at any time. #Hormuz",
+              frozenset({"china", "eu", "iran_hardliners", "oil_market"})),
+        XPost("ReutersEnergy",
+              "China's teapot refiners are buying discounted Iranian crude "
+              "via yuan-settled channels again — volumes up 30% since the "
+              "blockade tightened, per tanker trackers.",
+              frozenset({"china", "oil_market", "iran_hardliners"})),
+        XPost("mfa_russia",
+              "Washington's 'binary choice' is gangster diplomacy. Russia "
+              "will veto any UNSC cover for further aggression and is "
+              "ready to discuss air-defence cooperation with Tehran.",
+              frozenset({"russia", "iran_hardliners", "trump", "eu"})),
+        XPost("TASS_agency",
+              "Lavrov: every US carrier day in the Gulf is a day not spent "
+              "elsewhere. Moscow 'wishes our American colleagues stamina'.",
+              frozenset({"russia", "us_public", "trump"})),
+        XPost("KSAMOFA",
+              "The Kingdom urges de-escalation. Saudi Arabia is raising "
+              "East-West pipeline throughput to keep crude flowing to "
+              "markets regardless of Hormuz.",
+              frozenset({"saudi", "oil_market", "eu", "trump"})),
+        XPost("JavierBlas",
+              "OPEC watch: Riyadh holds ~3mb/d spare. The price for opening "
+              "the taps won't be money — it will be a US security "
+              "guarantee with teeth.",
+              frozenset({"saudi", "oil_market", "trump"})),
     ],
 }
 

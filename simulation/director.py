@@ -20,6 +20,8 @@ from dataclasses import asdict
 
 from agents import Agent, BY_ID, ALL_IDS
 from jev import JevClient, RoundVerdict, TurnGate
+from jev.types import JevAnswer
+from jev.calibrate import JevCalibrator
 from .state import (SituationState, initial_state, state_from_full,
                     _advance_date_range)
 from .xfeed import feed_for
@@ -32,6 +34,7 @@ SHORT = {
     "trump": "TRUMP", "netanyahu": "NETANYAHU", "iran_hardliners": "IRGC",
     "iranian_people": "IR-PEOPLE", "eu": "EU", "oil_market": "OIL",
     "us_public": "US-PUBLIC", "iran_sentiment": "IR-STREET",
+    "china": "CHINA", "russia": "RUSSIA", "saudi": "SAUDI",
     "start": "START", "end": "END",
 }
 
@@ -52,7 +55,7 @@ class Director:
     def __init__(self, state: SituationState | None = None,
                  fast: bool = False, offline: bool = False,
                  viz: bool = True, learn: bool = True,
-                 max_acts_per_round: int = 8):
+                 max_acts_per_round: int = 11):
         self.state = state or initial_state()
         self.jev = JevClient(offline=offline)
         self.agents = {aid: Agent(BY_ID[aid], fast=fast) for aid in ALL_IDS}
@@ -90,6 +93,22 @@ class Director:
         }
 
     # ------------------------------------------------------------ helpers
+    def _calibrated(self, cal: JevCalibrator, metric: str,
+                    ans: JevAnswer) -> JevAnswer:
+        """De-anchor Jev's score with its own realized track record."""
+        if ans is None:
+            return ans
+        new_val, info = cal.calibrate(metric, float(ans.value))
+        if info.get("calibrated") is None:
+            return ans
+        if abs(new_val - float(ans.value)) < 1e-9:
+            return ans
+        _p(f"  [CAL] {metric}: raw {ans.value:.2f} -> {new_val:.2f} "
+           f"(bias {info['bias']:+.2f}, base {info['base']:.2f}, "
+           f"n={info['n']})")
+        return JevAnswer(ans.question, ans.kind, round(new_val, 3),
+                         ans.confidence, "jev-calibrated")
+
     def _jev_line(self, label, ans):
         _p(f"  [JEV] {label:<46} -> {ans.fmt()}")
 
@@ -124,6 +143,19 @@ class Director:
 
         self._snapshot("start", "round opens")
         state_dict = st.to_dict()
+
+        # ---- live wire: real-world headlines shape today's acting ----
+        live_wire: list[str] = []
+        if not self.offline:
+            try:
+                from . import realworld
+                live_wire = realworld.fetch_headlines(5)
+                if live_wire:
+                    _p(f"  [WIRE] {len(live_wire)} live headlines injected "
+                       "into agent context")
+            except Exception:
+                live_wire = []
+
         transcript: list[str] = []
         acted: list[str] = []
         actions = []
@@ -158,7 +190,8 @@ class Director:
                 _p(f"  ... {agent.p.name} speaking ({agent.model})")
                 try:
                     action = agent.act(st, feed_for(st.round_no, aid),
-                                       bool(esc.value), transcript)
+                                       bool(esc.value), transcript,
+                                       live_wire=live_wire)
                 except Exception as exc:
                     _p(f"  !! model call failed for {aid}: {exc} — offline line")
                     action = self._offline_act(agent, st)
@@ -185,12 +218,16 @@ class Director:
             state_dict = st.to_dict()
 
         # ------------------------------------------------ scores this round
+        cal = JevCalibrator(self.history)
         _p(f"\n{SUB}\nJEV ROUND SCORES")
-        verdict.p_war_72h = self.jev.p_war_72h(state_dict)
+        verdict.p_war_72h = self._calibrated(
+            cal, "p_war_72h", self.jev.p_war_72h(state_dict))
         self._jev_line("P(full-scale war escalation, 72h)", verdict.p_war_72h)
-        verdict.p_deal_7d = self.jev.p_deal_7d(state_dict)
+        verdict.p_deal_7d = self._calibrated(
+            cal, "p_deal_7d", self.jev.p_deal_7d(state_dict))
         self._jev_line("P(temporary deal / ceasefire, 7d)", verdict.p_deal_7d)
-        verdict.p_collapse = self.jev.p_collapse(state_dict)
+        verdict.p_collapse = self._calibrated(
+            cal, "p_collapse", self.jev.p_collapse(state_dict))
         self._jev_line("P(Iranian econ collapse accelerates)", verdict.p_collapse)
 
         # ------------------------------------------------ world settlement
@@ -243,6 +280,7 @@ class Director:
                "state_full": asdict(st),
                "snapshots": self.snapshots,
                "transcript": transcript,
+               "live_wire": live_wire,
                "influence": influence_map,
                "learning": learning}
 
@@ -250,6 +288,11 @@ class Director:
             "day": st.round_no - 1,
             "date": played_dates,
             "brent": round(st.brent, 1),
+            "wti": round(st.wti, 1),
+            "gold": round(st.gold, 0),
+            "insurance": round(st.hormuz_insurance, 1),
+            "econ_pressure": round(st.iran_econ_pressure, 1),
+            "protests": round(st.iran_protest_level, 1),
             "gas": round(st.us_gas_price, 2),
             "war": round(st.war_intensity, 1),
             "hormuz": st.hormuz_status,
@@ -421,13 +464,19 @@ def _load_resume(path: str):
         for entry in logs:
             if entry.get("influence") or entry.get("verdict"):
                 v = entry.get("verdict", {})
+                sf = entry.get("state_full", {})
                 history.append({
-                    "day": entry.get("state_full", {}).get("round_no", 1) - 1,
+                    "day": sf.get("round_no", 1) - 1,
                     "date": entry.get("date_range", ""),
-                    "brent": entry.get("state_full", {}).get("brent", 0),
-                    "gas": entry.get("state_full", {}).get("us_gas_price", 0),
-                    "war": entry.get("state_full", {}).get("war_intensity", 0),
-                    "hormuz": entry.get("state_full", {}).get("hormuz_status", ""),
+                    "brent": sf.get("brent", 0),
+                    "wti": sf.get("wti", 0),
+                    "gold": sf.get("gold", 0),
+                    "insurance": sf.get("hormuz_insurance", 0),
+                    "econ_pressure": sf.get("iran_econ_pressure", 0),
+                    "protests": sf.get("iran_protest_level", 0),
+                    "gas": sf.get("us_gas_price", 0),
+                    "war": sf.get("war_intensity", 0),
+                    "hormuz": sf.get("hormuz_status", ""),
                     "p_war_72h": (v.get("p_war_72h") or {}).get("value"),
                     "p_deal_7d": (v.get("p_deal_7d") or {}).get("value"),
                     "p_collapse": (v.get("p_collapse") or {}).get("value"),

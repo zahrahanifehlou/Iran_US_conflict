@@ -22,9 +22,12 @@ class SituationState:
     deal_on_table: str = "none"           # none | framework | ceasefire | comprehensive
     unga_contact: bool = True             # Witkoff/Kushner channel active
 
-    # --- oil ---
+    # --- oil & markets ---
     brent: float = 100.0
     brent_forecast: float = 104.0
+    wti: float = 95.5                     # Brent-WTI spread widens in crisis
+    gold: float = 2650.0                  # safe-haven barometer
+    hormuz_insurance: float = 2.5         # war-risk premium, % of hull value
     us_gas_price: float = 4.35            # $/gal national average
 
     # --- domestic politics ---
@@ -59,6 +62,9 @@ class SituationState:
             "oil": {
                 "brent": round(self.brent, 1),
                 "brent_forecast": round(self.brent_forecast, 1),
+                "wti": round(self.wti, 1),
+                "gold": round(self.gold, 0),
+                "hormuz_insurance_pct": round(self.hormuz_insurance, 1),
                 "us_gas_price": self.us_gas_price,
             },
             "domestic": {
@@ -91,7 +97,9 @@ class SituationState:
             "",
             "OIL & MARKETS",
             f"  Brent ${self.brent:.1f}/bbl (forecast ${self.brent_forecast:.1f}) | "
-            f"US gas ${self.us_gas_price:.2f}/gal",
+            f"WTI ${self.wti:.1f} | US gas ${self.us_gas_price:.2f}/gal",
+            f"  Gold ${self.gold:,.0f}/oz | Hormuz war-risk insurance "
+            f"{self.hormuz_insurance:.1f}% of hull",
             "",
             "DOMESTIC",
             f"  US: {self.us_days_to_midterms}d to midterms | Trump approval "
