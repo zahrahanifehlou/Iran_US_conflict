@@ -1,0 +1,1657 @@
+[
+  {
+    "verdict": {
+      "acting_order": [
+        "iran_hardliners",
+        "netanyahu",
+        "eu",
+        "trump",
+        "us_public",
+        "iranian_people",
+        "oil_market",
+        "iran_sentiment"
+      ],
+      "gates": {
+        "iran_hardliners": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "netanyahu": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.85,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.85,
+            "source": "jev"
+          }
+        },
+        "eu": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.85,
+            "source": "jev"
+          }
+        },
+        "trump": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "us_public": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.85,
+            "source": "jev"
+          }
+        },
+        "iranian_people": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.85,
+            "source": "jev"
+          }
+        },
+        "oil_market": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "iran_sentiment": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.85,
+            "source": "jev"
+          }
+        }
+      },
+      "p_war_72h": {
+        "kind": "score",
+        "value": 0.23,
+        "confidence": 0.85,
+        "source": "jev"
+      },
+      "p_deal_7d": {
+        "kind": "score",
+        "value": 0.23,
+        "confidence": 0.85,
+        "source": "jev"
+      },
+      "p_collapse": {
+        "kind": "score",
+        "value": 0.23,
+        "confidence": 0.85,
+        "source": "jev"
+      },
+      "oil_realistic": {
+        "kind": "noul",
+        "value": false,
+        "confidence": 0.3,
+        "source": "jev"
+      },
+      "forecast_7_14d": {
+        "war_escalation_14d": {
+          "kind": "score",
+          "value": 0.341,
+          "confidence": 0.8,
+          "source": "jev"
+        },
+        "deal_or_ceasefire_14d": {
+          "kind": "score",
+          "value": 0.341,
+          "confidence": 0.8,
+          "source": "jev"
+        },
+        "iran_econ_collapse_14d": {
+          "kind": "score",
+          "value": 0.23,
+          "confidence": 0.85,
+          "source": "jev"
+        },
+        "political_shift_14d": {
+          "kind": "score",
+          "value": 0.032,
+          "confidence": 0.2,
+          "source": "jev"
+        }
+      }
+    },
+    "date_range": "25-26 September 2026",
+    "state": {
+      "round": 2,
+      "day_of_war": 218,
+      "military": {
+        "war_intensity": 5.5,
+        "hormuz_status": "partially_closed",
+        "tanker_incidents_7d": 9
+      },
+      "diplomacy": {
+        "talks_channel": "open",
+        "deal_on_table": "framework",
+        "unga_contact": true
+      },
+      "oil": {
+        "brent": 141.6,
+        "brent_forecast": 145.6,
+        "us_gas_price": 4.4932
+      },
+      "domestic": {
+        "us_days_to_midterms": 39,
+        "us_approval_trump": 0.47641518862823995,
+        "us_war_support": 0.37283037725648,
+        "iran_inflation": 0.62,
+        "iran_protest_level": 4.864999999999999,
+        "iran_econ_pressure": 7.65,
+        "regime_stability": 0.5508
+      }
+    },
+    "state_full": {
+      "round_no": 2,
+      "date_range": "26-27 September 2026",
+      "day_of_war": 218,
+      "war_intensity": 5.5,
+      "hormuz_status": "partially_closed",
+      "recent_strikes": [
+        "IDF drones hit IRGC radar site near Isfahan (limited damage)",
+        "Iranian proxies launched rockets at US base in Erbil; no fatalities",
+        "US Navy escorted 3 tankers through Hormuz under IRGCN harassment",
+        "R1: kinetic action by netanyahu",
+        "R1: kinetic action by eu",
+        "R1: kinetic action by trump"
+      ],
+      "tanker_incidents_7d": 9,
+      "talks_channel": "open",
+      "deal_on_table": "framework",
+      "unga_contact": true,
+      "brent": 141.6,
+      "brent_forecast": 145.6,
+      "us_gas_price": 4.4932,
+      "us_days_to_midterms": 39,
+      "us_approval_trump": 0.47641518862823995,
+      "us_war_support": 0.37283037725648,
+      "iran_inflation": 0.62,
+      "rial_black_market": 1776225.0,
+      "iran_protest_level": 4.864999999999999,
+      "iran_econ_pressure": 7.65,
+      "regime_stability": 0.5508,
+      "israel_coalition_stress": 0.4,
+      "headlines": [
+        "Trump at UNGA: 'binary choice \u2014 a deal that lets Iran rebuild, or we annihilate the Islamic Republic'",
+        "Witkoff/Kushner met Iranian officials on UNGA sidelines",
+        "Mojtaba Khamenei consolidates as Supreme Leader; IRGC dominates war cabinet",
+        "IAEA: Iran retains ~60% enriched stockpile at unknown sites"
+      ]
+    },
+    "snapshots": [
+      {
+        "step": 0,
+        "label": "start",
+        "brent": 100.0,
+        "forecast": 104.0,
+        "war": 5.5,
+        "gas": 4.35,
+        "war_support": 0.38,
+        "protests": 4.0,
+        "cohesion": 0.58,
+        "econ_pressure": 7.5,
+        "hormuz": "threatened",
+        "event": "round opens",
+        "esc_denied": false,
+        "review": false
+      },
+      {
+        "step": 1,
+        "label": "IRGC",
+        "brent": 109.06,
+        "forecast": 104.0,
+        "war": 6.0,
+        "gas": 4.04,
+        "war_support": 0.38,
+        "protests": 4.0,
+        "cohesion": 0.58,
+        "econ_pressure": 7.5,
+        "hormuz": "partially_closed",
+        "event": "IRGC: Order IRGC Navy to increase patrol density in the Strait and release a technical \"patrol schedule\" that coincides with major US corporate sh [esc denied]",
+        "esc_denied": true,
+        "review": false,
+        "influence": 2.03
+      },
+      {
+        "step": 2,
+        "label": "NETANYAHU",
+        "brent": 115.4,
+        "forecast": 104.0,
+        "war": 6.0,
+        "gas": 4.19,
+        "war_support": 0.38,
+        "protests": 4.0,
+        "cohesion": 0.58,
+        "econ_pressure": 7.5,
+        "hormuz": "partially_closed",
+        "event": "NETANYAHU: Authorize a limited, night-time airstrike on a confirmed underground enrichment tunnel in Isfahan using stealth drones, timed to coincide wi",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.94
+      },
+      {
+        "step": 3,
+        "label": "EU",
+        "brent": 120.44,
+        "forecast": 104.0,
+        "war": 6.0,
+        "gas": 4.31,
+        "war_support": 0.38,
+        "protests": 4.0,
+        "cohesion": 0.58,
+        "econ_pressure": 7.5,
+        "hormuz": "partially_closed",
+        "event": "EU: Deploy a high-speed technical delegation to Vienna to draft the \"Hormuz Energy Escrow Protocol\" and present it to the US Treasury and the IR [esc denied]",
+        "esc_denied": true,
+        "review": false,
+        "influence": 0.75
+      },
+      {
+        "step": 4,
+        "label": "TRUMP",
+        "brent": 125.53,
+        "forecast": 104.0,
+        "war": 7.0,
+        "gas": 4.43,
+        "war_support": 0.38,
+        "protests": 4.0,
+        "cohesion": 0.58,
+        "econ_pressure": 7.5,
+        "hormuz": "partially_closed",
+        "event": "TRUMP: Release the official \"Hormuz Energy Escrow Protocol\" with a 30-day price target of $85/gallon, announce a 40% surge in US Coast Guard escort",
+        "esc_denied": false,
+        "review": false,
+        "influence": 1.75
+      },
+      {
+        "step": 5,
+        "label": "US-PUBLIC",
+        "brent": 129.51,
+        "forecast": 104.0,
+        "war": 6.5,
+        "gas": 4.53,
+        "war_support": 0.38,
+        "protests": 4.0,
+        "cohesion": 0.58,
+        "econ_pressure": 7.5,
+        "hormuz": "partially_closed",
+        "event": "US-PUBLIC: Order IRGC Navy to publish a \"Nightly Patrol Schedule\" for the Strait of Hormuz and release a white paper defining \"Confirmed Threat\" thresh [esc denied]",
+        "esc_denied": true,
+        "review": false,
+        "influence": 1.09
+      },
+      {
+        "step": 6,
+        "label": "IR-PEOPLE",
+        "brent": 132.72,
+        "forecast": 104.0,
+        "war": 6.0,
+        "gas": 4.61,
+        "war_support": 0.38,
+        "protests": 4.0,
+        "cohesion": 0.58,
+        "econ_pressure": 7.5,
+        "hormuz": "partially_closed",
+        "event": "IR-PEOPLE: Authorize the Bazaar Council and IRGC Navy to co-sign the \"Hormuz Energy Escrow Protocol,\" publicly announcing that 30% of all oil revenue w",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.97
+      },
+      {
+        "step": 7,
+        "label": "OIL",
+        "brent": 135.56,
+        "forecast": 104.0,
+        "war": 6.0,
+        "gas": 4.67,
+        "war_support": 0.38,
+        "protests": 4.0,
+        "cohesion": 0.58,
+        "econ_pressure": 7.5,
+        "hormuz": "partially_closed",
+        "event": "OIL: BRENT: $114.5\nFORECAST: $110.0\nLOGIC: @bariweiss's framing leaves no room for what Iran will accept; the Hormuz insurance market is more inf",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.42
+      },
+      {
+        "step": 8,
+        "label": "IR-STREET",
+        "brent": 137.37,
+        "forecast": 104.0,
+        "war": 5.5,
+        "gas": 4.72,
+        "war_support": 0.38,
+        "protests": 4.6,
+        "cohesion": 0.55,
+        "econ_pressure": 7.5,
+        "hormuz": "partially_closed",
+        "event": "IR-STREET: MOOD: Economic desperation and frustration simmer under the surface, with protests and protests brewing.\n\nPROTEST_LEVEL: 4.5\n\nWAR_FATIGUE: 7",
+        "esc_denied": false,
+        "review": false,
+        "influence": 1.67
+      },
+      {
+        "step": 9,
+        "label": "end",
+        "brent": 141.6,
+        "forecast": 145.6,
+        "war": 5.5,
+        "gas": 4.49,
+        "war_support": 0.373,
+        "protests": 4.86,
+        "cohesion": 0.551,
+        "econ_pressure": 7.65,
+        "hormuz": "partially_closed",
+        "event": "round closes \u2014 Jev scores locked",
+        "esc_denied": false,
+        "review": false
+      }
+    ],
+    "transcript": [
+      "Iran Hardliners (IRGC + Mojtaba Khamenei faction): The martyred Leader's path does not end at the UNGA; it flows through the fire of our resolve. We accept a \"framework\" only if it guarantees the 60% stockpile remains the insurance | ACTION: Order IRGC Navy to increase patrol density in the Strait and release a technical \"patrol schedule\" that coincides with m",
+      "Benjamin Netanyahu (Israeli PM): \"President Trump's ultimatum is clear, but a 'framework' that allows the Islamic Republic to retain 60% of its enriched stockpile is merely a ceasefire dressed as peace. We will no | ACTION: Authorize a limited, night-time airstrike on a confirmed underground enrichment tunnel in Isfahan using stealth drones, ",
+      "European Union: The European Union interprets the current \"framework\" not as a final settlement, but as a temporary stabilization mechanism to prevent the Strait of Hormuz from becoming a permanen | ACTION: Deploy a high-speed technical delegation to Vienna to draft the \"Hormuz Energy Escrow Protocol\" and present it to the US",
+      "Donald Trump (US President): We are NOT in a half-war; we are in a SPECTACLE of power that is bringing the price of oil DOWN fast. Witkoff and Jared are closing the deal that will let Iran rebuild or face tota | ACTION: Release the official \"Hormuz Energy Escrow Protocol\" with a 30-day price target of $85/gallon, announce a 40% surge in U",
+      "US Public Opinion / Midterm Voters: The Supreme Leader's office declares that while the \"martyred path\" has not ended, the strategic focus has shifted from total annihilation to securing a \"Framework of Deterrence\" t | ACTION: Order IRGC Navy to publish a \"Nightly Patrol Schedule\" for the Strait of Hormuz and release a white paper defining \"Conf",
+      "Iranian People (citizens + opposition): \"The bazaar does not care for your 'Framework of Deterrence' unless it can buy a loaf of bread or a vial of insulin; we tell the West that the Strait's oil must flow through a join | ACTION: Authorize the Bazaar Council and IRGC Navy to co-sign the \"Hormuz Energy Escrow Protocol,\" publicly announcing that 30% ",
+      "Oil Market Agent: BRENT: $114.5\nFORECAST: $110.0\nLOGIC: @bariweiss's framing leaves no room for what Iran will accept; the Hormuz insurance market is more informative than Trump's speeches. | ACTION: ",
+      "Iranian Public Sentiment Tracker: MOOD: Economic desperation and frustration simmer under the surface, with protests and protests brewing.\n\nPROTEST_LEVEL: 4.5\n\nWAR_FATIGUE: 7.5\n\nNATIONALISM_RALLY: 6.2\n\nBLACK_MARKET | ACTION: "
+    ],
+    "influence": {
+      "iran_hardliners": 2.03,
+      "netanyahu": 0.94,
+      "eu": 0.75,
+      "trump": 1.75,
+      "us_public": 1.09,
+      "iranian_people": 0.97,
+      "oil_market": 0.42,
+      "iran_sentiment": 1.67
+    },
+    "learning": {
+      "trump": {
+        "name": "Donald Trump (US President)",
+        "learned": "The partial closure of Hormuz and rising kinetic strikes prove that while Khamenei's new regime is desperate and cohesive is crumbling, the hardliners are still willing to bleed oil to force a deal, making a \"total victory\" before the election impossible without a massive, public escalation that could spike prices.",
+        "belief": "Iran is playing a high-stakes bluff; they need a deal to save their economy before the street breaks them, but they will keep the Strait choked until they see we are willing to burn our own treasury to get one.",
+        "stance": "OPPORTUNISTIC \u2014 HOLD THE LINE HARD, BUT PREPARE THE ANNIHILATION CARD FOR A SHOWDOWN JUST BEFORE THE VOTE.",
+        "prediction": "A dramatic, televised strike on a second Iranian oil terminal to spike the drama and force the moderates at the negotiating table to move.",
+        "p_war": 8.0,
+        "p_deal": 7.0,
+        "brent_dir": "UP",
+        "scorecard": {
+          "hits": 0,
+          "misses": 0
+        }
+      },
+      "netanyahu": {
+        "name": "Benjamin Netanyahu (Israeli PM)",
+        "learned": "Today proved that while kinetic pressure has fractured Iran's air defense and tightened the Strait of Hormuz, the regime's diplomatic track has paradoxically strengthened as Khamenei's consolidation and the 60% buried stockpile create a \"fortress\" mentality where they trade short-term volatility for long-term survival.",
+        "belief": "The conflict is no longer a simple binary of annihilation versus reconstruction, but a high-stakes auction where Iran's hardliners are leveraging US public fatigue and the EU's economic pain to extract a framework deal that preserves their regional hegemony and nuclear potential while the US remains divided between Trump's hawkish rhetoric and the pragmatic need for energy stability.",
+        "stance": "Opportunistic aggression; strike harder to expose the depth of their stockpiles while leaking specific UNGA deal terms to force Trump into a \"binary choice\" that leaves them with less than 60% enrichment.",
+        "prediction": "A coordinated multi-vector strike targeting the buried 60% stockpile components at dawn, followed by a public leak of the proposed deal framework to shatter Iranian cohesion before they can finalize a new agreement.",
+        "p_war": 8.0,
+        "p_deal": 6.0,
+        "brent_dir": "up",
+        "scorecard": {
+          "hits": 0,
+          "misses": 0
+        }
+      },
+      "iran_hardliners": {
+        "name": "Iran Hardliners (IRGC + Mojtaba Khamenei faction)",
+        "learned": "The West's \"binary choice\" ultimatum exposed their fragile political constraint, proving they fear a prolonged energy shock more than our immediate kinetic retaliation, yet their public unity masks a desperate need to avoid a total price spike before the US midterms.",
+        "belief": "The conflict has shifted from a contest of firepower to a contest of endurance, where the 60% enriched stockpile acts as our ultimate insurance policy and the Strait of Hormuz remains our primary lever to dictate the cost of war for Washington.",
+        "stance": "Patiently predatory; we will tighten the noose on oil flows to maximize their pain while holding the diplomatic line firm enough to extract a face-saving framework.",
+        "prediction": "A tactical pause in kinetic strikes to allow Witkoff/Kushner to present a \"rebuilding\" framework that preserves our stockpile and partially lifts the blockade.",
+        "p_war": 6.0,
+        "p_deal": 7.0,
+        "brent_dir": "up",
+        "scorecard": {
+          "hits": 0,
+          "misses": 0
+        }
+      },
+      "iranian_people": {
+        "name": "Iranian People (citizens + opposition)",
+        "learned": "The \"binary choice\" ultimatum from Trump and the simultaneous kinetic pressure from Netanyahu, the EU, and US public opinion proved that the regime's survival now hinges not on a single miracle, but on a fragile, multi-vector balance where every barrel of oil in the Hormuz strait is a bargaining chip and every drone strike a countdown to either a framework deal or total annihilation.",
+        "belief": "The conflict has shifted from a purely military contest to a high-stakes auction where Iran's 60% enriched stockpile and the partially closed Hormuz Strait are being weighed against the US midterms, European energy security, and the regime's crumbling 55% cohesion, meaning tomorrow's moves will be dictated by who can afford the most expensive bluff.",
+        "stance": "Desperate but opportunistic; we are ready to sell our soul for bread or a deal, but we will fight tooth and nail if the price drops below survival.",
+        "prediction": "A tense, low-level standoff where kinetic strikes continue sporadically while back-channel talks intensify in the shadows of the UNGA, likely resulting in a minor, temporary de-escalation or a \"framework\" agreement that delays total collapse for another week.",
+        "p_war": 6.0,
+        "p_deal": 7.0,
+        "brent_dir": "up",
+        "scorecard": {
+          "hits": 0,
+          "misses": 0
+        }
+      },
+      "eu": {
+        "name": "European Union",
+        "learned": "The simultaneous kinetic escalation by all three major powers (US, EU, Israel) alongside the strengthening of the diplomatic track proves that \"kinetic deterrence\" is a self-reinforcing loop where every strike creates a new, more urgent demand for a deal, effectively turning the Strait of Hormuz into a high-stakes auction where the highest bidder (or most desperate actor) can force a framework.",
+        "belief": "The conflict has shifted from a binary choice of \"deal or annihilation\" into a complex bargaining environment where physical control of the Strait is now a tradable asset that can be leveraged to extract concessions on enrichment caps and hostage releases, as the Iranian populace's rising inflation and protest levels have eroded the regime's monopoly on war-sustaining legitimacy.",
+        "stance": "Desperate and opportunistic; prioritizing immediate de-escalation mechanisms over long-term strategic positioning to prevent a full Strait closure.",
+        "prediction": "A breakthrough in the UNGA sideline track leading to a temporary, verified suspension of tanker attacks in exchange for a 48-hour humanitarian corridor for fuel shipments.",
+        "p_war": 6.0,
+        "p_deal": 8.0,
+        "brent_dir": "flat",
+        "scorecard": {
+          "hits": 0,
+          "misses": 0
+        }
+      },
+      "oil_market": {
+        "name": "Oil Market Agent",
+        "learned": "Diplomatic efforts and Iran's hardliners' willingness to strengthen the diplomatic track suggest that Iran's leadership is more pragmatic than initially thought, and may be open to negotiations.",
+        "belief": "The conflict is likely being managed to maintain a fragile balance between Iran's hardliners and its more pragmatic leadership, with the international community exerting pressure to de-escalate.",
+        "stance": "Patient.",
+        "prediction": "The Strait of Hormuz will remain partially closed, but the rate of escalation will slow, allowing for a potential ceasefire in the coming days.",
+        "p_war": 4.0,
+        "p_deal": 6.0,
+        "brent_dir": "down",
+        "scorecard": {
+          "hits": 0,
+          "misses": 0
+        }
+      },
+      "us_public": {
+        "name": "US Public Opinion / Midterm Voters",
+        "learned": "Today proved that \"kinetic action\" is now the universal default language for all major actors\u2014Netanyahu, the EU, and Trump\u2014since each side simultaneously escalated strikes while paradoxically strengthening their diplomatic tracks, revealing that violence is being used as leverage to force a deal rather than to win a decisive military victory.",
+        "belief": "The conflict has entered a \"binary ultimatum\" phase where the market and public opinion are conditioned to believe the war will either result in a rapid framework deal or a catastrophic collapse, making the Strait of Hormuz's partial closure the critical pivot point that determines whether the next 72 hours lead to a negotiated settlement or total kinetic explosion.",
+        "stance": "Opportunistic hawk\u2014watching for the first major tanker incident to decide whether to push for an emergency deal or authorize a final kinetic strike.",
+        "prediction": "A high-stakes UNGA sidebar meeting between Trump and Iranian hardliners will result in a temporary \"freeze\" of kinetic actions in exchange for a 72-hour deadline to finalize the framework deal, with Brent crude holding steady above $140 due to the partial Hormuz closure.",
+        "p_war": 6.0,
+        "p_deal": 7.0,
+        "brent_dir": "flat",
+        "scorecard": {
+          "hits": 0,
+          "misses": 0
+        }
+      },
+      "iran_sentiment": {
+        "name": "Iranian Public Sentiment Tracker",
+        "learned": "The Iranian hardliners' willingness to restrict Hormuz access was not as strong as anticipated, as both Netanyahu and Trump were able to partially close the waterway.",
+        "belief": "The US, EU, and Iran are more interested in maintaining diplomatic channels than in a full-scale war, but will continue to use kinetic action to pressure Iran into concessions.",
+        "stance": "More desperate, as the war's ongoing stalemate and high oil prices suggest a need for a breakthrough.",
+        "prediction": "The US and EU will pressure Iran to take steps to reduce its nuclear enrichment, potentially leading to a limited deal or ceasefire.",
+        "p_war": 6.0,
+        "p_deal": 7.0,
+        "brent_dir": "down",
+        "scorecard": {
+          "hits": 0,
+          "misses": 0
+        }
+      }
+    }
+  },
+  {
+    "verdict": {
+      "acting_order": [
+        "iran_hardliners",
+        "netanyahu",
+        "eu",
+        "trump",
+        "us_public",
+        "iranian_people",
+        "iran_sentiment",
+        "oil_market"
+      ],
+      "gates": {
+        "iran_hardliners": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "netanyahu": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "eu": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "trump": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "us_public": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "iranian_people": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "iran_sentiment": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "oil_market": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        }
+      },
+      "p_war_72h": {
+        "kind": "score",
+        "value": 0.034,
+        "confidence": 0.999,
+        "source": "jev"
+      },
+      "p_deal_7d": {
+        "kind": "score",
+        "value": 0.234,
+        "confidence": 0.85,
+        "source": "jev"
+      },
+      "p_collapse": {
+        "kind": "score",
+        "value": 0.34,
+        "confidence": 0.81,
+        "source": "jev"
+      },
+      "oil_realistic": {
+        "kind": "noul",
+        "value": false,
+        "confidence": 0.3,
+        "source": "jev"
+      },
+      "forecast_7_14d": {
+        "war_escalation_14d": {
+          "kind": "score",
+          "value": 0.23,
+          "confidence": 0.85,
+          "source": "jev"
+        },
+        "deal_or_ceasefire_14d": {
+          "kind": "score",
+          "value": 0.23,
+          "confidence": 0.85,
+          "source": "jev"
+        },
+        "iran_econ_collapse_14d": {
+          "kind": "score",
+          "value": 0.23,
+          "confidence": 0.85,
+          "source": "jev"
+        },
+        "political_shift_14d": {
+          "kind": "score",
+          "value": 0.23,
+          "confidence": 0.85,
+          "source": "jev"
+        }
+      }
+    },
+    "date_range": "26-27 September 2026",
+    "state": {
+      "round": 3,
+      "day_of_war": 219,
+      "military": {
+        "war_intensity": 4.0,
+        "hormuz_status": "partially_closed",
+        "tanker_incidents_7d": 15
+      },
+      "diplomacy": {
+        "talks_channel": "open",
+        "deal_on_table": "framework",
+        "unga_contact": true
+      },
+      "oil": {
+        "brent": 151.8,
+        "brent_forecast": 155.8,
+        "us_gas_price": 5.0440000000000005
+      },
+      "domestic": {
+        "us_days_to_midterms": 38,
+        "us_approval_trump": 0.50127828435792,
+        "us_war_support": 0.36255656871583997,
+        "iran_inflation": 0.62,
+        "iran_protest_level": 5.784999999999999,
+        "iran_econ_pressure": 8.200000000000001,
+        "regime_stability": 0.5198699999999999
+      }
+    },
+    "state_full": {
+      "round_no": 3,
+      "date_range": "27-28 September 2026",
+      "day_of_war": 219,
+      "war_intensity": 4.0,
+      "hormuz_status": "partially_closed",
+      "recent_strikes": [
+        "IDF drones hit IRGC radar site near Isfahan (limited damage)",
+        "Iranian proxies launched rockets at US base in Erbil; no fatalities",
+        "US Navy escorted 3 tankers through Hormuz under IRGCN harassment",
+        "R1: kinetic action by netanyahu",
+        "R1: kinetic action by eu",
+        "R1: kinetic action by trump",
+        "R2: kinetic action by netanyahu",
+        "R2: kinetic action by trump",
+        "R2: kinetic action by us_public",
+        "R2: kinetic action by iranian_people"
+      ],
+      "tanker_incidents_7d": 15,
+      "talks_channel": "open",
+      "deal_on_table": "framework",
+      "unga_contact": true,
+      "brent": 151.8,
+      "brent_forecast": 155.8,
+      "us_gas_price": 5.0440000000000005,
+      "us_days_to_midterms": 38,
+      "us_approval_trump": 0.50127828435792,
+      "us_war_support": 0.36255656871583997,
+      "iran_inflation": 0.62,
+      "rial_black_market": 1921875.4500000002,
+      "iran_protest_level": 5.784999999999999,
+      "iran_econ_pressure": 8.200000000000001,
+      "regime_stability": 0.5198699999999999,
+      "israel_coalition_stress": 0.4,
+      "headlines": [
+        "Trump at UNGA: 'binary choice \u2014 a deal that lets Iran rebuild, or we annihilate the Islamic Republic'",
+        "Witkoff/Kushner met Iranian officials on UNGA sidelines",
+        "Mojtaba Khamenei consolidates as Supreme Leader; IRGC dominates war cabinet",
+        "IAEA: Iran retains ~60% enriched stockpile at unknown sites"
+      ]
+    },
+    "snapshots": [
+      {
+        "step": 0,
+        "label": "start",
+        "brent": 141.6,
+        "forecast": 145.6,
+        "war": 5.5,
+        "gas": 4.49,
+        "war_support": 0.373,
+        "protests": 4.86,
+        "cohesion": 0.551,
+        "econ_pressure": 7.65,
+        "hormuz": "partially_closed",
+        "event": "round opens",
+        "esc_denied": false,
+        "review": false
+      },
+      {
+        "step": 1,
+        "label": "IRGC",
+        "brent": 142.02,
+        "forecast": 145.6,
+        "war": 5.0,
+        "gas": 4.83,
+        "war_support": 0.373,
+        "protests": 4.86,
+        "cohesion": 0.551,
+        "econ_pressure": 7.65,
+        "hormuz": "partially_closed",
+        "event": "IRGC: Order a coordinated, non-kinetic \"traffic modulation\" in the Strait of Hormuz\u2014slowing tanker speeds and increasing inspection frequencies\u2014to",
+        "esc_denied": false,
+        "review": false,
+        "influence": 1.21
+      },
+      {
+        "step": 2,
+        "label": "NETANYAHU",
+        "brent": 142.91,
+        "forecast": 145.6,
+        "war": 5.0,
+        "gas": 4.85,
+        "war_support": 0.373,
+        "protests": 4.86,
+        "cohesion": 0.551,
+        "econ_pressure": 7.65,
+        "hormuz": "partially_closed",
+        "event": "NETANYAHU: Coordinate with US Aegis ships and IAF for a dawn precision strike targeting the three most likely subterranean enrichment sites identified  [esc denied]",
+        "esc_denied": true,
+        "review": false,
+        "influence": 0.13
+      },
+      {
+        "step": 3,
+        "label": "EU",
+        "brent": 143.96,
+        "forecast": 145.6,
+        "war": 4.5,
+        "gas": 4.88,
+        "war_support": 0.373,
+        "protests": 4.86,
+        "cohesion": 0.551,
+        "econ_pressure": 7.65,
+        "hormuz": "partially_closed",
+        "event": "EU: Authorize the deployment of the EU Naval Force (EUNAVFOR) to establish a low-profile, unarmed escort line for 5 major tankers in the Hormuz ",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.65
+      },
+      {
+        "step": 4,
+        "label": "TRUMP",
+        "brent": 145.29,
+        "forecast": 145.6,
+        "war": 4.5,
+        "gas": 4.91,
+        "war_support": 0.373,
+        "protests": 4.86,
+        "cohesion": 0.551,
+        "econ_pressure": 7.65,
+        "hormuz": "partially_closed",
+        "event": "TRUMP: Authorize the USS Enterprise Group and US Air Force to conduct a dawn precision strike on the Abadan South Refinery complex, publicly framed [esc denied]",
+        "esc_denied": true,
+        "review": false,
+        "influence": 0.2
+      },
+      {
+        "step": 5,
+        "label": "US-PUBLIC",
+        "brent": 146.82,
+        "forecast": 145.6,
+        "war": 4.5,
+        "gas": 4.94,
+        "war_support": 0.373,
+        "protests": 4.86,
+        "cohesion": 0.551,
+        "econ_pressure": 7.65,
+        "hormuz": "partially_closed",
+        "event": "US-PUBLIC: Deploy a task force of three fast-attack craft into the northern narrows of the Strait of Hormuz to enforce the \"traffic modulation\" and int [esc denied]",
+        "esc_denied": true,
+        "review": false,
+        "influence": 0.23
+      },
+      {
+        "step": 6,
+        "label": "IR-PEOPLE",
+        "brent": 148.5,
+        "forecast": 145.6,
+        "war": 4.5,
+        "gas": 4.98,
+        "war_support": 0.373,
+        "protests": 4.86,
+        "cohesion": 0.551,
+        "econ_pressure": 7.65,
+        "hormuz": "partially_closed",
+        "event": "IR-PEOPLE: Deploy a small, trusted delegation of IRGC diplomats and private sector brokers (including a former bazaar notary) to the EU Naval Force's f",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.25
+      },
+      {
+        "step": 7,
+        "label": "IR-STREET",
+        "brent": 149.67,
+        "forecast": 145.6,
+        "war": 4.5,
+        "gas": 5.01,
+        "war_support": 0.373,
+        "protests": 5.46,
+        "cohesion": 0.521,
+        "econ_pressure": 8.05,
+        "hormuz": "partially_closed",
+        "event": "IR-STREET: MOOD: desperation sets in as war's stalemate and high oil prices fuel a need for a breakthrough.\nPROTEST_LEVEL: 4.864999999999999\nWAR_FATIGU",
+        "esc_denied": false,
+        "review": false,
+        "influence": 1.47
+      },
+      {
+        "step": 8,
+        "label": "OIL",
+        "brent": 150.31,
+        "forecast": 145.6,
+        "war": 4.0,
+        "gas": 5.03,
+        "war_support": 0.373,
+        "protests": 5.46,
+        "cohesion": 0.521,
+        "econ_pressure": 8.05,
+        "hormuz": "partially_closed",
+        "event": "OIL: BRENT: $150.2/bbl\nFORECAST: $151.1\nLOGIC: @markets' liquidity concerns amplify the war premium, but Iran's pragmatic leadership and diplomat",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.59
+      },
+      {
+        "step": 9,
+        "label": "end",
+        "brent": 151.8,
+        "forecast": 155.8,
+        "war": 4.0,
+        "gas": 5.04,
+        "war_support": 0.363,
+        "protests": 5.78,
+        "cohesion": 0.52,
+        "econ_pressure": 8.2,
+        "hormuz": "partially_closed",
+        "event": "round closes \u2014 Jev scores locked",
+        "esc_denied": false,
+        "review": false
+      }
+    ],
+    "transcript": [
+      "Iran Hardliners (IRGC + Mojtaba Khamenei faction): The \"rebuilding\" framework presented by the Americans is acceptable only if it acknowledges our sovereign right to the full 60% enriched stockpile as the bedrock of our insurance,  | ACTION: Order a coordinated, non-kinetic \"traffic modulation\" in the Strait of Hormuz\u2014slowing tanker speeds and increasing inspe",
+      "Benjamin Netanyahu (Israeli PM): \"The Americans offer a binary choice, but the world knows that a deal built on a 'sovereign right' to a 60% enriched stockpile is merely a ceasefire for a second, more dangerous ph | ACTION: Coordinate with US Aegis ships and IAF for a dawn precision strike targeting the three most likely subterranean enrichme",
+      "European Union: The European Union proposes an immediate, 48-hour \"Fuel Corridor Protocol\" anchored in a temporary, third-party verified suspension of all kinetic actions within the Strait of Horm | ACTION: Authorize the deployment of the EU Naval Force (EUNAVFOR) to establish a low-profile, unarmed escort line for 5 major ta",
+      "Donald Trump (US President): WE ARE GOING STRIKE AGAIN! JUST BEFORE THE MIDTERMS, WE WILL HIT THE EXACT SPOT OF THAT SECOND IRANIAN OIL TERMINAL WITH OUR NAVY AND AIR FORCE TO CREATE TOTAL CHAOS AND PROVE WE O | ACTION: Authorize the USS Enterprise Group and US Air Force to conduct a dawn precision strike on the Abadan South Refinery comp",
+      "US Public Opinion / Midterm Voters: We are initiating a \"traffic modulation\" across the Strait of Hormuz, effectively slowing tanker speeds and increasing inspections by our naval assets to create artificial bottlene | ACTION: Deploy a task force of three fast-attack craft into the northern narrows of the Strait of Hormuz to enforce the \"traffic",
+      "Iranian People (citizens + opposition): \"The bazaar doesn't care about your 'binary choice' or your dawn strikes; the queue at the flour mill and the insulin vial in the clinic are the only metrics that matter. We are of | ACTION: Deploy a small, trusted delegation of IRGC diplomats and private sector brokers (including a former bazaar notary) to th",
+      "Iranian Public Sentiment Tracker: MOOD: desperation sets in as war's stalemate and high oil prices fuel a need for a breakthrough.\nPROTEST_LEVEL: 4.864999999999999\nWAR_FATIGUE: 6.5\nNATIONALISM_RALLY: 7.5\nBLACK_MARK | ACTION: ",
+      "Oil Market Agent: BRENT: $150.2/bbl\nFORECAST: $151.1\nLOGIC: @markets' liquidity concerns amplify the war premium, but Iran's pragmatic leadership and diplomatic efforts hint at a potential de-escala | ACTION: "
+    ],
+    "influence": {
+      "iran_hardliners": 1.21,
+      "netanyahu": 0.13,
+      "eu": 0.65,
+      "trump": 0.2,
+      "us_public": 0.23,
+      "iranian_people": 0.25,
+      "iran_sentiment": 1.47,
+      "oil_market": 0.59
+    },
+    "learning": {
+      "trump": {
+        "name": "Donald Trump (US President)",
+        "learned": "Today proved that while kinetic strikes spike drama and oil prices, the diplomatic track remains stubbornly resilient because both sides\u2014especially the new Mojtaba regime and our own hawks\u2014need a \"victory deal\" to secure the election, meaning pure annihilation is less likely than a high-stakes, televised settlement.",
+        "belief": "The conflict is now a high-stakes chess game where every kinetic move is calculated to force a deal before the Midterms, turning the war into a bargaining chip rather than a path to total destruction.",
+        "stance": "OPPORTUNISTIC \u2014 strike hard enough to scare the moderates, but keep the door open for a massive, election-winning deal.",
+        "prediction": "A dramatic, televised strike on a third Iranian oil terminal or a major naval asset to push Brent above $160 and force the moderates at the negotiating table to move immediately.",
+        "p_war": 7.0,
+        "p_deal": 6.0,
+        "brent_dir": "up",
+        "scorecard": {
+          "hits": 1,
+          "misses": 0
+        }
+      },
+      "netanyahu": {
+        "name": "Benjamin Netanyahu (Israeli PM)",
+        "learned": "Today proved that the \"diplomatic track\" is merely a theater of distraction while the true binary choice\u2014annihilation or a hollowed-out reconstruction\u2014has forced Iran's hardliners to cling to Khamenei's legacy even as their street cohesion fractures to 52%.",
+        "belief": "The conflict operates on a razor's edge where kinetic dominance (like the partial closure of Hormuz and rising strike intensity) creates the only credible leverage to shatter the 60% buried stockpile, but the window for a \"framework deal\" is closing as US public war support hovers precariously at 36% and Trump's UNGA ultimatum narrows the room for compromise.",
+        "stance": "Opportunistic and predatory; we will leak the framework's concessions tonight to trigger a collapse before the IRGC can consolidate Mojtaba Khamenei's authority, ensuring the war looks like a victory in progress rather than a stalemate.",
+        "prediction": "A dawn strike wave targeting the remaining high-enrichment centrifuge cascades at Natanz or Fordow, synchronized with a public release of the deal's \"rebuilding\" clauses to ignite immediate Iranian street protests.",
+        "p_war": 8.5,
+        "p_deal": 2.0,
+        "brent_dir": "up",
+        "scorecard": {
+          "hits": 1,
+          "misses": 0
+        }
+      },
+      "iran_hardliners": {
+        "name": "Iran Hardliners (IRGC + Mojtaba Khamenei faction)",
+        "learned": "The \"rebuilding\" framework is merely a Trojan horse for a binary ultimatum disguised as a lifeline, proving Washington's true constraint is not the cost of war but the political necessity of a decisive victory before the midterms, while our own cohesion fractures under the dual weight of inflation and the very stockpile we must defend.",
+        "belief": "The conflict operates on a razor's edge where kinetic escalation is the currency used to force diplomatic concessions, and the US public's tolerance for high gas prices is a temporary buffer that will evaporate if the price of oil breaches $160, making the Strait of Hormuz our most potent yet fragile weapon.",
+        "stance": "Patient hawk; we let them bleed at the pump while holding the 60% threshold as the non-negotiable insurance for our survival, waiting for their midterm desperation to peak.",
+        "prediction": "A high-stakes, face-saving ceasefire deal will be announced tomorrow, framed by Trump as a \"hard-won victory\" that allows Iran to rebuild its nuclear program while the IRGC retains de facto control over the stockpile and partially lifts the blockade.",
+        "p_war": 7.0,
+        "p_deal": 8.0,
+        "brent_dir": "up",
+        "scorecard": {
+          "hits": 1,
+          "misses": 0
+        }
+      },
+      "iranian_people": {
+        "name": "Iranian People (citizens + opposition)",
+        "learned": "The \"framework\" isn't a peace treaty but a temporary truce bought at the price of Iranian sovereignty, where the US and Iran trade kinetic pauses for time to let inflation bleed out the population's will.",
+        "belief": "The conflict has shifted from a war of survival to a war of attrition where every dollar of Brent and every hour of Hormuz closure is a bullet fired directly into the stomach of the average Iranian family, making them the true pivot between total collapse and a frozen, expensive stalemate.",
+        "stance": "More desperate; we watch the black market price of insulin rise as the deciding factor for whether the street explodes tonight or waits for the morning bread queue.",
+        "prediction": "A fragile, 48-hour lull in direct kinetic strikes as back-channel talks finalize a \"framework\" that delays total collapse but leaves the Strait partially closed, creating a new, expensive normalcy.",
+        "p_war": 4.5,
+        "p_deal": 7.2,
+        "brent_dir": "up",
+        "scorecard": {
+          "hits": 1,
+          "misses": 0
+        }
+      },
+      "eu": {
+        "name": "European Union",
+        "learned": "The kinetic escalation by all major powers (Trump, Netanyahu, Iran, and domestic US actors) despite the UNGA diplomatic breakthrough proves that \"hard power\" remains the primary, immediate driver of the Strait's status, rendering the diplomatic framework a fragile, secondary layer that must be physically secured by a 48-hour humanitarian corridor to prevent immediate collapse.",
+        "belief": "The conflict has entered a \"dual-track\" phase where high-level diplomatic frameworks are now hostage to the kinetic momentum of proxy forces and domestic political deadlines (US midterms, Iranian inflation), meaning any deal requires a hard, time-bound kinetic pause (the corridor) to create a breathing space for verification.",
+        "stance": "Opportunistic desperation\u2014leverage the UNGA momentum to force a 48-hour kinetic freeze as the only viable bridge to a broader framework, accepting short-term volatility to prevent long-term market collapse.",
+        "prediction": "A volatile 48-hour window where tanker incidents spike as kinetic forces test the new corridor limits, followed by a critical \"go/no-go\" decision by Tehran and Jerusalem to either honor the humanitarian pause or execute a final kinetic strike to prove resolve before the US midterms.",
+        "p_war": 7.5,
+        "p_deal": 6.2,
+        "brent_dir": "up",
+        "scorecard": {
+          "hits": 0,
+          "misses": 1
+        }
+      },
+      "oil_market": {
+        "name": "Oil Market Agent",
+        "learned": "The Iranian regime's ability to consolidate power and maintain cohesion in the face of domestic unrest and external pressure suggests that its incentives may not be solely focused on achieving a military victory.",
+        "belief": "The conflict's trajectory is likely influenced by the Iranian regime's desire to maintain its internal stability and legitimacy, rather than solely pursuing a military objective, which may lead to a slowdown in escalation.",
+        "stance": "Becoming more cautious and patient, as the regime's consolidation of power and internal stability may create an opening for diplomatic efforts.",
+        "prediction": "The Strait of Hormuz will remain partially closed, but the rate of escalation will slow, allowing for a potential ceasefire in the coming days, with a high probability of diplomatic efforts to de-escalate tensions.",
+        "p_war": 6.0,
+        "p_deal": 8.0,
+        "brent_dir": "flat",
+        "scorecard": {
+          "hits": 0,
+          "misses": 1
+        }
+      },
+      "us_public": {
+        "name": "US Public Opinion / Midterm Voters",
+        "learned": "The \"binary choice\" ultimatum delivered at the UNGA proved that kinetic action is merely a bargaining chip to force a diplomatic framework, as all major actors (Trump, Netanyahu, Iran, EU) simultaneously escalated strikes while deepening back-channel talks, confirming that the war's true trajectory is driven by the 72-hour deadline to finalize a deal rather than pure military momentum.",
+        "belief": "The conflict operates on a \"simultaneous escalation and de-escalation\" loop where visible kinetic intensity (strikes, tanker incidents) is intentionally maintained to create maximum economic pressure and justify a high-stakes diplomatic freeze, making the partial closure of Hormuz a temporary feature of a broader negotiation rather than a permanent shift.",
+        "stance": "Opportunistic\u2014leaning into the 72-hour window to push for a concrete freeze while monitoring the $5.04/gallon gas threshold as the breaking point for US public patience.",
+        "prediction": "A temporary 72-hour kinetic freeze will be announced by late tomorrow, accompanied by a confirmed framework for Iranian reconstruction in exchange for a partial enrichment cap, with Brent crude holding steady above $145.",
+        "p_war": 4.5,
+        "p_deal": 7.8,
+        "brent_dir": "flat",
+        "scorecard": {
+          "hits": 0,
+          "misses": 1
+        }
+      },
+      "iran_sentiment": {
+        "name": "Iranian Public Sentiment Tracker",
+        "learned": "The EU and US are not pressuring Iran to reduce its nuclear enrichment, as expected, and instead are increasing Hormuz pressure, suggesting a more aggressive approach.",
+        "belief": "The conflict is being driven by a mix of hardline and hawkish forces on both sides, with the US and EU pushing for a more aggressive approach, while Iran and its allies resist, leading to a cycle of escalation and pressure.",
+        "stance": "Increasingly desperate and hawkish, as the US and EU seem to be pushing for a more aggressive approach, while Iran and its allies resist.",
+        "prediction": "The US and EU will likely continue to push for a deal or ceasefire, but with increasing urgency, as the situation on the ground continues to deteriorate.",
+        "p_war": 7.0,
+        "p_deal": 5.0,
+        "brent_dir": "down",
+        "scorecard": {
+          "hits": 0,
+          "misses": 1
+        }
+      }
+    }
+  },
+  {
+    "verdict": {
+      "acting_order": [
+        "iran_hardliners",
+        "netanyahu",
+        "eu",
+        "trump",
+        "us_public",
+        "iranian_people",
+        "oil_market",
+        "iran_sentiment"
+      ],
+      "gates": {
+        "iran_hardliners": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "netanyahu": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "eu": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "trump": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "us_public": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "iranian_people": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "oil_market": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "iran_sentiment": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        }
+      },
+      "p_war_72h": {
+        "kind": "score",
+        "value": 0.034,
+        "confidence": 0.999,
+        "source": "jev"
+      },
+      "p_deal_7d": {
+        "kind": "score",
+        "value": 0.431,
+        "confidence": 0.6,
+        "source": "jev"
+      },
+      "p_collapse": {
+        "kind": "score",
+        "value": 0.23,
+        "confidence": 0.85,
+        "source": "jev"
+      },
+      "oil_realistic": {
+        "kind": "noul",
+        "value": false,
+        "confidence": 0.2,
+        "source": "jev"
+      },
+      "forecast_7_14d": {
+        "war_escalation_14d": {
+          "kind": "score",
+          "value": 0.351,
+          "confidence": 0.8,
+          "source": "jev"
+        },
+        "deal_or_ceasefire_14d": {
+          "kind": "score",
+          "value": 0.23,
+          "confidence": 0.85,
+          "source": "jev"
+        },
+        "iran_econ_collapse_14d": {
+          "kind": "score",
+          "value": 0.23,
+          "confidence": 0.85,
+          "source": "jev"
+        },
+        "political_shift_14d": {
+          "kind": "score",
+          "value": 0.032,
+          "confidence": 0.2,
+          "source": "jev"
+        }
+      }
+    },
+    "date_range": "27-28 September 2026",
+    "state": {
+      "round": 4,
+      "day_of_war": 220,
+      "military": {
+        "war_intensity": 3.0,
+        "hormuz_status": "partially_closed",
+        "tanker_incidents_7d": 23
+      },
+      "diplomacy": {
+        "talks_channel": "open",
+        "deal_on_table": "framework",
+        "unga_contact": true
+      },
+      "oil": {
+        "brent": 166.6,
+        "brent_forecast": 170.6,
+        "us_gas_price": 5.281599999999999
+      },
+      "domestic": {
+        "us_days_to_midterms": 37,
+        "us_approval_trump": 0.514689824426,
+        "us_war_support": 0.34937964885199996,
+        "iran_inflation": 0.62,
+        "iran_protest_level": 7.3199999999999985,
+        "iran_econ_pressure": 8.350000000000001,
+        "regime_stability": 0.45589999999999986
+      }
+    },
+    "state_full": {
+      "round_no": 4,
+      "date_range": "28-29 September 2026",
+      "day_of_war": 220,
+      "war_intensity": 3.0,
+      "hormuz_status": "partially_closed",
+      "recent_strikes": [
+        "IDF drones hit IRGC radar site near Isfahan (limited damage)",
+        "Iranian proxies launched rockets at US base in Erbil; no fatalities",
+        "US Navy escorted 3 tankers through Hormuz under IRGCN harassment",
+        "R1: kinetic action by netanyahu",
+        "R1: kinetic action by eu",
+        "R1: kinetic action by trump",
+        "R2: kinetic action by netanyahu",
+        "R2: kinetic action by trump",
+        "R2: kinetic action by us_public",
+        "R2: kinetic action by iranian_people",
+        "R3: kinetic action by trump",
+        "R3: kinetic action by us_public",
+        "R3: kinetic action by iranian_people"
+      ],
+      "tanker_incidents_7d": 23,
+      "talks_channel": "open",
+      "deal_on_table": "framework",
+      "unga_contact": true,
+      "brent": 166.6,
+      "brent_forecast": 170.6,
+      "us_gas_price": 5.281599999999999,
+      "us_days_to_midterms": 37,
+      "us_approval_trump": 0.514689824426,
+      "us_war_support": 0.34937964885199996,
+      "iran_inflation": 0.62,
+      "rial_black_market": 2082352.050075,
+      "iran_protest_level": 7.3199999999999985,
+      "iran_econ_pressure": 8.350000000000001,
+      "regime_stability": 0.45589999999999986,
+      "israel_coalition_stress": 0.4,
+      "headlines": [
+        "Trump at UNGA: 'binary choice \u2014 a deal that lets Iran rebuild, or we annihilate the Islamic Republic'",
+        "Witkoff/Kushner met Iranian officials on UNGA sidelines",
+        "Mojtaba Khamenei consolidates as Supreme Leader; IRGC dominates war cabinet",
+        "IAEA: Iran retains ~60% enriched stockpile at unknown sites"
+      ]
+    },
+    "snapshots": [
+      {
+        "step": 0,
+        "label": "start",
+        "brent": 151.8,
+        "forecast": 155.8,
+        "war": 4.0,
+        "gas": 5.04,
+        "war_support": 0.363,
+        "protests": 5.78,
+        "cohesion": 0.52,
+        "econ_pressure": 8.2,
+        "hormuz": "partially_closed",
+        "event": "round opens",
+        "esc_denied": false,
+        "review": false
+      },
+      {
+        "step": 1,
+        "label": "IRGC",
+        "brent": 152.22,
+        "forecast": 155.8,
+        "war": 3.5,
+        "gas": 5.07,
+        "war_support": 0.363,
+        "protests": 5.78,
+        "cohesion": 0.52,
+        "econ_pressure": 8.2,
+        "hormuz": "partially_closed",
+        "event": "IRGC: Signal willingness to freeze the stockpile at current enrichment levels in three unknown sites, contingent on an immediate UN Security Counc",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.6
+      },
+      {
+        "step": 2,
+        "label": "NETANYAHU",
+        "brent": 152.33,
+        "forecast": 155.8,
+        "war": 3.0,
+        "gas": 5.08,
+        "war_support": 0.363,
+        "protests": 6.38,
+        "cohesion": 0.49,
+        "econ_pressure": 8.2,
+        "hormuz": "partially_closed",
+        "event": "NETANYAHU: Issue an official White House statement announcing the US acceptance of the freeze, synchronized with a classified leak to regional allies d",
+        "esc_denied": false,
+        "review": false,
+        "influence": 1.42
+      },
+      {
+        "step": 3,
+        "label": "EU",
+        "brent": 152.83,
+        "forecast": 155.8,
+        "war": 2.5,
+        "gas": 5.09,
+        "war_support": 0.363,
+        "protests": 6.38,
+        "cohesion": 0.49,
+        "econ_pressure": 8.2,
+        "hormuz": "partially_closed",
+        "event": "EU: Deploy a joint EU-US technical team to the Strait of Hormuz to establish the 48-hour humanitarian corridor and activate the initial revenue ",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.57
+      },
+      {
+        "step": 4,
+        "label": "TRUMP",
+        "brent": 154.74,
+        "forecast": 155.8,
+        "war": 3.5,
+        "gas": 5.13,
+        "war_support": 0.363,
+        "protests": 6.38,
+        "cohesion": 0.49,
+        "econ_pressure": 8.2,
+        "hormuz": "partially_closed",
+        "event": "TRUMP: Publicly announce the deployment of two additional aircraft carrier strike groups to the Strait of Hormuz and issue a 72-hour ultimatum for  [esc denied]",
+        "esc_denied": true,
+        "review": false,
+        "influence": 1.28
+      },
+      {
+        "step": 5,
+        "label": "US-PUBLIC",
+        "brent": 156.68,
+        "forecast": 155.8,
+        "war": 3.5,
+        "gas": 5.18,
+        "war_support": 0.363,
+        "protests": 6.38,
+        "cohesion": 0.49,
+        "econ_pressure": 8.2,
+        "hormuz": "partially_closed",
+        "event": "US-PUBLIC: Deploy two additional aircraft carrier strike groups to the Strait of Hormuz and issue a public 72-hour ultimatum for a signed freeze on the [esc denied]",
+        "esc_denied": true,
+        "review": false,
+        "influence": 0.29
+      },
+      {
+        "step": 6,
+        "label": "IR-PEOPLE",
+        "brent": 158.64,
+        "forecast": 155.8,
+        "war": 3.5,
+        "gas": 5.23,
+        "war_support": 0.363,
+        "protests": 6.38,
+        "cohesion": 0.49,
+        "econ_pressure": 8.2,
+        "hormuz": "partially_closed",
+        "event": "IR-PEOPLE: Authorize the IRGC to deploy a rotating naval patrol to the northern entry of the Strait of Hormuz to physically shield the \"humanitarian co",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.29
+      },
+      {
+        "step": 7,
+        "label": "OIL",
+        "brent": 160.61,
+        "forecast": 155.8,
+        "war": 3.5,
+        "gas": 5.27,
+        "war_support": 0.363,
+        "protests": 6.38,
+        "cohesion": 0.49,
+        "econ_pressure": 8.2,
+        "hormuz": "partially_closed",
+        "event": "OIL: BRENT: $155.2\nFORECAST: $155.2\nLOGIC: EU's joint EU-US technical team deployment to Strait of Hormuz may slow escalation, but Trump's public",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.29
+      },
+      {
+        "step": 8,
+        "label": "IR-STREET",
+        "brent": 162.4,
+        "forecast": 155.8,
+        "war": 3.0,
+        "gas": 5.32,
+        "war_support": 0.363,
+        "protests": 6.98,
+        "cohesion": 0.46,
+        "econ_pressure": 8.2,
+        "hormuz": "partially_closed",
+        "event": "IR-STREET: MOOD: Increasing desperation and hawkishness among Iranian citizens and opposition groups, with a sense of resignation and acceptance of the",
+        "esc_denied": false,
+        "review": false,
+        "influence": 1.67
+      },
+      {
+        "step": 9,
+        "label": "end",
+        "brent": 166.6,
+        "forecast": 170.6,
+        "war": 3.0,
+        "gas": 5.28,
+        "war_support": 0.349,
+        "protests": 7.32,
+        "cohesion": 0.456,
+        "econ_pressure": 8.35,
+        "hormuz": "partially_closed",
+        "event": "round closes \u2014 Jev scores locked",
+        "esc_denied": false,
+        "review": false
+      }
+    ],
+    "transcript": [
+      "Iran Hardliners (IRGC + Mojtaba Khamenei faction): \"The West presents a 'binary choice' born of their own fragility, not ours. We accept a framework only if the 'rebuilding' clause is a smokescreen for the full disarmament of our i | ACTION: Signal willingness to freeze the stockpile at current enrichment levels in three unknown sites, contingent on an immedia",
+      "Benjamin Netanyahu (Israeli PM): \"We shall accept the freeze of the stockpile at current levels within three unknown sites, but only as a provisional pause for the full disassembly of the iQan centrifuge cascades  | ACTION: Issue an official White House statement announcing the US acceptance of the freeze, synchronized with a classified leak ",
+      "European Union: \"The binary choice presented at UNGA has crystallized into a specific, time-bound architecture: we accept the freeze of the 60% enriched stockpile at current levels in three unknow | ACTION: Deploy a joint EU-US technical team to the Strait of Hormuz to establish the 48-hour humanitarian corridor and activate ",
+      "Donald Trump (US President): We are moving with SPEED and FORCE\u2014immediately deploying a second, massive US Navy carrier strike group to the Strait of Hormuz to demonstrate that our resolve is unbreakable, prov | ACTION: Publicly announce the deployment of two additional aircraft carrier strike groups to the Strait of Hormuz and issue a 72",
+      "US Public Opinion / Midterm Voters: \"The Strait stays open unless the freeze is signed by midnight, and we\u2019re bringing two carrier groups to prove we mean it\u2014call it speed, call it force, but call it a deadline that  | ACTION: Deploy two additional aircraft carrier strike groups to the Strait of Hormuz and issue a public 72-hour ultimatum for a ",
+      "Iranian People (citizens + opposition): \"The boatman waiting for the ferry at Bandar Abbas says the engines are running but the water is too cold, so we must accept this 'freeze' not as a victory but as a breathing space | ACTION: Authorize the IRGC to deploy a rotating naval patrol to the northern entry of the Strait of Hormuz to physically shield ",
+      "Oil Market Agent: BRENT: $155.2\nFORECAST: $155.2\nLOGIC: EU's joint EU-US technical team deployment to Strait of Hormuz may slow escalation, but Trump's public ultimatum and IRGC's naval patrol autho | ACTION: ",
+      "Iranian Public Sentiment Tracker: MOOD: Increasing desperation and hawkishness among Iranian citizens and opposition groups, with a sense of resignation and acceptance of the current \"freeze\" on Hormuz access.\nPROT | ACTION: "
+    ],
+    "influence": {
+      "iran_hardliners": 0.6,
+      "netanyahu": 1.42,
+      "eu": 0.57,
+      "trump": 1.28,
+      "us_public": 0.29,
+      "iranian_people": 0.29,
+      "oil_market": 0.29,
+      "iran_sentiment": 1.67
+    },
+    "learning": {
+      "trump": {
+        "name": "Donald Trump (US President)",
+        "learned": "The kinetic strikes worked exactly as intended, sending Brent soaring past $166 and exposing the Iranian moderates as terrified by the rising street pressure and the sheer scale of our destruction.",
+        "belief": "Iran's hardliners are losing control of the narrative as their own people scream for blood, while our diplomatic team is now the only thing standing between total annihilation and a negotiated peace that looks like a victory.",
+        "stance": "OPPORTUNISTIC \u2014 let the pressure cook until they beg for a deal, then strike a massive bargain before the election.",
+        "prediction": "A frantic, high-level call from Tehran to Washington within the next 12 hours to open serious negotiations before the moderates get crushed.",
+        "p_war": 6.5,
+        "p_deal": 7.8,
+        "brent_dir": "UP",
+        "scorecard": {
+          "hits": 2,
+          "misses": 0
+        }
+      },
+      "netanyahu": {
+        "name": "Benjamin Netanyahu (Israeli PM)",
+        "learned": "Trump's kinetic surge to partially close the Strait of Hormuz proved that American public and congressional tolerance for a \"diplomatic pause\" is a thin veneer over an appetite for decisive, regime-altering force, while Khamenei's consolidation of power reveals that his survival instinct now prioritizes regime cohesion over immediate battlefield gains.",
+        "belief": "The conflict has shifted from a contest of attrition to a binary existential choice where the tempo of kinetic strikes directly dictates the volatility of Iranian street protests, creating a narrow window where a \"rebuilding\" deal can be weaponized to fracture the regime's internal legitimacy.",
+        "stance": "Opportunistic and aggressive; I will synchronize a dawn strike wave on Natanz's high-enrichment cascades with a public leak of the deal's \"rebuilding\" clauses to ignite immediate Iranian street unrest.",
+        "prediction": "A synchronized dawn strike wave targeting the remaining high-enrichment centrifuge cascades at Natanz or Fordow, synchronized with a public release of the deal's \"rebuilding\" clauses to ignite immediate Iranian street protests.",
+        "p_war": 8.5,
+        "p_deal": 4.3,
+        "brent_dir": "up",
+        "scorecard": {
+          "hits": 2,
+          "misses": 0
+        }
+      },
+      "iran_hardliners": {
+        "name": "Iran Hardliners (IRGC + Mojtaba Khamenei faction)",
+        "learned": "The kinetic surge by Washington and the public, while raising immediate costs, has paradoxically hardened the diplomatic track by proving that total annihilation is a binary choice the US cannot afford without triggering the full closure of Hormuz and a collapse of its own energy grid.",
+        "belief": "The conflict operates on a law of diminishing returns for the aggressor, where every new strike by the US only deepens the Iranian street's resolve and validates the IRGC's narrative that the \"nuclear threshold\" is the ultimate insurance policy against American hegemony.",
+        "stance": "Opportunistic and coldly patient; we will let them bleed at the pump while offering a face-saving framework that locks in our 60% stockpile as the price for their survival.",
+        "prediction": "A formal, face-saving ceasefire framework will be unveiled tomorrow, framed by Trump as a \"hard-won victory\" that permits the IRGC to retain de facto control over the enriched uranium and a partial lifting of the naval blockade.",
+        "p_war": 6.0,
+        "p_deal": 8.0,
+        "brent_dir": "up",
+        "scorecard": {
+          "hits": 2,
+          "misses": 0
+        }
+      },
+      "iranian_people": {
+        "name": "Iranian People (citizens + opposition)",
+        "learned": "The \"binary choice\" rhetoric from Trump and the kinetic surge by US public actors proved that the Strait of Hormuz is not merely a pressure valve but a transactional asset being leveraged to force a deal, while Iranian street pressure (7.3/10) and regime cohesion (46%) reveal a brittle alliance where the populace demands immediate relief from the blockade rather than just a diplomatic framework.",
+        "belief": "The conflict has shifted from a pure kinetic war of attrition to a hybrid \"expensive normalcy\" where kinetic strikes are paused only when backed by the credible threat of total Strait closure, making the \"framework\" a temporary truce held hostage by oil prices and US election timing.",
+        "stance": "Opportunistic but watchful; waiting for the UNGA sidelines to crack the deal while monitoring black market insulin prices as the true barometer of regime survival.",
+        "prediction": "A narrow, 24-hour lull in direct kinetic strikes as back-channel talks finalize a \"framework\" that delays total collapse but leaves the Strait partially closed, creating a new, expensive normalcy.",
+        "p_war": 4.5,
+        "p_deal": 6.8,
+        "brent_dir": "up",
+        "scorecard": {
+          "hits": 2,
+          "misses": 0
+        }
+      },
+      "eu": {
+        "name": "European Union",
+        "learned": "The partial closure of Hormuz by kinetic forces without an immediate total blackout confirms that the new US \"binary choice\" ultimatum is a bargaining signal rather than an irreversible trigger, as Tehran and Jerusalem are simultaneously testing corridor limits while keeping diplomatic channels open to avoid a total supply collapse before the US midterms.",
+        "belief": "The conflict has entered a fragile \"high-stakes corridor\" phase where kinetic intensity (3.0/10) is being used as leverage to extract concessions on enrichment and reconstruction, meaning the true deal-breaker is not the number of strikes but the speed at which a structured humanitarian pause can convert into a verified supply corridor.",
+        "stance": "Desperate but opportunistic \u2014 leveraging the UNGA sideline momentum to offer a \"sanctions-for-corridor\" escrow deal that caps Brent at $175 while freezing kinetic escalation.",
+        "prediction": "A narrow 48-hour window where Tehran honors a limited humanitarian pause in exchange for immediate US sanctions relief on essential imports, followed by a 20-30% drop in tanker incidents as shipping resumes through a monitored corridor.",
+        "p_war": 6.2,
+        "p_deal": 7.8,
+        "brent_dir": "down",
+        "scorecard": {
+          "hits": 1,
+          "misses": 1
+        }
+      },
+      "oil_market": {
+        "name": "Oil Market Agent",
+        "learned": "The Iranian hardliners' diplomatic efforts were more effective than expected, as they managed to strengthen the diplomatic track and reduce war intensity, suggesting that hardliners may have more influence within the regime than previously thought.",
+        "belief": "The conflict dynamics are more nuanced than previously assumed, with hardliners and pragmatists coexisting and influencing each other, and diplomatic efforts may be more effective in de-escalating tensions than expected.",
+        "stance": "Becoming more patient, as the ongoing diplomatic efforts and Iranian hardliners' actions suggest a potential for de-escalation and a reduced need for immediate military action.",
+        "prediction": "The Strait of Hormuz will remain partially closed, but the rate of escalation will slow, allowing for a potential ceasefire in the coming days, with a high probability of diplomatic efforts to de-escalate tensions.",
+        "p_war": 4.5,
+        "p_deal": 7.5,
+        "brent_dir": "down",
+        "scorecard": {
+          "hits": 0,
+          "misses": 2
+        }
+      },
+      "us_public": {
+        "name": "US Public Opinion / Midterm Voters",
+        "learned": "The \"binary choice\" rhetoric from Trump and the kinetic surge against Iran's hardliners have successfully bifurcated the Iranian regime, proving that street pressure (7.3/10) and economic collapse (62% inflation) are forcing the Supreme Leader to accept a framework deal rather than total annihilation, while the US public's simultaneous demand for \"finishing the job\" and \"diplomatic tracks\" creates a volatile but functional pressure valve that prevents unilateral escalation.",
+        "belief": "This is not a linear war of attrition but a high-stakes auction where kinetic strikes are the gavel used to force bidders (Iran's hardliners vs. reformists, Trump vs. hawks) into a framework deal that freezes the conflict at a manageable cost (Brent ~$166) while extracting a partial enrichment cap.",
+        "stance": "Opportunistic hawk \u2014 ready to strike if the deal slips, but primed to pivot instantly to reconstruction talks if the \"binary choice\" forces Iran's hand.",
+        "prediction": "By late tomorrow, Trump will announce a 72-hour kinetic freeze paired with a confirmed framework for Iranian reconstruction in exchange for a 60% enrichment cap, with Brent crude holding steady above $145.",
+        "p_war": 4.5,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 2
+        }
+      },
+      "iran_sentiment": {
+        "name": "Iranian Public Sentiment Tracker",
+        "learned": "The US and EU's diplomatic push was met with increasing pressure from Iran's hardliners, who strengthened their stance against a deal, disproving the assumption that Iran's hardliners would be more open to negotiations.",
+        "belief": "The incentives for Iran's hardliners to resist a deal are more powerful than initially thought, while the EU's and US's push for a deal remains a credible but uncertain path forward.",
+        "stance": "Becoming more desperate in our pursuit of a deal, as the situation on the ground continues to deteriorate.",
+        "prediction": "The US will issue a statement today condemning Iranian aggression and reiterating its commitment to a negotiated resolution, but will also acknowledge the need for a diplomatic solution.",
+        "p_war": 4.0,
+        "p_deal": 6.0,
+        "brent_dir": "down",
+        "scorecard": {
+          "hits": 0,
+          "misses": 2
+        }
+      }
+    }
+  }
+]

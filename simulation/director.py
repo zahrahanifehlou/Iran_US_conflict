@@ -171,8 +171,8 @@ class Director:
             # ---- intra-round world update -> snapshot for the animation
             before = self._tracked_now()
             notes = world.apply_single_action(st, action)
-            world.tick_brent(st)
-            influence = self._influence(before)
+            influence = self._influence(before)   # action's own deltas only
+            world.tick_brent(st)                  # ambient market move (unattributed)
             day_notes.extend(notes)
             influence_map[aid] = influence_map.get(aid, 0.0) + influence
             ev = action.proposed_action or action.statement
@@ -262,8 +262,17 @@ class Director:
         if self.viz:
             self._render(log, st.round_no - 1)
             self._render_learning(log, st.round_no - 1)
+            self._render_predictions(log, st.round_no - 1)
             self._render_history()
         return log
+
+    def _render_predictions(self, log: dict, round_no: int):
+        try:
+            from . import viz
+            a, b = viz.render_predictions(log, round_no)
+            _p(f"Predictions: {a}\nBefore/After: {b}")
+        except Exception as exc:
+            _p(f"!! prediction charts failed: {exc}")
 
     # -------------------------------------------------- midnight learning
     def _midnight(self, day_label: str, day_notes: list[str],
@@ -302,6 +311,8 @@ class Director:
                 agent.memory.append("(offline) no learning")
                 learning[aid] = {"learned": "offline", "prediction": "—"}
                 continue
+            prev_pred = dict(agent.last_prediction)
+            prev_stance = agent.stance
             try:
                 upd = agent.learn(day_label, ground_truth, st)
             except Exception as exc:
@@ -310,6 +321,8 @@ class Director:
             sc = upd.fields.get("scorecard", {})
             learning[aid] = {
                 "name": agent.p.name,
+                "prev_prediction": prev_pred,
+                "prev_stance": prev_stance,
                 "learned": upd.fields.get("learned", ""),
                 "belief": upd.fields.get("belief", ""),
                 "stance": upd.fields.get("stance", ""),
@@ -395,7 +408,7 @@ def _load_resume(path: str):
             if entry.get("influence") or entry.get("verdict"):
                 v = entry.get("verdict", {})
                 history.append({
-                    "day": entry.get("state_full", {}).get("round", "?"),
+                    "day": entry.get("state_full", {}).get("round_no", 1) - 1,
                     "date": entry.get("date_range", ""),
                     "brent": entry.get("state_full", {}).get("brent", 0),
                     "gas": entry.get("state_full", {}).get("us_gas_price", 0),

@@ -218,9 +218,9 @@ def render_learning(log: dict, round_no: int,
     prefix = prefix or f"day{round_no}"
     path = f"{prefix}_learning.png"
 
-    fig = plt.figure(figsize=(15, 10))
+    fig = plt.figure(figsize=(15, 13))
     gs = fig.add_gridspec(1, 2, width_ratios=[2.4, 1], left=0.02,
-                          right=0.98, top=0.93, bottom=0.04, wspace=0.12)
+                          right=0.98, top=0.94, bottom=0.02, wspace=0.12)
     ax = fig.add_subplot(gs[0, 0]); ax.axis("off")
     ax_inf = fig.add_subplot(gs[0, 1])
 
@@ -230,25 +230,31 @@ def render_learning(log: dict, round_no: int,
 
     ids = [a for a in learning if learning[a].get("learned")]
     n = max(len(ids), 1)
+    row = 1.0 / n
     for i, aid in enumerate(ids):
-        y = 1 - (i + 0.5) / n
+        y = 1 - i * row
         l = learning[aid]
         sc = l.get("scorecard", {})
         col = _stance_color(l.get("stance"))
-        ax.text(0.0, y + 0.030, l.get("name", aid).upper()
-                if l.get("name") else aid.upper(),
+        ax.text(0.0, y - 0.008, l.get("name", aid).upper(),
                 fontsize=10, fontweight="bold", color=col,
                 transform=ax.transAxes)
-        learned = textwrap.fill(f"learned: {l.get('learned', '—')}", 95)
-        ax.text(0.0, y + 0.006, learned, fontsize=8, va="top",
-                transform=ax.transAxes, color="#222")
-        pred = textwrap.fill(
-            f"predicts: {l.get('prediction', '—')} "
-            f"[war {l.get('p_war','?')}/10 · deal {l.get('p_deal','?')}/10 · "
-            f"brent {l.get('brent_dir','?')}]  "
-            f"score {sc.get('hits',0)}W-{sc.get('misses',0)}L", 95)
-        ax.text(0.0, y - 0.040, pred, fontsize=8, va="top",
-                transform=ax.transAxes, color="#0b5394")
+        learned = textwrap.shorten(l.get("learned", "—"), 210,
+                                   placeholder="…")
+        ax.text(0.0, y - 0.030,
+                textwrap.fill(f"learned: {learned}", 92),
+                fontsize=8, va="top", transform=ax.transAxes, color="#222")
+        pred = textwrap.shorten(l.get("prediction", "—"), 190,
+                                placeholder="…")
+        ax.text(0.0, y - 0.066,
+                textwrap.fill(
+                    f"predicts: {pred} "
+                    f"[war {l.get('p_war','?')}/10 · deal "
+                    f"{l.get('p_deal','?')}/10 · brent "
+                    f"{l.get('brent_dir','?')}]  "
+                    f"score {sc.get('hits',0)}W-{sc.get('misses',0)}L", 92),
+                fontsize=8, va="top", transform=ax.transAxes,
+                color="#0b5394")
 
     # ---- influence bars ----------------------------------------------
     inf_ids = sorted(influence, key=influence.get, reverse=True)
@@ -282,7 +288,7 @@ def render_history(history: list[dict],
     days = [h["day"] for h in history]
     xlabels = [f"d{h['day']}" for h in history]
 
-    fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
+    fig, axes = plt.subplots(3, 1, figsize=(12, 10))
     fig.suptitle("SIMULATION HISTORY — day by day", fontsize=15,
                  fontweight="bold")
 
@@ -334,10 +340,112 @@ def render_history(history: list[dict],
     ax.tick_params(axis="x", rotation=30)
     ax.grid(axis="y", alpha=0.25)
 
-    axes[2].set_xticks(days)
-    axes[2].set_xticklabels(xlabels)
-    axes[0].set_xticks(days); axes[0].set_xticklabels(xlabels)
+    for a in axes[:2]:
+        a.set_xticks(days)
+        a.set_xticklabels(xlabels)
     fig.tight_layout(rect=(0, 0, 1, 0.96))
     fig.savefig(path, dpi=110)
     plt.close(fig)
     return path
+
+
+# ==================================================================
+#  Focused predictions — what every agent expects tomorrow
+# ==================================================================
+def render_predictions(log: dict, round_no: int,
+                       prefix: str | None = None) -> tuple[str, str]:
+    """Two charts:
+    dayN_predictions.png  — per-agent P_war / P_deal for tomorrow +
+                            their predicted event + brent call.
+    dayN_before_after.png — dumbbells: each agent's P_war / P_deal
+                            BEFORE the day (last night's call) vs AFTER
+                            tonight's learning.
+    """
+    learning = log.get("learning", {})
+    verdict = log.get("verdict", {})
+    prefix = prefix or f"day{round_no}"
+    p_path = f"{prefix}_predictions.png"
+    b_path = f"{prefix}_before_after.png"
+
+    ids = [a for a in learning if learning[a].get("prediction")]
+    names = [SHORT_LABELS.get(i, i) for i in ids]
+    pw = [learning[i].get("p_war") or 0 for i in ids]
+    pd_ = [learning[i].get("p_deal") or 0 for i in ids]
+
+    # ---- focused predictions ------------------------------------------
+    fig, (axp, axt) = plt.subplots(
+        1, 2, figsize=(15, 6 + 0.55 * len(ids)),
+        gridspec_kw={"width_ratios": [1.15, 1.6]})
+    y = list(range(len(ids)))
+    axp.barh([i - 0.18 for i in y], pw, height=0.36,
+             color=C_WAR, label="P(war tomorrow)")
+    axp.barh([i + 0.18 for i in y], pd_, height=0.36,
+             color=C_SUP, label="P(deal tomorrow)")
+    for i, a in enumerate(ids):
+        d = (learning[a].get("brent_dir") or "").lower()
+        mark = {"up": "▲", "down": "▼", "flat": "■"}.get(d, "?")
+        axp.text(10.4, i, mark, va="center", fontsize=11,
+                 color={"up": "#c0392b", "down": "#16a085"}.get(d, "#555"))
+    jw = (verdict.get("p_war_72h") or {}).get("value")
+    jd = (verdict.get("p_deal_7d") or {}).get("value")
+    if jw is not None:
+        axp.axvline(jw * 10, color=C_WAR, ls=":", lw=1.4)
+        axp.text(jw * 10 + 0.08, len(ids) - 0.4, f"Jev war {jw:.2f}",
+                 fontsize=7.5, color=C_WAR)
+    if jd is not None:
+        axp.axvline(jd * 10, color=C_SUP, ls=":", lw=1.4)
+        axp.text(jd * 10 + 0.08, -0.6, f"Jev deal {jd:.2f}",
+                 fontsize=7.5, color=C_SUP)
+    axp.set_yticks(y); axp.set_yticklabels(names, fontsize=9)
+    axp.set_xlim(0, 11.6); axp.invert_yaxis()
+    axp.set_title("P(outcome tomorrow), /10   (right edge = Brent call)",
+                  loc="left", fontsize=11, fontweight="bold")
+    axp.legend(fontsize=8, loc="lower right"); axp.grid(axis="x", alpha=.25)
+
+    axt.axis("off")
+    axt.set_title("Predicted event for tomorrow", loc="left",
+                  fontsize=11, fontweight="bold")
+    for i, a in enumerate(ids):
+        txt = textwrap.fill(learning[a]["prediction"], 70)
+        axt.text(0, 1 - (i + 0.55) / max(len(ids), 1), txt,
+                 fontsize=8.2, va="top", transform=axt.transAxes)
+    fig.suptitle(f"FOCUSED PREDICTIONS — night of day {round_no} "
+                 f"({log.get('date_range', '')})",
+                 fontsize=14, fontweight="bold")
+    fig.tight_layout(rect=(0, 0, 1, 0.94))
+    fig.savefig(p_path, dpi=110)
+    plt.close(fig)
+
+    # ---- before vs after learning --------------------------------------
+    fig, axes = plt.subplots(1, 2, figsize=(13, 0.7 * len(ids) + 2.2),
+                             sharey=True)
+    for ax, key, ttl, color in (
+            (axes[0], "p_war", "P(war) — before vs after learning", C_WAR),
+            (axes[1], "p_deal", "P(deal) — before vs after learning", C_SUP)):
+        for i, a in enumerate(ids):
+            prev = (learning[a].get("prev_prediction") or {}).get(key)
+            new = learning[a].get(key)
+            if prev is None and new is None:
+                continue
+            if prev is not None:
+                ax.plot(prev, i, "o", ms=7, color="#bbb", zorder=3)
+            if prev is not None and new is not None:
+                ax.annotate("", xy=(new, i), xytext=(prev, i),
+                            arrowprops=dict(arrowstyle="->", color=color,
+                                            lw=2))
+            if new is not None:
+                ax.plot(new, i, "o", ms=8, color=color, zorder=4)
+        ax.set_yticks(y); ax.set_yticklabels(names, fontsize=9)
+        ax.set_xlim(-0.5, 10.5); ax.invert_yaxis()
+        ax.set_title(ttl, loc="left", fontsize=10.5, fontweight="bold")
+        ax.grid(axis="x", alpha=.25)
+        ax.annotate("grey = last night's call · colored = after midnight "
+                    "learning", (0, -0.14), xycoords="axes fraction",
+                    fontsize=7.5, color="#555")
+    fig.suptitle(f"BEFORE vs AFTER LEARNING — day {round_no}",
+                 fontsize=14, fontweight="bold")
+    fig.tight_layout(rect=(0, 0, 1, 0.93))
+    fig.savefig(b_path, dpi=110)
+    plt.close(fig)
+
+    return p_path, b_path

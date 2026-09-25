@@ -31,6 +31,12 @@ if __name__ == "__main__":
                     help="do not render round animations")
     ap.add_argument("--no-learn", action="store_true",
                     help="skip the midnight learning cycle")
+    ap.add_argument("--daemon", action="store_true",
+                    help="stay resident; run one simulated day at every "
+                         "00:00 local time, forever")
+    ap.add_argument("--run-now", action="store_true",
+                    help="with --daemon: run one day immediately, then "
+                         "continue the midnight schedule")
     ap.add_argument("--dump", metavar="FILE",
                     help="write round verdicts/state to JSON")
     args = ap.parse_args()
@@ -39,5 +45,13 @@ if __name__ == "__main__":
         sys.exit("Ollama is not reachable at the configured host. "
                  "Start it, or run with --offline.")
 
-    run(args.rounds, fast=args.fast, offline=args.offline, dump=args.dump,
-        resume=args.resume, viz=not args.no_viz, learn=not args.no_learn)
+    if args.daemon:
+        from simulation.daemon import run_daemon
+        run_daemon(args.dump or "sim_daemon_log.json",
+                   fast=args.fast, offline=args.offline,
+                   viz=not args.no_viz, learn=not args.no_learn,
+                   run_now=args.run_now)
+    else:
+        run(args.rounds, fast=args.fast, offline=args.offline,
+            dump=args.dump, resume=args.resume, viz=not args.no_viz,
+            learn=not args.no_learn)
