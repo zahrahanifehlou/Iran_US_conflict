@@ -1,0 +1,105 @@
+"""X/Twitter feed — the posts agents see and must reference when they speak.
+
+Posts are seeded per round to be *realistic* (plausible handles, plausible
+content given the Sept-2026 context). Agents are instructed to cite at least
+one by handle. Add posts to ROUND_POSTS to steer later rounds.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+
+@dataclass
+class XPost:
+    handle: str
+    text: str
+    tags: frozenset[str] = frozenset()   # agent ids this is most relevant to
+
+    def fmt(self) -> str:
+        return f"@{self.handle}: {self.text}"
+
+
+ROUND_POSTS: dict[int, list[XPost]] = {
+    1: [
+        XPost("realDonaldTrump",
+              "Iran can make a DEAL and rebuild, or they can be ANNIHILATED. "
+              "Their choice. Witkoff and Jared are doing a GREAT job at the UN. "
+              "Gas prices coming down soon, mark my words!",
+              frozenset({"trump", "us_public", "eu", "oil_market"})),
+        XPost("netanyahu",
+              "There will be no agreement that leaves a single centrifuge "
+              "spinning in Iran. Israel will finish the job — alone if needed.",
+              frozenset({"netanyahu", "iran_hardliners", "eu"})),
+        XPost("khamenei_ir_fa",
+              "The martyred Leader's path continues. The enemy demands our "
+              "surrender dressed as negotiation. Iran does not surrender. "
+              "— Office of the Supreme Leader",
+              frozenset({"iran_hardliners", "iran_sentiment"})),
+        XPost("MEKhbar",
+              "Tehran bazaar shut again today. Rial at 1.65M/dollar on the "
+              "open market. People are selling gold teeth for bread. #Iran",
+              frozenset({"iranian_people", "iran_sentiment", "iran_hardliners"})),
+        XPost("IranIntl_En",
+              "Sources: IRGC-Quds pushing Mojtaba for a 'decisive' Hormuz move "
+              "before US midterms; civilian cabinet resisting. #Iran",
+              frozenset({"iran_hardliners", "iran_sentiment", "oil_market"})),
+        XPost("markets",
+              "Brent $100.2 (+1.4%). War-risk premium now ~$18/bbl, Hormuz "
+              "insurance rates at 6-month highs. Tanker traffic -22% WoW.",
+              frozenset({"oil_market", "trump", "eu", "us_public"})),
+        XPost("JavierBlas",
+              "If Hormuz closes even partially for a week, $130 Brent is "
+              "the floor, not the ceiling. SPR is already 40% drawn down.",
+              frozenset({"oil_market", "trump", "eu"})),
+        XPost("vonderleyen",
+              "Europe cannot absorb another energy shock. We urge all parties "
+              "to convert the UNGA contacts into a structured ceasefire track.",
+              frozenset({"eu", "oil_market"})),
+        XPost("amanpour",
+              "UNGA hallways: both delegations deny 'negotiations', both "
+              "confirm 'contact'. Diplomatic jargon doing heavy lifting.",
+              frozenset({"eu", "us_public", "iran_sentiment"})),
+        XPost("GStephanopoulos",
+              "NEW POLL: 58% of voters say gas prices are their top issue; "
+              "only 34% back continued strikes on Iran. GOP internal numbers "
+              "worse. #Midterms",
+              frozenset({"us_public", "trump"})),
+        XPost("charliekirk11",
+              "We didn't vote for 'manageable war'. Finish the job, Mr. "
+              "President — or bring them home. This half-war is the worst "
+              "option.",
+              frozenset({"us_public", "trump"})),
+        XPost("afshin_tehran",
+              "7 months of war. My cousin's pharmacy has no insulin. The "
+              "regime blames America, America bombs, we starve. Who exactly "
+              "is winning? [fa]",
+              frozenset({"iranian_people", "iran_sentiment"})),
+        XPost("bariweiss",
+              "The 'annihilate or deal' framing leaves no room for what Iran "
+              "will actually accept. Watch the Hormuz insurance market, not "
+              "the speeches.",
+              frozenset({"us_public", "eu", "oil_market"})),
+        XPost("SecRubio",
+              "Maximum pressure continues until Iran chooses to be a normal "
+              "nation. All options remain on the table.",
+              frozenset({"trump", "iran_hardliners", "eu"})),
+        XPost("Radio_Farda",
+              "Bread queues in Shiraz and Mashhad reported; Basij deploying "
+              "around university campuses ahead of Friday prayers. [fa]",
+              frozenset({"iran_sentiment", "iranian_people"})),
+    ],
+}
+
+DEFAULT_POSTS: list[XPost] = [
+    XPost("markets",
+          "Brent drifting on thin liquidity; war premium intact pending "
+          "Hormuz clarity.", frozenset({"oil_market"})),
+]
+
+
+def feed_for(round_no: int, agent_id: str, limit: int = 6) -> list[XPost]:
+    posts = ROUND_POSTS.get(round_no, DEFAULT_POSTS)
+    tagged = [p for p in posts if agent_id in p.tags]
+    rest = [p for p in posts if agent_id not in p.tags]
+    return (tagged + rest)[:limit]
