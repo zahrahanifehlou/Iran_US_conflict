@@ -87,6 +87,9 @@ def run_daemon(dump_path: str, fast: bool, offline: bool,
             d.agents[aid].memory = m["memory"][-8:]
             d.agents[aid].stance = m["stance"]
             d.agents[aid].last_prediction = m["last_prediction"]
+            d.agents[aid].pending = m.get("pending", [])
+            if m.get("pred_stats"):
+                d.agents[aid].pred_stats = m["pred_stats"]
 
     _p(BAR)
     _p(f"[{_ts()}] SIMULATION DAEMON ONLINE — one day runs at every 00:00")

@@ -159,6 +159,14 @@ class JevClient:
             "materially (currency free-fall, fuel shortages, mass unrest).",
             state)
 
+    def event_occurred(self, claim: str, truth_text: str) -> JevAnswer:
+        """Prediction judge: did the claimed event actually happen today?"""
+        q = ("Given this record of the day:\n"
+             f"{truth_text[:1500]}\n\n"
+             f"Did this predicted event actually occur: '{claim}'? "
+             "Judge on substance — outcomes, not wording.")
+        return self._ask(NOUL, q, {"role": "judge"})
+
     def oil_realistic(self, state: dict, brent: float, prev_brent: float) -> JevAnswer:
         q = (f"Brent moved ${prev_brent:.0f} -> ${brent:.0f}. Given the "
              "military and Hormuz situation, is this reaction realistic?")
@@ -237,13 +245,21 @@ def _heuristic_value(kind: str, question: str, state: dict,
         "netanyahu": 0.45 + 0.04 * war,
         "trump": 0.4 + (0.15 if days_to_midterms < 40 else 0.0),
         "oil_market": 0.6,
-        "iran_sentiment": 0.3 + 0.04 * pressure,
         "us_public": 0.3,
-        "iranian_people": 0.25 + 0.05 * pressure,
+        "iran_public": 0.28 + 0.05 * pressure,
         "eu": 0.2,
         "china": 0.35 + (0.08 if hormuz != "open" else 0.0),
         "russia": 0.3 + 0.02 * war,
-        "saudi": 0.28 + (0.10 if hormuz != "open" else 0.0),
+        "gulf": 0.28 + (0.10 if hormuz != "open" else 0.0),
+        "turkey": 0.25,
+        "taiwan": 0.22,
+        "gas_market": 0.45 + (0.08 if hormuz != "open" else 0.0),
+        "shipping": 0.5 + (0.10 if hormuz != "open" else 0.0),
+        "markets": 0.5,
+        "central_banks": 0.25,
+        "israeli_public": 0.28,
+        "media": 0.4,
+        "humanitarian": 0.3,
         "end_round": 0.15,
     }
     pool = [o for o in options]

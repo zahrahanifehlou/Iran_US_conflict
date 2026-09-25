@@ -35,19 +35,20 @@ ROUND_POSTS: dict[int, list[XPost]] = {
               "The martyred Leader's path continues. The enemy demands our "
               "surrender dressed as negotiation. Iran does not surrender. "
               "— Office of the Supreme Leader",
-              frozenset({"iran_hardliners", "iran_sentiment"})),
+              frozenset({"iran_hardliners", "iran_public"})),
         XPost("MEKhbar",
               "Tehran bazaar shut again today. Rial at 1.65M/dollar on the "
               "open market. People are selling gold teeth for bread. #Iran",
-              frozenset({"iranian_people", "iran_sentiment", "iran_hardliners"})),
+              frozenset({"iran_public", "iran_hardliners", "humanitarian"})),
         XPost("IranIntl_En",
               "Sources: IRGC-Quds pushing Mojtaba for a 'decisive' Hormuz move "
               "before US midterms; civilian cabinet resisting. #Iran",
-              frozenset({"iran_hardliners", "iran_sentiment", "oil_market"})),
+              frozenset({"iran_hardliners", "iran_public", "oil_market"})),
         XPost("markets",
               "Brent $100.2 (+1.4%). War-risk premium now ~$18/bbl, Hormuz "
               "insurance rates at 6-month highs. Tanker traffic -22% WoW.",
-              frozenset({"oil_market", "trump", "eu", "us_public"})),
+              frozenset({"oil_market", "trump", "eu", "us_public",
+                         "markets", "shipping", "gas_market"})),
         XPost("JavierBlas",
               "If Hormuz closes even partially for a week, $130 Brent is "
               "the floor, not the ceiling. SPR is already 40% drawn down.",
@@ -59,7 +60,7 @@ ROUND_POSTS: dict[int, list[XPost]] = {
         XPost("amanpour",
               "UNGA hallways: both delegations deny 'negotiations', both "
               "confirm 'contact'. Diplomatic jargon doing heavy lifting.",
-              frozenset({"eu", "us_public", "iran_sentiment"})),
+              frozenset({"eu", "us_public", "media"})),
         XPost("GStephanopoulos",
               "NEW POLL: 58% of voters say gas prices are their top issue; "
               "only 34% back continued strikes on Iran. GOP internal numbers "
@@ -74,7 +75,7 @@ ROUND_POSTS: dict[int, list[XPost]] = {
               "7 months of war. My cousin's pharmacy has no insulin. The "
               "regime blames America, America bombs, we starve. Who exactly "
               "is winning? [fa]",
-              frozenset({"iranian_people", "iran_sentiment"})),
+              frozenset({"iran_public", "israeli_public"})),
         XPost("bariweiss",
               "The 'annihilate or deal' framing leaves no room for what Iran "
               "will actually accept. Watch the Hormuz insurance market, not "
@@ -87,7 +88,7 @@ ROUND_POSTS: dict[int, list[XPost]] = {
         XPost("Radio_Farda",
               "Bread queues in Shiraz and Mashhad reported; Basij deploying "
               "around university campuses ahead of Friday prayers. [fa]",
-              frozenset({"iran_sentiment", "iranian_people"})),
+              frozenset({"iran_public", "humanitarian"})),
         XPost("SpokespersonCHN",
               "China calls for maximum restraint and opposes unilateral "
               "measures that escalate tensions. Beijing stands ready to "
@@ -111,12 +112,42 @@ ROUND_POSTS: dict[int, list[XPost]] = {
               "The Kingdom urges de-escalation. Saudi Arabia is raising "
               "East-West pipeline throughput to keep crude flowing to "
               "markets regardless of Hormuz.",
-              frozenset({"saudi", "oil_market", "eu", "trump"})),
+              frozenset({"gulf", "oil_market", "eu", "trump"})),
         XPost("JavierBlas",
               "OPEC watch: Riyadh holds ~3mb/d spare. The price for opening "
               "the taps won't be money — it will be a US security "
               "guarantee with teeth.",
-              frozenset({"saudi", "oil_market", "trump"})),
+              frozenset({"gulf", "oil_market", "trump"})),
+        XPost("MOFA_Taiwan",
+              "Taiwan supports the international coalition's efforts to "
+              "restore stability. We note reports of munitions stockpiles "
+              "being drawn down for Gulf operations.",
+              frozenset({"taiwan", "trump", "china"})),
+        XPost("RTErdogan",
+              "Turkey is ready to host the parties in Istanbul. We warned "
+              "for months this escalation would price everyone out of "
+              "peace. Ankara's door is open to all sides.",
+              frozenset({"turkey", "eu", "iran_hardliners", "trump"})),
+        XPost("haaretzcom",
+              "Reservist call-up fatigue deepens: 40% of tech firms report "
+              "staff shortages; northern residents still displaced after "
+              "7 months. Poll: majority want 'victory or an end'.",
+              frozenset({"israeli_public", "netanyahu"})),
+        XPost("UNOCHA",
+              "Access update: fuel deliveries to southern Iran hospitals "
+              "remain blocked; estimated 310,000 internally displaced; "
+              "medicine stockouts reported in 12 provinces.",
+              frozenset({"humanitarian", "iran_public", "eu"})),
+        XPost("business",
+              "Fed watch: energy shock meets slowing payrolls — traders "
+              "price a knife-edge hold; 'supply shocks can't be fixed "
+              "with rate cuts' says one governor.",
+              frozenset({"central_banks", "markets", "us_public"})),
+        XPost("Osinttechnical",
+              "Viral tonight: IRGCN small-boat swarm footage vs CENTCOM "
+              "denial of a boarding attempt. Both narratives are "
+              "circulating; the truth is doing push-ups.",
+              frozenset({"media", "us_public", "iran_public"})),
     ],
 }
 

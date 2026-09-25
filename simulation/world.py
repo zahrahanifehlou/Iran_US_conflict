@@ -133,10 +133,33 @@ def apply_single_action(state: SituationState, action) -> list[str]:
         notes.append(f"{action.agent_id}: supply relief calms the market")
 
     if hit("mediat", "broker", "good offices", "beijing", "muscat",
-           "host talks"):
+           "istanbul", "host talks"):
         state.talks_channel = "open"
         state.war_intensity = clamp(state.war_intensity - 0.3, 0, 10)
         notes.append(f"{action.agent_id}: third-party mediation opens a track")
+
+    # ---- market/society layer vocab ------------------------------------
+    if hit("lng", "ttf", "qatar", "gas terminal", "dolphin pipeline"):
+        state.ttf_gas = clamp(state.ttf_gas + 2.5, 10, 200)
+        notes.append(f"{action.agent_id}: European gas reprices")
+
+    if hit("reroute", "cape of good hope", "crew refusal", "vlcc",
+           "freight"):
+        state.hormuz_insurance = clamp(
+            state.hormuz_insurance + 0.6, 0.4, 20)
+        notes.append(f"{action.agent_id}: shipping reprices the transit risk")
+
+    if hit("humanitarian corridor", "aid convoy", "ceasefire for aid",
+           "evacuation"):
+        state.talks_channel = "open"
+        notes.append(f"{action.agent_id}: humanitarian pressure opens access")
+
+    if hit("leak", "viral", "footage", "fake", "disinfo", "narrative"):
+        state.iran_protest_level = clamp(
+            state.iran_protest_level + 0.15, 0, 10)
+        state.us_war_support = clamp(
+            state.us_war_support - 0.005, 0.1, 0.9)
+        notes.append(f"{action.agent_id}: information battlespace shifts")
 
     return notes
 

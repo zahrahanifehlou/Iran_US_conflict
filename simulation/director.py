@@ -25,16 +25,20 @@ from jev.calibrate import JevCalibrator
 from .state import (SituationState, initial_state, state_from_full,
                     _advance_date_range)
 from .xfeed import feed_for
-from . import world
+from . import world, predictions
 
 BAR = "=" * 72
 SUB = "-" * 72
 
 SHORT = {
-    "trump": "TRUMP", "netanyahu": "NETANYAHU", "iran_hardliners": "IRGC",
-    "iranian_people": "IR-PEOPLE", "eu": "EU", "oil_market": "OIL",
-    "us_public": "US-PUBLIC", "iran_sentiment": "IR-STREET",
-    "china": "CHINA", "russia": "RUSSIA", "saudi": "SAUDI",
+    "trump": "US", "netanyahu": "ISRAEL", "iran_hardliners": "IRAN",
+    "russia": "RUSSIA", "china": "CHINA", "eu": "EU",
+    "taiwan": "TAIWAN", "gulf": "GULF", "turkey": "TURKEY",
+    "oil_market": "OIL", "gas_market": "GAS", "shipping": "SHIPPING",
+    "markets": "MARKETS", "central_banks": "CENT-BANKS",
+    "us_public": "US-PUBLIC", "iran_public": "IR-PUBLIC",
+    "israeli_public": "IL-PUBLIC", "media": "MEDIA",
+    "humanitarian": "HUMANITARIAN",
     "start": "START", "end": "END",
 }
 
@@ -55,7 +59,7 @@ class Director:
     def __init__(self, state: SituationState | None = None,
                  fast: bool = False, offline: bool = False,
                  viz: bool = True, learn: bool = True,
-                 max_acts_per_round: int = 11):
+                 max_acts_per_round: int = 13):
         self.state = state or initial_state()
         self.jev = JevClient(offline=offline)
         self.agents = {aid: Agent(BY_ID[aid], fast=fast) for aid in ALL_IDS}
@@ -244,6 +248,22 @@ class Director:
             _p("  [JEV] overriding market call with fair-value model")
             st.brent = world.fair_brent(st)
             st.brent_forecast = world.fair_brent(st) + 4
+
+        # other economic agents settle their own markets (50/50 blend
+        # with the fair-value track — no Jev override, they are thin)
+        ship = next((a for a in actions if a.agent_id == "shipping"), None)
+        if ship and ship.fields.get("insurance") is not None:
+            st.hormuz_insurance = world.clamp(
+                0.5 * ship.fields["insurance"] + 0.5 * st.hormuz_insurance,
+                0.4, 20)
+        mkt = next((a for a in actions if a.agent_id == "markets"), None)
+        if mkt and mkt.fields.get("gold") is not None:
+            st.gold = world.clamp(
+                0.5 * mkt.fields["gold"] + 0.5 * st.gold, 1500, 4500)
+        gm = next((a for a in actions if a.agent_id == "gas_market"), None)
+        if gm and gm.fields.get("ttf") is not None:
+            st.ttf_gas = world.clamp(
+                0.5 * gm.fields["ttf"] + 0.5 * st.ttf_gas, 10, 200)
         self._snapshot("end", "round closes — Jev scores locked",
                        review=False)
 
@@ -282,6 +302,7 @@ class Director:
                "transcript": transcript,
                "live_wire": live_wire,
                "influence": influence_map,
+               "scoreboard": predictions.scoreboard(self.agents),
                "learning": learning}
 
         self.history.append({
@@ -307,6 +328,7 @@ class Director:
             self._render_learning(log, st.round_no - 1)
             self._render_predictions(log, st.round_no - 1)
             self._render_history()
+            self._render_scoreboard(log)
         try:
             from . import dailypost
             _p(f"Daily post: {dailypost.save_daily_post(log, st.round_no - 1)}")
@@ -368,10 +390,18 @@ class Director:
                 agent.memory.append("(offline) no learning")
                 learning[aid] = {"learned": "offline", "prediction": "—"}
                 continue
+            # ---- grade matured predictions BEFORE the reflection -----
+            resolved = predictions.evaluate_due(
+                agent, st.round_no, ground_truth, self.jev, self.offline)
+            for p in resolved:
+                mark = "CORRECT" if p["hit"] else "WRONG  "
+                _p(f"  [{aid}] [{p['horizon']}] '{p['claim'][:64]}' "
+                   f"-> {mark} (conf {p['conf']:.0%}, brier {p['brier']:.2f})")
             prev_pred = dict(agent.last_prediction)
             prev_stance = agent.stance
             try:
-                upd = agent.learn(day_label, ground_truth, st)
+                upd = agent.learn(day_label, ground_truth, st,
+                                  resolved=resolved)
             except Exception as exc:
                 _p(f"  !! learn failed for {aid}: {exc}")
                 continue
@@ -384,11 +414,24 @@ class Director:
                 "belief": upd.fields.get("belief", ""),
                 "stance": upd.fields.get("stance", ""),
                 "prediction": upd.fields.get("prediction", ""),
+                "new_preds": {k: v for k, v in upd.fields.items()
+                              if k.startswith("pred_")},
+                "source": upd.fields.get("source", ""),
+                "resolved": [{"horizon": p["horizon"],
+                              "claim": p["claim"],
+                              "conf": p["conf"],
+                              "outcome": p["outcome"],
+                              "brier": p["brier"],
+                              "hit": p["hit"]} for p in resolved],
+                "pending": agent.pending,
+                "pred_stats": agent.pred_stats,
                 "p_war": upd.fields.get("p_war"),
                 "p_deal": upd.fields.get("p_deal"),
                 "brent_dir": upd.fields.get("brent_dir", ""),
                 "scorecard": sc,
             }
+            n_res = len(resolved)
+            hits = sum(1 for p in resolved if p["hit"])
             _p(f"\n  >> {agent.p.name} — learning update")
             _p(f"     LEARNED:    {upd.fields.get('learned', '—')}")
             _p(f"     BELIEF:     {upd.fields.get('belief', '—')}")
@@ -397,7 +440,9 @@ class Director:
             _p(f"     P_war {upd.fields.get('p_war','?')}/10 | "
                f"P_deal {upd.fields.get('p_deal','?')}/10 | "
                f"brent {upd.fields.get('brent_dir','?')} | "
-               f"score {sc.get('hits',0)}W-{sc.get('misses',0)}L")
+               f"score {sc.get('hits',0)}W-{sc.get('misses',0)}L"
+               + (f" | tonight resolved {hits}/{n_res}"
+                  if n_res else ""))
         return learning
 
     def _render(self, log: dict, round_no: int):
@@ -423,6 +468,15 @@ class Director:
             _p(f"History:   {png}")
         except Exception as exc:
             _p(f"!! history chart failed: {exc}")
+
+    def _render_scoreboard(self, log: dict):
+        try:
+            from . import viz
+            png = viz.render_scoreboard(log.get("scoreboard", {}))
+            if os.path.exists(png):
+                _p(f"Scoreboard: {png}")
+        except Exception as exc:
+            _p(f"!! scoreboard chart failed: {exc}")
 
     def _print_action(self, a):
         _p(f"\n{SUB}\n>> {a.name}  [{a.model}]")
@@ -484,7 +538,9 @@ def _load_resume(path: str):
                 })
             for aid, lrn in (entry.get("learning") or {}).items():
                 m = memories.setdefault(aid, {"memory": [], "stance": "",
-                                              "last_prediction": {}})
+                                              "last_prediction": {},
+                                              "pending": [],
+                                              "pred_stats": {}})
                 if lrn.get("learned"):
                     m["memory"].append(lrn["learned"])
                 m["stance"] = lrn.get("stance", m["stance"])
@@ -494,6 +550,10 @@ def _load_resume(path: str):
                     "p_deal": lrn.get("p_deal"),
                     "brent_dir": lrn.get("brent_dir", ""),
                 }
+                if lrn.get("pending"):
+                    m["pending"] = lrn["pending"]
+                if lrn.get("pred_stats"):
+                    m["pred_stats"] = lrn["pred_stats"]
         return state_from_full(full), history, memories
     except Exception as exc:
         _p(f"!! could not resume from {path}: {exc} — starting fresh")
@@ -512,6 +572,9 @@ def main(rounds: int, fast: bool, offline: bool, dump: str | None,
             d.agents[aid].memory = m["memory"][-8:]
             d.agents[aid].stance = m["stance"]
             d.agents[aid].last_prediction = m["last_prediction"]
+            d.agents[aid].pending = m.get("pending", [])
+            if m.get("pred_stats"):
+                d.agents[aid].pred_stats = m["pred_stats"]
     log = []
     for _ in range(rounds):
         log.append(d.run_round())

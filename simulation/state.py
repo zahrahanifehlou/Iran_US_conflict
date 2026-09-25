@@ -27,6 +27,7 @@ class SituationState:
     brent_forecast: float = 104.0
     wti: float = 95.5                     # Brent-WTI spread widens in crisis
     gold: float = 2650.0                  # safe-haven barometer
+    ttf_gas: float = 38.0                 # EU natural gas, EUR/MWh
     hormuz_insurance: float = 2.5         # war-risk premium, % of hull value
     us_gas_price: float = 4.35            # $/gal national average
 
@@ -64,6 +65,7 @@ class SituationState:
                 "brent_forecast": round(self.brent_forecast, 1),
                 "wti": round(self.wti, 1),
                 "gold": round(self.gold, 0),
+                "ttf_gas": round(self.ttf_gas, 1),
                 "hormuz_insurance_pct": round(self.hormuz_insurance, 1),
                 "us_gas_price": self.us_gas_price,
             },
@@ -98,8 +100,8 @@ class SituationState:
             "OIL & MARKETS",
             f"  Brent ${self.brent:.1f}/bbl (forecast ${self.brent_forecast:.1f}) | "
             f"WTI ${self.wti:.1f} | US gas ${self.us_gas_price:.2f}/gal",
-            f"  Gold ${self.gold:,.0f}/oz | Hormuz war-risk insurance "
-            f"{self.hormuz_insurance:.1f}% of hull",
+            f"  Gold ${self.gold:,.0f}/oz | TTF gas EUR{self.ttf_gas:.0f}/MWh | "
+            f"Hormuz war-risk insurance {self.hormuz_insurance:.1f}% of hull",
             "",
             "DOMESTIC",
             f"  US: {self.us_days_to_midterms}d to midterms | Trump approval "

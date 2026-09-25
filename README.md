@@ -8,7 +8,8 @@
 [![Charts](https://img.shields.io/badge/charts-matplotlib-11557c)](https://matplotlib.org)
 [![Runs](https://img.shields.io/badge/runs-100%25%20local-success)](config.py)
 
-A fully local multi-agent geopolitical simulation. Eleven LLM agents play
+A fully local multi-agent geopolitical simulation. Nineteen LLM agents
+in three layers play
 state and non-state actors in a fictionalized September-2026 Iran–US–Israel
 war; a fast typed decision layer called **Jev** governs who may act, who may
 escalate, and how probable war / deal / collapse are — every single day.
@@ -44,21 +45,42 @@ The split is deliberate:
 Swap any model via env: `SIM_JEV_MODEL`, `SIM_AGENT_MODEL`,
 `SIM_FAST_MODEL` (see `config.py`).
 
-## The eleven agents
+## The agents — three layers
+
+**GEOPOLITICAL** — states that move armies and sign deals:
 
 | Agent | What drives it |
 |---|---|
-| **Donald Trump** | Look strong; midterms in ~40 days; gas prices down; a deal sold as total victory is ideal, but he will escalate if humiliated. |
-| **Netanyahu** | Permanent elimination of Iran's nuclear capacity; maximum freedom of military action; will act alone to kill a bad deal. |
-| **Iran hardliners** (IRGC + Mojtaba) | Regime survival; keep the 60% stockpile as insurance; weaponize oil/Hormuz leverage; outwait US domestic pain. |
-| **Iranian people** | End the misery. Not a policy actor — the pressure cooker both regimes read. Loyalist-to-revolutionary range. |
-| **European Union** | De-escalation above all; can't absorb another energy shock; offers escrow mechanisms, sanctions-relief architecture, venues. |
-| **Oil market** | Pure price logic. Reads Hormuz status, tanker incidents, war intensity; always outputs `BRENT:` + `FORECAST:`. |
-| **US public / midterm voters** | Cheap gas, no endless wars, no body bags — but a loud "finish the job" minority. Politicians read them. |
-| **Iran sentiment tracker** | Street-level metrics: mood, protest level, war fatigue, nationalism rally, black market. Reports, never acts. |
-| **China** | Keep Hormuz open (most of its Gulf crude transits it); buy discounted Iranian barrels via yuan channels; pose as THE mediator while America burns credibility; study US war-prosecution for the Taiwan file. |
+| **US** (Trump White House) | Look strong; midterms in ~40 days; gas prices down; a deal sold as total victory is ideal, but he will escalate if humiliated. |
+| **Israel** (Netanyahu govt) | Permanent elimination of Iran's nuclear capacity; maximum freedom of military action; will act alone to kill a bad deal. |
+| **Iran** (IRGC + Mojtaba) | Regime survival; keep the 60% stockpile as insurance; weaponize oil/Hormuz leverage; outwait US domestic pain. |
 | **Russia** | High oil prices fund its war economy; US bandwidth diverted from Ukraine; arms/air-defence sales to Tehran; keep Iran alive but dependent; veto cover at the UNSC. Wants the war long and expensive — for America. |
-| **Saudi Arabia** | No Iranian bomb, but no war on Saudi soil; high oil revenue funds Vision 2030 yet Hormuz closure strangles Saudi exports too; spare capacity is leverage — released only for hard US security guarantees. |
+| **China** | Keep Hormuz open (most of its Gulf crude transits it); buy discounted Iranian barrels via yuan channels; pose as THE mediator while America burns credibility; study US war-prosecution for the Taiwan file. |
+| **EU** | De-escalation above all; can't absorb another energy shock; offers escrow mechanisms, sanctions-relief architecture, venues. |
+| **Taiwan** | US munitions and carriers diverted to the Gulf thin its deterrence; watches PLA tempo for opportunism; quietly trades semiconductor/intel cooperation for reassurance. |
+| **Gulf** (Saudi-led GCC) | No Iranian bomb, but no war on Gulf soil; high oil revenue funds Vision 2030 yet Hormuz closure strangles exports too; spare capacity is leverage — released only for hard US security guarantees. |
+| **Turkey** | NATO's southern flank hosting Incirlik while selling drones and brokering corridors; weakened Iran = Kurdish risk and Caucasus/Iraq opportunity; Istanbul as the neutral venue; de-escalate loudly, profit quietly. |
+
+**ECONOMIC** — markets that price the war in real time (structured
+output; their calls blend 50/50 into the world state at settle):
+
+| Agent | Output |
+|---|---|
+| **Oil market** | `BRENT:` + `FORECAST:` — Hormuz premium, incidents, intensity, SPR. |
+| **Gas / LNG** | `TTF:` + `FORECAST:` — Qatari LNG transits Hormuz; no SPR exists for gas. |
+| **Shipping & insurance** | `INSURANCE:` + `FREIGHT:` — war-risk % of hull, VLCC rerouting, crew refusals. |
+| **Financial markets** | `GOLD:` + `SPX_DIR:` — safe-haven flows, rate-path repricing, vol. |
+| **Central banks** | Fed/ECB composite — trapped between energy inflation and recession; jawbones, never panics. |
+
+**SOCIETY / INFORMATION** — the constraint surface the other layers read:
+
+| Agent | What it is |
+|---|---|
+| **US public** | Midterm voters: cheap gas, no endless wars, no body bags — with a loud "finish the job" minority. |
+| **Iranian public** | Street + sentiment tracker: protest level, war fatigue, nationalism rally, black market. |
+| **Israeli public** | Reservist fatigue, displaced north, hostage families, brain drain — proud, frightened, furious. |
+| **Media** | The information environment: dominant frames, viral clips, fog. Doesn't choose sides — chooses frames. |
+| **Humanitarian** | UN OCHA/ICRC composite: casualties, displacement, access corridors — neutral because access dies otherwise. |
 
 ## How one day runs
 
@@ -155,6 +177,39 @@ After each day closes:
 5. Memories are written into `--dump` files; `--resume` (or a daemon
    restart) restores them, so agents keep what they learned.
 
+## The prediction engine
+
+The loop is `prediction -> outcome -> evaluation -> memory update`. At
+midnight each agent files **five dated, falsifiable claims** with real
+confidence numbers (`simulation/predictions.py`):
+
+| Horizon | What agents predict |
+|---|---|
+| 24h | major military escalation / de-escalation |
+| 72h | new attacks, ceasefire, retaliation, diplomatic moves |
+| 7d | conflict intensity, Hormuz/shipping disruption |
+| 14d | oil direction + volatility, US/EU/Russia/China policy responses |
+| 30d | sanctions, negotiations, deployments, expansion to another country |
+
+Each night the ledger matures: predictions whose horizon elapsed are
+judged against the day's ground truth — **Jev acts as the judge** online
+(a typed noul verdict on substance), a keyword-overlap heuristic offline.
+Resolved calls feed back into the agent's next reflection prompt
+("your 72h call 'X' resolved WRONG — you gave 85%"), so forecast skill
+actually shapes tomorrow's reasoning. Pending predictions and stats
+persist in the dump file across restarts.
+
+**Metrics tracked** (per agent, cumulative, rendered to
+`media/prediction_scoreboard.png` nightly):
+
+- **Accuracy** and **mean Brier score** `(conf − outcome)²`
+- **Calibration curve** — confidence bins vs empirical frequency
+- **False positives / false negatives** (conf ≥50% that missed, or
+  events missed under 50%)
+- **Accuracy by horizon** (24h → 30d) and **by info source** — each
+  prediction declares whether `xfeed | wire | markets | memory |
+  transcript` drove it, so you can see which signals actually pay off.
+
 ## Generated artifacts (every day)
 
 | File | Contents |
@@ -165,6 +220,8 @@ After each day closes:
 | `media/dayN_predictions.png` | Focused predictions: per-agent P(war)/P(deal) bars, Brent direction glyph, predicted event text, Jev's scores as reference lines. |
 | `media/dayN_before_after.png` | Dumbbell chart: last night's call (grey) vs. tonight's post-learning update (colored arrow) for P(war) and P(deal). |
 | `media/sim_history.png` | Cumulative: Brent & gas across days (Hormuz-constrained days shaded red), the Jev war/deal/collapse probability track, cumulative agent influence. |
+| `media/prediction_scoreboard.png` | Prediction quality: per-agent accuracy + Brier, the calibration curve, accuracy by horizon — cumulative across all resolved calls. |
+| `posts/dayN_tweet.txt` | Ready-to-paste daily post: day/date, Jev scores, Brent, key call, forecaster ledger line, disclaimer + attach-image reminder. |
 
 ## CLI
 
@@ -250,6 +307,7 @@ simulation/
   viz.py                 GIF animation + learning/prediction/history PNGs -> media/
   daemon.py              resident 00:00 scheduler with checkpointing
   realworld.py           Brent/WTI/Gold + headlines fetch (no keys needed)
+  predictions.py         prediction ledger: horizons, judging, Brier, calibration
   dailypost.py           writes posts/dayN_tweet.txt for manual posting
 real_events/dayN.txt     optional real-world injection for the learning cycle
 posts/dayN_tweet.txt     ready-to-paste daily post (manual X/Twitter)

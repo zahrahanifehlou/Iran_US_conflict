@@ -43,6 +43,12 @@ def compose_post(log: dict) -> str:
     ]
     if key_event:
         lines.append(f"Key call: {key_event}")
+    board = log.get("scoreboard") or {}
+    if board:
+        best = max(board, key=lambda a: board[a]["accuracy"])
+        total = sum(b["n"] for b in board.values())
+        lines.append(f"Ledger: {total} calls graded · top forecaster "
+                     f"{best} ({board[best]['accuracy']:.0%} acc)")
     lines.append(DISCLAIMER)
     text = "\n".join(lines)
     return text[:278] if len(text) > 278 else text

@@ -279,10 +279,14 @@ def render_learning(log: dict, round_no: int,
 
 
 SHORT_LABELS = {
-    "trump": "Trump", "netanyahu": "Netanyahu", "iran_hardliners": "IRGC",
-    "iranian_people": "Iranians", "eu": "EU", "oil_market": "Oil mkt",
-    "us_public": "US public", "iran_sentiment": "IR street",
-    "china": "China", "russia": "Russia", "saudi": "Saudi",
+    "trump": "US", "netanyahu": "Israel", "iran_hardliners": "Iran",
+    "russia": "Russia", "china": "China", "eu": "EU",
+    "taiwan": "Taiwan", "gulf": "Gulf", "turkey": "Turkey",
+    "oil_market": "Oil", "gas_market": "Gas", "shipping": "Shipping",
+    "markets": "Markets", "central_banks": "CenBanks",
+    "us_public": "US pub", "iran_public": "IR pub",
+    "israeli_public": "IL pub", "media": "Media",
+    "humanitarian": "Humanit.",
 }
 
 
@@ -360,6 +364,95 @@ def render_history(history: list[dict],
     fig.tight_layout(rect=(0, 0, 1, 0.96))
     fig.savefig(path, dpi=110)
     plt.close(fig)
+    return path
+
+
+# ==================================================================
+#  Prediction scoreboard — accuracy, Brier, calibration, by horizon
+# ==================================================================
+def render_scoreboard(scoreboard: dict,
+                      path: str = "prediction_scoreboard.png") -> str:
+    """Cumulative prediction-quality board across all resolved calls."""
+    path = _out(path)
+    scored = {a: s for a, s in scoreboard.items() if s.get("n")}
+    if not scored:
+        return path
+
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+    fig.suptitle("PREDICTION SCOREBOARD — every graded call, cumulative",
+                 fontsize=15, fontweight="bold")
+    ids = sorted(scored, key=lambda a: scored[a]["accuracy"],
+                 reverse=True)
+    names = [SHORT_LABELS.get(i, i) for i in ids]
+
+    # accuracy ------------------------------------------------------------
+    ax = axes[0][0]
+    ax.barh(names[::-1],
+            [scored[i]["accuracy"] * 100 for i in ids][::-1],
+            color=C_SUP, alpha=0.85)
+    for y, i in enumerate(ids[::-1]):
+        ax.text(scored[i]["accuracy"] * 100 + 1, y,
+                f"{scored[i]['n']} calls", va="center", fontsize=8)
+    ax.set_xlim(0, 115)
+    ax.set_title("Accuracy % (bar) · n resolved calls", loc="left",
+                 fontsize=11, fontweight="bold")
+    ax.grid(axis="x", alpha=0.25)
+
+    # brier ----------------------------------------------------------------
+    ax = axes[0][1]
+    ax.barh(names[::-1], [scored[i]["brier"] for i in ids][::-1],
+            color=C_WAR, alpha=0.85)
+    ax.axvline(0.25, color="#555", ls="--", lw=1)
+    ax.text(0.255, -0.4, "coin-flip 0.25", fontsize=8, color="#555")
+    ax.set_title("Mean Brier score (lower is better)", loc="left",
+                 fontsize=11, fontweight="bold")
+    ax.grid(axis="x", alpha=0.25)
+
+    # calibration curve ----------------------------------------------------
+    ax = axes[1][0]
+    bins = {}
+    for s in scored.values():
+        for bidx, cb in (s.get("conf_bins") or {}).items():
+            t = bins.setdefault(bidx, {"n": 0, "conf": 0.0, "freq": 0.0})
+            t["n"] += cb["n"]; t["conf"] += cb["conf"]; t["freq"] += cb["freq"]
+    xs = [t["conf"] / t["n"] for _, t in sorted(bins.items()) if t["n"]]
+    ys = [t["freq"] / t["n"] for _, t in sorted(bins.items()) if t["n"]]
+    ns = [t["n"] for _, t in sorted(bins.items()) if t["n"]]
+    ax.plot([0, 1], [0, 1], color="#555", ls="--", lw=1)
+    if xs:
+        ax.scatter(xs, ys, s=[max(30, n * 8) for n in ns],
+                   color=C_BRENT, alpha=0.8, zorder=3)
+        ax.plot(xs, ys, color=C_BRENT, lw=1.6)
+    ax.set_xlim(0, 1); ax.set_ylim(0, 1)
+    ax.set_xlabel("stated confidence"); ax.set_ylabel("empirical frequency")
+    ax.set_title("Calibration — does 70% mean 70%?", loc="left",
+                 fontsize=11, fontweight="bold")
+    ax.grid(alpha=0.25)
+
+    # accuracy by horizon ---------------------------------------------------
+    ax = axes[1][1]
+    horizons = ["24h", "72h", "7d", "14d", "30d"]
+    accs, counts = [], []
+    for h in horizons:
+        n = sum((s.get("by_horizon", {}).get(h) or {}).get("n", 0)
+                for s in scored.values())
+        a = [s["by_horizon"][h]["acc"] for s in scored.values()
+             if s.get("by_horizon", {}).get(h)]
+        accs.append(sum(a) / len(a) if a else 0)
+        counts.append(n)
+    ax.bar(horizons, [a * 100 for a in accs], color=C_GAS, alpha=0.85)
+    for x, (a, n) in enumerate(zip(accs, counts)):
+        if n:
+            ax.text(x, a * 100 + 1, f"n={n}", ha="center", fontsize=8)
+    ax.set_ylim(0, 115)
+    ax.set_title("Accuracy by horizon (all agents)", loc="left",
+                 fontsize=11, fontweight="bold")
+    ax.grid(axis="y", alpha=0.25)
+
+    fig.tight_layout(rect=(0, 0, 1, 0.95))
+    fig.savefig(path, dpi=110)
+    plt.close(fig)
+    return path
     return path
 
 
