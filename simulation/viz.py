@@ -191,3 +191,153 @@ def render_round(log: dict, round_no: int,
     plt.close(fig2)
 
     return gif_path, png_path
+
+
+# ==================================================================
+#  Daily learning chart — what each agent concluded at midnight
+# ==================================================================
+_STANCE_COLORS = {
+    "hawk": "#c0392b", "escalat": "#c0392b", "aggress": "#c0392b",
+    "dov": "#16a085", "caut": "#2980b9", "patient": "#2980b9",
+    "desper": "#e67e22", "opportun": "#8e44ad",
+}
+
+
+def _stance_color(stance: str) -> str:
+    s = (stance or "").lower()
+    for k, c in _STANCE_COLORS.items():
+        if k in s:
+            return c
+    return "#555"
+
+
+def render_learning(log: dict, round_no: int,
+                    prefix: str | None = None) -> str:
+    learning = log.get("learning", {})
+    influence = log.get("influence", {})
+    prefix = prefix or f"day{round_no}"
+    path = f"{prefix}_learning.png"
+
+    fig = plt.figure(figsize=(15, 10))
+    gs = fig.add_gridspec(1, 2, width_ratios=[2.4, 1], left=0.02,
+                          right=0.98, top=0.93, bottom=0.04, wspace=0.12)
+    ax = fig.add_subplot(gs[0, 0]); ax.axis("off")
+    ax_inf = fig.add_subplot(gs[0, 1])
+
+    fig.suptitle(f"MIDNIGHT LEARNING — day {round_no} "
+                 f"({log.get('date_range', '')})",
+                 fontsize=15, fontweight="bold")
+
+    ids = [a for a in learning if learning[a].get("learned")]
+    n = max(len(ids), 1)
+    for i, aid in enumerate(ids):
+        y = 1 - (i + 0.5) / n
+        l = learning[aid]
+        sc = l.get("scorecard", {})
+        col = _stance_color(l.get("stance"))
+        ax.text(0.0, y + 0.030, l.get("name", aid).upper()
+                if l.get("name") else aid.upper(),
+                fontsize=10, fontweight="bold", color=col,
+                transform=ax.transAxes)
+        learned = textwrap.fill(f"learned: {l.get('learned', '—')}", 95)
+        ax.text(0.0, y + 0.006, learned, fontsize=8, va="top",
+                transform=ax.transAxes, color="#222")
+        pred = textwrap.fill(
+            f"predicts: {l.get('prediction', '—')} "
+            f"[war {l.get('p_war','?')}/10 · deal {l.get('p_deal','?')}/10 · "
+            f"brent {l.get('brent_dir','?')}]  "
+            f"score {sc.get('hits',0)}W-{sc.get('misses',0)}L", 95)
+        ax.text(0.0, y - 0.040, pred, fontsize=8, va="top",
+                transform=ax.transAxes, color="#0b5394")
+
+    # ---- influence bars ----------------------------------------------
+    inf_ids = sorted(influence, key=influence.get, reverse=True)
+    ax_inf.barh([SHORT_LABELS.get(i, i) for i in inf_ids][::-1],
+                [influence[i] for i in inf_ids][::-1],
+                color="#c0392b", alpha=0.8)
+    ax_inf.set_title("Influence on the world state (today)",
+                     fontsize=10, fontweight="bold")
+    ax_inf.tick_params(labelsize=8)
+    ax_inf.grid(axis="x", alpha=0.25)
+
+    fig.savefig(path, dpi=110)
+    plt.close(fig)
+    return path
+
+
+SHORT_LABELS = {
+    "trump": "Trump", "netanyahu": "Netanyahu", "iran_hardliners": "IRGC",
+    "iranian_people": "Iranians", "eu": "EU", "oil_market": "Oil mkt",
+    "us_public": "US public", "iran_sentiment": "IR street",
+}
+
+
+# ==================================================================
+#  Cumulative history — updated after every day
+# ==================================================================
+def render_history(history: list[dict],
+                   path: str = "sim_history.png") -> str:
+    if not history:
+        return path
+    days = [h["day"] for h in history]
+    xlabels = [f"d{h['day']}" for h in history]
+
+    fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
+    fig.suptitle("SIMULATION HISTORY — day by day", fontsize=15,
+                 fontweight="bold")
+
+    # oil --------------------------------------------------------------
+    ax = axes[0]
+    ax.plot(days, [h["brent"] for h in history], color=C_BRENT, lw=2.4,
+            marker="o", label="Brent $/bbl")
+    ax2 = ax.twinx()
+    ax2.plot(days, [h["gas"] for h in history], color=C_GAS, lw=1.8,
+             ls="--", marker="v", label="US gas $/gal")
+    ax2.set_ylabel("gas $/gal", color=C_GAS)
+    ax2.tick_params(axis="y", labelcolor=C_GAS)
+    for h, x in zip(history, days):
+        if h.get("hormuz") not in ("open", "threatened"):
+            ax.axvspan(x - 0.4, x + 0.4, color="#c0392b", alpha=0.10)
+    ax.set_ylabel("Brent $/bbl", color=C_BRENT)
+    ax.tick_params(axis="y", labelcolor=C_BRENT)
+    ax.set_title("Oil & gas (shaded = Hormuz constrained)", loc="left",
+                 fontsize=11, fontweight="bold")
+    ax.grid(alpha=0.25)
+
+    # jev probabilities -------------------------------------------------
+    ax = axes[1]
+    for key, color, name in (("p_war_72h", C_WAR, "P war 72h"),
+                             ("p_deal_7d", C_SUP, "P deal 7d"),
+                             ("p_collapse", "#e67e22", "P collapse")):
+        vals = [h.get(key) for h in history]
+        xs = [d for d, v in zip(days, vals) if v is not None]
+        ys = [v for v in vals if v is not None]
+        if xs:
+            ax.plot(xs, ys, color=color, lw=2, marker="o", label=name)
+    ax.set_ylim(0, 1.02)
+    ax.set_title("Jev probability track", loc="left", fontsize=11,
+                 fontweight="bold")
+    ax.legend(fontsize=8, loc="upper right")
+    ax.grid(alpha=0.25)
+
+    # cumulative influence ----------------------------------------------
+    ax = axes[2]
+    totals: dict[str, float] = {}
+    for h in history:
+        for aid, v in (h.get("influence") or {}).items():
+            totals[aid] = totals.get(aid, 0) + v
+    ids = sorted(totals, key=totals.get, reverse=True)
+    ax.bar([SHORT_LABELS.get(i, i) for i in ids],
+           [totals[i] for i in ids], color="#2c3e50", alpha=0.85)
+    ax.set_title("Cumulative agent influence", loc="left", fontsize=11,
+                 fontweight="bold")
+    ax.tick_params(axis="x", rotation=30)
+    ax.grid(axis="y", alpha=0.25)
+
+    axes[2].set_xticks(days)
+    axes[2].set_xticklabels(xlabels)
+    axes[0].set_xticks(days); axes[0].set_xticklabels(xlabels)
+    fig.tight_layout(rect=(0, 0, 1, 0.96))
+    fig.savefig(path, dpi=110)
+    plt.close(fig)
+    return path

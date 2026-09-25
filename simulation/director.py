@@ -15,6 +15,7 @@ Flow per round:
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import asdict
 
 from agents import Agent, BY_ID, ALL_IDS
@@ -39,17 +40,54 @@ def _p(s=""):
     print(s, flush=True)
 
 
+def _val(ans):
+    return None if ans is None else round(float(ans.value), 3)
+
+
+def _fmt(ans):
+    return "n/a" if ans is None else f"{ans.value:.2f}"
+
+
 class Director:
     def __init__(self, state: SituationState | None = None,
                  fast: bool = False, offline: bool = False,
-                 viz: bool = True, max_acts_per_round: int = 8):
+                 viz: bool = True, learn: bool = True,
+                 max_acts_per_round: int = 8):
         self.state = state or initial_state()
         self.jev = JevClient(offline=offline)
         self.agents = {aid: Agent(BY_ID[aid], fast=fast) for aid in ALL_IDS}
         self.max_acts = max_acts_per_round
         self.offline = offline
         self.viz = viz
+        self.learn = learn
         self.snapshots: list[dict] = []
+        self.history: list[dict] = []       # one entry per finished day
+
+    # ------------------------------------------------------- influence
+    _TRACKED = ("war_intensity", "brent", "iran_protest_level",
+                "iran_econ_pressure", "regime_stability", "us_gas_price")
+
+    def _influence(self, before: dict) -> float:
+        """How much this act moved the tracked world metrics."""
+        st = self.state
+        after = {
+            "war_intensity": st.war_intensity, "brent": st.brent / 10,
+            "iran_protest_level": st.iran_protest_level,
+            "iran_econ_pressure": st.iran_econ_pressure,
+            "regime_stability": st.regime_stability * 10,
+            "us_gas_price": st.us_gas_price * 2,
+        }
+        return round(sum(abs(after[k] - before[k]) for k in self._TRACKED), 2)
+
+    def _tracked_now(self) -> dict:
+        st = self.state
+        return {
+            "war_intensity": st.war_intensity, "brent": st.brent / 10,
+            "iran_protest_level": st.iran_protest_level,
+            "iran_econ_pressure": st.iran_econ_pressure,
+            "regime_stability": st.regime_stability * 10,
+            "us_gas_price": st.us_gas_price * 2,
+        }
 
     # ------------------------------------------------------------ helpers
     def _jev_line(self, label, ans):
@@ -89,6 +127,8 @@ class Director:
         transcript: list[str] = []
         acted: list[str] = []
         actions = []
+        day_notes: list[str] = []
+        influence_map: dict[str, float] = {}
 
         _p("\n[JEV] Deciding acting order...")
         for _ in range(self.max_acts):
@@ -129,14 +169,19 @@ class Director:
                 f"{action.proposed_action[:120]}")
 
             # ---- intra-round world update -> snapshot for the animation
+            before = self._tracked_now()
             notes = world.apply_single_action(st, action)
             world.tick_brent(st)
+            influence = self._influence(before)
+            day_notes.extend(notes)
+            influence_map[aid] = influence_map.get(aid, 0.0) + influence
             ev = action.proposed_action or action.statement
             flag = " [esc denied]" if action.escalation_requested and not esc.value else ""
             self._snapshot(SHORT.get(aid, aid),
                            f"{SHORT.get(aid, aid)}: {ev[:140]}{flag}",
                            esc_denied=action.escalation_requested and not esc.value,
                            review=bool(rev.value))
+            self.snapshots[-1]["influence"] = influence
             state_dict = st.to_dict()
 
         # ------------------------------------------------ scores this round
@@ -183,6 +228,13 @@ class Director:
         _p(BAR)
 
         played_dates = st.date_range
+
+        # ------------------------------------------------ midnight cycle
+        learning = {}
+        if self.learn:
+            learning = self._midnight(played_dates, day_notes,
+                                      verdict, influence_map)
+
         st.round_no += 1
         _advance_date_range(st)
         log = {"verdict": verdict.to_dict(),
@@ -190,11 +242,93 @@ class Director:
                "state": st.to_dict(),
                "state_full": asdict(st),
                "snapshots": self.snapshots,
-               "transcript": transcript}
+               "transcript": transcript,
+               "influence": influence_map,
+               "learning": learning}
+
+        self.history.append({
+            "day": st.round_no - 1,
+            "date": played_dates,
+            "brent": round(st.brent, 1),
+            "gas": round(st.us_gas_price, 2),
+            "war": round(st.war_intensity, 1),
+            "hormuz": st.hormuz_status,
+            "p_war_72h": _val(verdict.p_war_72h),
+            "p_deal_7d": _val(verdict.p_deal_7d),
+            "p_collapse": _val(verdict.p_collapse),
+            "influence": influence_map,
+        })
 
         if self.viz:
             self._render(log, st.round_no - 1)
+            self._render_learning(log, st.round_no - 1)
+            self._render_history()
         return log
+
+    # -------------------------------------------------- midnight learning
+    def _midnight(self, day_label: str, day_notes: list[str],
+                  verdict: RoundVerdict,
+                  influence_map: dict) -> dict:
+        st = self.state
+        _p(f"\n{BAR}\nMIDNIGHT — LEARNING CYCLE  ({day_label} results are in)")
+        _p(BAR)
+
+        # what actually happened today (ground truth for every agent)
+        truth_lines = ["OBSERVED OUTCOMES:"]
+        truth_lines += [f"  - {n}" for n in day_notes] or ["  - quiet day"]
+        truth_lines.append(
+            f"  - Brent settled ${st.brent:.1f} | war intensity "
+            f"{st.war_intensity:.1f}/10 | Hormuz {st.hormuz_status}")
+        truth_lines.append(
+            f"  - Iran: protests {st.iran_protest_level:.1f}/10, cohesion "
+            f"{st.regime_stability:.0%} | US gas ${st.us_gas_price:.2f}")
+        truth_lines.append(
+            f"  - Jev: war72h {_fmt(verdict.p_war_72h)} | "
+            f"deal7d {_fmt(verdict.p_deal_7d)} | "
+            f"collapse {_fmt(verdict.p_collapse)}")
+        # optional injected real-world events for this day
+        ev_file = f"real_events/day{st.round_no}.txt"
+        if os.path.exists(ev_file):
+            with open(ev_file) as f:
+                injected = f.read().strip()
+            truth_lines.append(f"REAL-WORLD WIRE ({ev_file}):\n{injected}")
+            _p(f"  [DIRECTOR] injected real events from {ev_file}")
+        ground_truth = "\n".join(truth_lines)
+
+        learning = {}
+        for aid in ALL_IDS:
+            agent = self.agents[aid]
+            if self.offline:
+                agent.memory.append("(offline) no learning")
+                learning[aid] = {"learned": "offline", "prediction": "—"}
+                continue
+            try:
+                upd = agent.learn(day_label, ground_truth, st)
+            except Exception as exc:
+                _p(f"  !! learn failed for {aid}: {exc}")
+                continue
+            sc = upd.fields.get("scorecard", {})
+            learning[aid] = {
+                "name": agent.p.name,
+                "learned": upd.fields.get("learned", ""),
+                "belief": upd.fields.get("belief", ""),
+                "stance": upd.fields.get("stance", ""),
+                "prediction": upd.fields.get("prediction", ""),
+                "p_war": upd.fields.get("p_war"),
+                "p_deal": upd.fields.get("p_deal"),
+                "brent_dir": upd.fields.get("brent_dir", ""),
+                "scorecard": sc,
+            }
+            _p(f"\n  >> {agent.p.name} — learning update")
+            _p(f"     LEARNED:    {upd.fields.get('learned', '—')}")
+            _p(f"     BELIEF:     {upd.fields.get('belief', '—')}")
+            _p(f"     STANCE:     {upd.fields.get('stance', '—')}")
+            _p(f"     PREDICTS:   {upd.fields.get('prediction', '—')}")
+            _p(f"     P_war {upd.fields.get('p_war','?')}/10 | "
+               f"P_deal {upd.fields.get('p_deal','?')}/10 | "
+               f"brent {upd.fields.get('brent_dir','?')} | "
+               f"score {sc.get('hits',0)}W-{sc.get('misses',0)}L")
+        return learning
 
     def _render(self, log: dict, round_no: int):
         try:
@@ -203,6 +337,22 @@ class Director:
             _p(f"\nAnimation: {gif}\nSummary:   {png}")
         except Exception as exc:
             _p(f"\n!! visualization failed: {exc}")
+
+    def _render_learning(self, log: dict, round_no: int):
+        try:
+            from . import viz
+            png = viz.render_learning(log, round_no)
+            _p(f"Learning:  {png}")
+        except Exception as exc:
+            _p(f"!! learning chart failed: {exc}")
+
+    def _render_history(self):
+        try:
+            from . import viz
+            png = viz.render_history(self.history)
+            _p(f"History:   {png}")
+        except Exception as exc:
+            _p(f"!! history chart failed: {exc}")
 
     def _print_action(self, a):
         _p(f"\n{SUB}\n>> {a.name}  [{a.model}]")
@@ -230,24 +380,62 @@ class Director:
             proposed_action="hold position", model="offline")
 
 
-def _load_resume(path: str) -> SituationState | None:
+def _load_resume(path: str):
+    """Return (state, history, memories) recovered from a --dump file."""
     try:
         with open(path) as f:
-            log = json.load(f)
-        full = log[-1].get("state_full")
+            logs = json.load(f)
+        full = logs[-1].get("state_full")
         if not full:
             _p(f"!! {path} has no state_full (pre-viz dump?) — starting fresh")
-            return None
-        return state_from_full(full)
+            return None, [], {}
+        history = []
+        memories: dict[str, dict] = {}
+        for entry in logs:
+            if entry.get("influence") or entry.get("verdict"):
+                v = entry.get("verdict", {})
+                history.append({
+                    "day": entry.get("state_full", {}).get("round", "?"),
+                    "date": entry.get("date_range", ""),
+                    "brent": entry.get("state_full", {}).get("brent", 0),
+                    "gas": entry.get("state_full", {}).get("us_gas_price", 0),
+                    "war": entry.get("state_full", {}).get("war_intensity", 0),
+                    "hormuz": entry.get("state_full", {}).get("hormuz_status", ""),
+                    "p_war_72h": (v.get("p_war_72h") or {}).get("value"),
+                    "p_deal_7d": (v.get("p_deal_7d") or {}).get("value"),
+                    "p_collapse": (v.get("p_collapse") or {}).get("value"),
+                    "influence": entry.get("influence", {}),
+                })
+            for aid, lrn in (entry.get("learning") or {}).items():
+                m = memories.setdefault(aid, {"memory": [], "stance": "",
+                                              "last_prediction": {}})
+                if lrn.get("learned"):
+                    m["memory"].append(lrn["learned"])
+                m["stance"] = lrn.get("stance", m["stance"])
+                m["last_prediction"] = {
+                    "prediction": lrn.get("prediction", ""),
+                    "p_war": lrn.get("p_war"),
+                    "p_deal": lrn.get("p_deal"),
+                    "brent_dir": lrn.get("brent_dir", ""),
+                }
+        return state_from_full(full), history, memories
     except Exception as exc:
         _p(f"!! could not resume from {path}: {exc} — starting fresh")
-        return None
+        return None, [], {}
 
 
 def main(rounds: int, fast: bool, offline: bool, dump: str | None,
-         resume: str | None = None, viz: bool = True):
-    state = _load_resume(resume) if resume else None
-    d = Director(state=state, fast=fast, offline=offline, viz=viz)
+         resume: str | None = None, viz: bool = True, learn: bool = True):
+    state, history, memories = (None, [], {})
+    if resume:
+        state, history, memories = _load_resume(resume)
+    d = Director(state=state, fast=fast, offline=offline, viz=viz, learn=learn)
+    d.history = history
+    for aid, m in memories.items():
+        if aid in d.agents:
+            d.agents[aid].memory = m["memory"][-8:]
+            d.agents[aid].stance = m["stance"]
+            d.agents[aid].last_prediction = m["last_prediction"]
     log = []
     for _ in range(rounds):
         log.append(d.run_round())

@@ -29,6 +29,8 @@ if __name__ == "__main__":
                     help="skip all Ollama calls (heuristic Jev, stub agents)")
     ap.add_argument("--no-viz", action="store_true",
                     help="do not render round animations")
+    ap.add_argument("--no-learn", action="store_true",
+                    help="skip the midnight learning cycle")
     ap.add_argument("--dump", metavar="FILE",
                     help="write round verdicts/state to JSON")
     args = ap.parse_args()
@@ -37,5 +39,5 @@ if __name__ == "__main__":
         sys.exit("Ollama is not reachable at the configured host. "
                  "Start it, or run with --offline.")
 
-    run(args.rounds, args.fast, args.offline, args.dump,
-        resume=args.resume, viz=not args.no_viz)
+    run(args.rounds, fast=args.fast, offline=args.offline, dump=args.dump,
+        resume=args.resume, viz=not args.no_viz, learn=not args.no_learn)

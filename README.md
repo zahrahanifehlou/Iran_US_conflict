@@ -62,18 +62,60 @@ python3 main.py --no-viz            # skip animation rendering
 python3 main.py --dump out.json     # save verdicts + full state to JSON
 ```
 
-## Visualization
+## Daily learning cycle (midnight)
 
-After every round, `simulation/viz.py` renders the round's per-action
-snapshot trajectory to:
+After each day/round closes, the Director runs a midnight cycle:
+
+1. **Ground truth is assembled** — every state change the day produced,
+   the settled Brent price, Jev's scores, and (optionally) real-world
+   events injected from `real_events/dayN.txt` if that file exists.
+2. **Every agent reflects** — each gets the day's outcomes plus its own
+   prediction from the previous midnight, and returns:
+   `LEARNED / BELIEF / STANCE / PREDICTION / P_WAR / P_DEAL / BRENT_DIR`.
+3. **Memory feeds back** — the last lessons + current stance are injected
+   into the agent's prompt next day, so behaviour genuinely shifts
+   (e.g. an agent burned by a failed escalation request stops requesting).
+4. **Predictions are scored** — yesterday's `BRENT_DIR` call is graded
+   against the actual settle; each agent carries a win/loss scorecard.
+
+A short "Learning Update" block is printed per agent, and memories are
+saved into `--dump` files so `--resume` restores what agents learned.
+
+## Generated artifacts (every day)
 
 - `roundN_animation.gif` — animated 4-panel build: Brent, war intensity
   (X = Jev denied an escalation request, \* = human-review flag), Iran
   street/regime, US domestic — plus an event ticker and Jev's final scores.
 - `roundN_summary.png` — the final frame as a static chart.
+- `dayN_learning.png` — the midnight board: each agent's lesson,
+  prediction, forecast numbers, scorecard, and today's influence ranking.
+- `sim_history.png` — cumulative history across all days: Brent & gas
+  (Hormuz-constrained days shaded), the Jev probability track
+  (war / deal / collapse), and cumulative agent influence.
 
 Snapshots are taken after every agent action (`world.apply_single_action`
 + `tick_brent`), so the animation shows the round unfolding act by act.
+
+## Gallery
+
+Round 1 — the day unfolds act by act; each frame is one agent's move:
+
+![Round 1 animation](round1_animation.gif)
+
+Round 2 — Hormuz partially closed; watch Brent climb past $150 while Jev
+keeps denying escalation (black X markers on the war panel):
+
+![Round 2 animation](round2_animation.gif)
+
+Midnight learning board — per-agent lessons, predictions for tomorrow,
+and who actually moved the world state:
+
+![Day 1 learning](day1_learning.png)
+
+Cumulative history across days — oil track, Jev probability track,
+influence totals:
+
+![Simulation history](sim_history.png)
 
 ## Steer the simulation
 
