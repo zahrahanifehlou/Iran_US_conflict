@@ -245,3 +245,6 @@ Cumulative history — oil track, Jev probability track, influence totals:
 - The world model is keyword-driven — agents' *wording* moves the world,
   which is intentional but coarse. Richer effect parsing is the obvious
   next step.
+
+cd /home/zahra/Iran_US_conflict
+nohup python3 main.py --daemon --dump sim_log.json > daemon.out 2>&1 &
