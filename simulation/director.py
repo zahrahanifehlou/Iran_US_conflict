@@ -264,6 +264,11 @@ class Director:
             self._render_learning(log, st.round_no - 1)
             self._render_predictions(log, st.round_no - 1)
             self._render_history()
+        try:
+            from . import dailypost
+            _p(f"Daily post: {dailypost.save_daily_post(log, st.round_no - 1)}")
+        except Exception as exc:
+            _p(f"!! daily post save failed: {exc}")
         return log
 
     def _render_predictions(self, log: dict, round_no: int):

@@ -172,6 +172,23 @@ Behavior:
   file on restart and it resumes the same world, agent memory included.
 - If a day crashes, the error is logged and it retries next midnight —
   the checkpoint is never left half-written.
+- After checkpointing it writes the day's ready-to-post summary file
+  (see below).
+
+## Daily post file (manual X/Twitter)
+
+After each midnight cycle the sim writes `posts/dayN_tweet.txt`
+(`simulation/dailypost.py`) — a ready-to-paste post for
+@zahra_hnf16553 containing:
+
+- day/date, Jev P(war 72h) · P(deal 7d) · P(Iran collapse), the Brent
+  settle, the day's most influential agent's predicted event, and an
+  explicit *"AI simulation — not a real-world forecast"* disclaimer —
+  plus a reminder to attach `dayN_predictions.png`.
+
+There is no API integration — open the file, paste the text into X,
+attach the PNG, done. The file is regenerated fresh each midnight along
+with all other artifacts.
 
 ## Configuration
 
