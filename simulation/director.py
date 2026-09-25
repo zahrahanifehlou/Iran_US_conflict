@@ -264,6 +264,15 @@ class Director:
         if gm and gm.fields.get("ttf") is not None:
             st.ttf_gas = world.clamp(
                 0.5 * gm.fields["ttf"] + 0.5 * st.ttf_gas, 10, 200)
+        # French pump: the gas agent's call nudges the lagged pass-through
+        if gm:
+            for field, attr in (("fr_petrol", "fr_petrol"),
+                                ("fr_diesel", "fr_diesel")):
+                call = gm.fields.get(field)
+                if call is not None:
+                    setattr(st, attr, world.clamp(
+                        getattr(st, attr) + 0.25 * (call - getattr(st, attr)),
+                        1.0, 3.5))
         self._snapshot("end", "round closes — Jev scores locked",
                        review=False)
 
@@ -271,7 +280,8 @@ class Director:
         _p(f"\n{SUB}\nJEV FORECAST — next 7-14 days")
         verdict.forecast = self.jev.forecast_7_14d(st.to_dict())
         for k, a in verdict.forecast.items():
-            self._jev_line(k.replace("_", " "), a)
+            verdict.forecast[k] = self._calibrated(cal, k, a)
+            self._jev_line(k.replace("_", " "), verdict.forecast[k])
 
         # ------------------------------------------------ updated state
         _p(f"\n{SUB}\nUPDATED SITUATION")
@@ -311,6 +321,9 @@ class Director:
             "brent": round(st.brent, 1),
             "wti": round(st.wti, 1),
             "gold": round(st.gold, 0),
+            "fr_petrol": round(st.fr_petrol, 3),
+            "fr_diesel": round(st.fr_diesel, 3),
+            "rebate": round(st.fr_fuel_rebate, 2),
             "insurance": round(st.hormuz_insurance, 1),
             "econ_pressure": round(st.iran_econ_pressure, 1),
             "protests": round(st.iran_protest_level, 1),
@@ -320,6 +333,8 @@ class Director:
             "p_war_72h": _val(verdict.p_war_72h),
             "p_deal_7d": _val(verdict.p_deal_7d),
             "p_collapse": _val(verdict.p_collapse),
+            # calibrated forecast scores feed next day's calibration pairs
+            **{k: _val(a) for k, a in verdict.forecast.items()},
             "influence": influence_map,
         })
 
@@ -328,6 +343,7 @@ class Director:
             self._render_learning(log, st.round_no - 1)
             self._render_predictions(log, st.round_no - 1)
             self._render_history()
+            self._render_fuel()
             self._render_scoreboard(log)
         try:
             from . import dailypost
@@ -469,6 +485,15 @@ class Director:
         except Exception as exc:
             _p(f"!! history chart failed: {exc}")
 
+    def _render_fuel(self):
+        try:
+            from . import viz
+            png = viz.render_fuel(self.history)
+            if os.path.exists(png):
+                _p(f"Fuel:      {png}")
+        except Exception as exc:
+            _p(f"!! fuel chart failed: {exc}")
+
     def _render_scoreboard(self, log: dict):
         try:
             from . import viz
@@ -525,6 +550,9 @@ def _load_resume(path: str):
                     "brent": sf.get("brent", 0),
                     "wti": sf.get("wti", 0),
                     "gold": sf.get("gold", 0),
+                    "fr_petrol": sf.get("fr_petrol", 0),
+                    "fr_diesel": sf.get("fr_diesel", 0),
+                    "rebate": sf.get("fr_fuel_rebate", 0),
                     "insurance": sf.get("hormuz_insurance", 0),
                     "econ_pressure": sf.get("iran_econ_pressure", 0),
                     "protests": sf.get("iran_protest_level", 0),
@@ -534,6 +562,8 @@ def _load_resume(path: str):
                     "p_war_72h": (v.get("p_war_72h") or {}).get("value"),
                     "p_deal_7d": (v.get("p_deal_7d") or {}).get("value"),
                     "p_collapse": (v.get("p_collapse") or {}).get("value"),
+                    **{k: (a or {}).get("value")
+                       for k, a in (v.get("forecast_7_14d") or {}).items()},
                     "influence": entry.get("influence", {}),
                 })
             for aid, lrn in (entry.get("learning") or {}).items():

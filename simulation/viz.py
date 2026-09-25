@@ -453,6 +453,68 @@ def render_scoreboard(scoreboard: dict,
     fig.savefig(path, dpi=110)
     plt.close(fig)
     return path
+
+
+# ==================================================================
+#  Fuel track — Hormuz -> Brent -> French pump pass-through
+# ==================================================================
+def render_fuel(history: list[dict],
+                path: str = "fuel_track.png") -> str:
+    path = _out(path)
+    if not history:
+        return path
+    days = [h["day"] for h in history]
+    fig, axes = plt.subplots(2, 1, figsize=(11, 8), sharex=True,
+                             height_ratios=[1.15, 1])
+    fig.suptitle("THE PASS-THROUGH CHAIN — Hormuz to the French pump",
+                 fontsize=15, fontweight="bold")
+
+    # upstream: brent + insurance -------------------------------------
+    ax = axes[0]
+    ax.plot(days, [h["brent"] for h in history], color=C_BRENT, lw=2.4,
+            marker="o", label="Brent $/bbl")
+    ax.set_ylabel("Brent $/bbl", color=C_BRENT)
+    ax.tick_params(axis="y", labelcolor=C_BRENT)
+    ax2 = ax.twinx()
+    if any(h.get("insurance") for h in history):
+        ax2.plot(days, [h.get("insurance", 0) for h in history],
+                 color="#8e44ad", lw=1.8, ls="--", marker="s",
+                 label="War-risk insurance % hull")
+        ax2.set_ylabel("insurance % of hull", color="#8e44ad")
+        ax2.tick_params(axis="y", labelcolor="#8e44ad")
+    ax.set_title("Upstream: crude + transit risk", loc="left",
+                 fontsize=11, fontweight="bold")
+    ax.grid(alpha=0.25)
+
+    # downstream: french pump ------------------------------------------
+    ax = axes[1]
+    pet = [h.get("fr_petrol") for h in history]
+    die = [h.get("fr_diesel") for h in history]
+    if any(pet):
+        ax.plot(days, pet, color="#16a085", lw=2.4, marker="o",
+                label="FR petrol €/L")
+    if any(die):
+        ax.plot(days, die, color="#2c3e50", lw=2.4, marker="s",
+                ls="--", label="FR diesel €/L")
+    for h, x in zip(history, days):
+        if h.get("rebate", 0) > 0.01:
+            ax.axvspan(x - 0.4, x + 0.4, color="#f1c40f", alpha=0.18)
+    if any(h.get("rebate", 0) > 0.01 for h in history):
+        ax.text(days[0], ax.get_ylim()[0],
+                "shaded = govt rebate active", fontsize=8, color="#7d6608")
+    ax.set_ylabel("€ per litre")
+    ax.set_xlabel("sim day")
+    ax.set_xticks(days)
+    ax.set_xticklabels([f"d{h['day']}" for h in history])
+    ax.set_title("Downstream: French pump price (lagged, taxed)",
+                 loc="left", fontsize=11, fontweight="bold")
+    ax.legend(fontsize=9, loc="upper left")
+    ax.grid(alpha=0.25)
+
+    fig.tight_layout(rect=(0, 0, 1, 0.95))
+    fig.savefig(path, dpi=110)
+    plt.close(fig)
+    return path
     return path
 
 

@@ -4,3 +4,6 @@
 [2026-09-25 22:32:54] checkpoint/log file: sim_log.json
 ========================================================================
 [2026-09-25 22:32:54] waiting for midnight (1.5h until next cycle)...
+
+[2026-09-25 22:40:42] shutdown signal received — finishing cleanly
+[2026-09-25 22:40:54] daemon stopped. Checkpoint in sim_log.json

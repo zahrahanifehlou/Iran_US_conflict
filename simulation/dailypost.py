@@ -19,6 +19,13 @@ def compose_post(log: dict) -> str:
 
     brent = (log.get("state_full") or {}).get("brent")
     brent_txt = f"${brent:.1f}" if brent else "n/a"
+    sf = log.get("state_full") or {}
+    pump = ""
+    if sf.get("fr_petrol"):
+        pump = (f"FR pump: petrol €{sf['fr_petrol']:.2f}/L · "
+                f"diesel €{sf['fr_diesel']:.2f}/L"
+                + (f" (rebate -€{sf['fr_fuel_rebate']:.2f})"
+                   if sf.get("fr_fuel_rebate", 0) > 0.01 else ""))
     # pick the day's most influential agent's prediction as the key call
     learning = log.get("learning", {})
     influence = log.get("influence", {})
@@ -41,6 +48,8 @@ def compose_post(log: dict) -> str:
         f"· P(collapse) {s('p_collapse')}",
         f"Brent {brent_txt}",
     ]
+    if pump:
+        lines.append(pump)
     if key_event:
         lines.append(f"Key call: {key_event}")
     board = log.get("scoreboard") or {}

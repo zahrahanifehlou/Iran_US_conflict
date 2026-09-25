@@ -52,6 +52,30 @@ def _fair_insurance(state: SituationState) -> float:
     return base + 0.35 * state.tanker_incidents_7d
 
 
+# ---- French pump pass-through --------------------------------------
+# France: ~55-60% of pump price is fixed tax (TICPE + VAT) plus refining
+# margin, so crude pass-through is damped and lagged — roughly
+# +$10 Brent ≈ +EUR0.06/L, arriving over ~1-2 weeks. A government rebate
+# ("bouclier carburant") subtracts directly at the pump while it lasts.
+def _fair_fr_petrol(state: SituationState) -> float:
+    return 1.28 + 0.0060 * state.brent
+
+
+def _fair_fr_diesel(state: SituationState) -> float:
+    return 1.23 + 0.0060 * state.brent
+
+
+def tick_fuel(state: SituationState, weight: float = 0.12) -> None:
+    """Pump prices lag crude — slow drift toward fair value minus rebate."""
+    r = state.fr_fuel_rebate
+    state.fr_petrol = clamp(
+        state.fr_petrol + weight * (_fair_fr_petrol(state) - r
+                                    - state.fr_petrol), 1.0, 3.5)
+    state.fr_diesel = clamp(
+        state.fr_diesel + weight * (_fair_fr_diesel(state) - r
+                                    - state.fr_diesel), 1.0, 3.5)
+
+
 def tick_markets(state: SituationState, weight: float = 0.30) -> None:
     """Secondary markets shadow Brent: WTI spread, gold, war-risk insurance."""
     state.wti = clamp(state.brent - 4.2 - 0.15 * state.hormuz_insurance,
@@ -61,6 +85,7 @@ def tick_markets(state: SituationState, weight: float = 0.30) -> None:
     state.hormuz_insurance = clamp(
         state.hormuz_insurance + weight *
         (_fair_insurance(state) - state.hormuz_insurance), 0.4, 20)
+    tick_fuel(state)
 
 
 def tick_brent(state: SituationState, weight: float = 0.30) -> None:
@@ -161,11 +186,22 @@ def apply_single_action(state: SituationState, action) -> list[str]:
             state.us_war_support - 0.005, 0.1, 0.9)
         notes.append(f"{action.agent_id}: information battlespace shifts")
 
+    # ---- European intervention at the pump ------------------------------
+    if hit("rebate", "tax cut", "ticpe", "bouclier", "fuel subsidy",
+           "price cap", "windfall tax", "pump price"):
+        state.fr_fuel_rebate = clamp(state.fr_fuel_rebate + 0.15, 0, 0.35)
+        notes.append(f"{action.agent_id}: EU/French fuel intervention "
+                     f"(-EUR{state.fr_fuel_rebate:.2f}/L)")
+
     return notes
 
 
 def end_of_round_drift(state: SituationState) -> None:
     """Slow structural pressure applied once per round."""
+    # fuel rebates sunset — political fixes decay a few % per day
+    state.fr_fuel_rebate *= 0.88
+    if state.fr_fuel_rebate < 0.02:
+        state.fr_fuel_rebate = 0.0
     state.iran_econ_pressure = clamp(state.iran_econ_pressure + 0.15, 0, 10)
     state.regime_stability = clamp(
         state.regime_stability - 0.01 + 0.02 * (10 - state.iran_protest_level) / 10,

@@ -182,7 +182,8 @@ class Agent:
                 }
             elif key == "SOURCE":
                 action.fields["source"] = val.split()[0].lower().strip("|,")
-            elif key in ("INSURANCE", "GOLD", "TTF"):
+            elif key in ("INSURANCE", "GOLD", "TTF", "FR_PETROL",
+                         "FR_DIESEL"):
                 m = re.search(r"[\d.]+", val.replace(",", ""))
                 if m:
                     action.fields[key.lower()] = float(m.group(0))

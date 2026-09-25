@@ -31,6 +31,11 @@ class SituationState:
     hormuz_insurance: float = 2.5         # war-risk premium, % of hull value
     us_gas_price: float = 4.35            # $/gal national average
 
+    # --- real-world impact layer: French pump prices (EUR/L) ---
+    fr_petrol: float = 1.85               # SP95-E10 pump price
+    fr_diesel: float = 1.78               # gazole pump price
+    fr_fuel_rebate: float = 0.0           # govt rebate / tax cut (EUR/L)
+
     # --- domestic politics ---
     us_days_to_midterms: int = 40
     us_approval_trump: float = 0.44
@@ -68,6 +73,9 @@ class SituationState:
                 "ttf_gas": round(self.ttf_gas, 1),
                 "hormuz_insurance_pct": round(self.hormuz_insurance, 1),
                 "us_gas_price": self.us_gas_price,
+                "fr_petrol_eur_l": round(self.fr_petrol, 3),
+                "fr_diesel_eur_l": round(self.fr_diesel, 3),
+                "fr_fuel_rebate": round(self.fr_fuel_rebate, 2),
             },
             "domestic": {
                 "us_days_to_midterms": self.us_days_to_midterms,
@@ -102,6 +110,10 @@ class SituationState:
             f"WTI ${self.wti:.1f} | US gas ${self.us_gas_price:.2f}/gal",
             f"  Gold ${self.gold:,.0f}/oz | TTF gas EUR{self.ttf_gas:.0f}/MWh | "
             f"Hormuz war-risk insurance {self.hormuz_insurance:.1f}% of hull",
+            f"  FR pump: petrol EUR{self.fr_petrol:.2f}/L | diesel "
+            f"EUR{self.fr_diesel:.2f}/L"
+            + (f" | govt rebate -EUR{self.fr_fuel_rebate:.2f}/L"
+               if self.fr_fuel_rebate > 0.01 else ""),
             "",
             "DOMESTIC",
             f"  US: {self.us_days_to_midterms}d to midterms | Trump approval "

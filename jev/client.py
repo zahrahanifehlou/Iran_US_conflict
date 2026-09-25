@@ -186,6 +186,14 @@ class JevClient:
                 "Probability of a significant political shift (US midterm "
                 "shock, Israeli cabinet change, Iranian elite split) in "
                 "the next 7-14 days.",
+            "petrol_spike_30d":
+                "Probability that French pump petrol prices rise more "
+                "than 5% within 30 days (sustained Brent pass-through "
+                "without offsetting intervention).",
+            "supply_disruption_14d":
+                "Probability of a major physical supply disruption within "
+                "14 days (Hormuz closure, export terminal strike, embargo, "
+                "or sustained blockade of shipments).",
         }
         return {k: self._ask(SCORE, q, state) for k, q in questions.items()}
 

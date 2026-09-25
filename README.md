@@ -140,6 +140,13 @@ calibrated answers are marked `source: jev-calibrated` in the log.
   spread; gold drifts toward `1900 + 110·intensity + 200·(Hormuz≠open)`;
   war-risk insurance is `base(Hormuz) + 0.35·incidents` (open 0.6% →
   closed 12% of hull). All three tick toward fair value alongside Brent.
+- **The French pump (impact layer)** — `petrol = 1.28 + 0.006·Brent`,
+  `diesel = 1.23 + 0.006·Brent`, minus any active `fr_fuel_rebate`
+  (€/L). ~60% of the pump price is fixed French tax, so crude arrives
+  damped and ~1–2 weeks late (12% drift/day). When the EU or any actor
+  says "rebate / tax cut / bouclier / price cap", the rebate activates
+  (~−€0.15/L per mention) and sunsets ~12%/day — intervention is
+  real, temporary, and visible on `media/fuel_track.png`.
 - **Oil** — `fair_brent = 82 + Hormuz_premium + 1.2·intensity + 2·incidents`.
   Premium: open $0, threatened $18, partially closed $35, closed $60.
   Intra-day, Brent drifts 30% toward fair value after every act; at settle,
@@ -191,6 +198,12 @@ confidence numbers (`simulation/predictions.py`):
 | 14d | oil direction + volatility, US/EU/Russia/China policy responses |
 | 30d | sanctions, negotiations, deployments, expansion to another country |
 
+Jev also scores two real-world-impact questions every night (calibrated
+like the headline scores): `P(French petrol +5% within 30d)` and
+`P(major supply disruption within 14d)`. The gas/LNG agent calls French
+pump prices directly (`FR_PETROL:`/`FR_DIESEL:`), and those calls nudge
+the simulated pump.
+
 Each night the ledger matures: predictions whose horizon elapsed are
 judged against the day's ground truth — **Jev acts as the judge** online
 (a typed noul verdict on substance), a keyword-overlap heuristic offline.
@@ -221,6 +234,7 @@ persist in the dump file across restarts.
 | `media/dayN_before_after.png` | Dumbbell chart: last night's call (grey) vs. tonight's post-learning update (colored arrow) for P(war) and P(deal). |
 | `media/sim_history.png` | Cumulative: Brent & gas across days (Hormuz-constrained days shaded red), the Jev war/deal/collapse probability track, cumulative agent influence. |
 | `media/prediction_scoreboard.png` | Prediction quality: per-agent accuracy + Brier, the calibration curve, accuracy by horizon — cumulative across all resolved calls. |
+| `media/fuel_track.png` | The pass-through chain: Brent + Hormuz insurance upstream, French petrol/diesel at the pump downstream, rebate windows shaded. |
 | `posts/dayN_tweet.txt` | Ready-to-paste daily post: day/date, Jev scores, Brent, key call, forecaster ledger line, disclaimer + attach-image reminder. |
 
 ## CLI

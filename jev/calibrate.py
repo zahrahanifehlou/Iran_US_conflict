@@ -41,10 +41,25 @@ def _collapse_happened(prev: dict, nxt: dict) -> bool:
             or (nxt.get("protests", 0) - prev.get("protests", 0) >= 0.5))
 
 
+def _petrol_spike_happened(prev: dict, nxt: dict) -> bool:
+    """French pump petrol rose >5% day over day (fast pass-through)."""
+    p, n = prev.get("fr_petrol", 0), nxt.get("fr_petrol", 0)
+    return bool(p) and (n - p) / p >= 0.05
+
+
+def _supply_disruption_happened(prev: dict, nxt: dict) -> bool:
+    """Physical supply shock: Hormuz degraded, incident surge, or a
+    violent Brent gap-up."""
+    return (_war_happened(prev, nxt)
+            or (nxt.get("brent", 0) - prev.get("brent", 0) >= 10))
+
+
 _REALIZED = {
     "p_war_72h": _war_happened,
     "p_deal_7d": _deal_happened,
     "p_collapse": _collapse_happened,
+    "petrol_spike_30d": _petrol_spike_happened,
+    "supply_disruption_14d": _supply_disruption_happened,
 }
 
 
