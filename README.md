@@ -23,6 +23,59 @@ The split is deliberate:
   returns typed answers: a `choice` (who acts next), a `noul` (yes/no
   gate), or a `score` (calibrated probability 0–1).
 
+## In plain words
+
+Think of it as a **fake world that plays itself every night**. Nineteen
+characters — Trump, Netanyahu, Iran's generals, an oil trader, a panicked
+French voter — are each played by an AI on your computer. Every midnight
+the drama advances one day; then every character goes home, thinks about
+what happened, and wakes up a little smarter.
+
+**A day in three moves:**
+
+1. **Jev decides what matters.** A small, fast model — the director. It
+   picks who is urgent enough to act today (max ~13), asks whether an
+   escalation should be permitted, and scores three headline
+   probabilities: war in 72h, deal in 7d, Iranian collapse.
+2. **Agents act in character.** Each agent reads its persona
+   ("you want X, you fear Y"), its memory of past lessons, the current
+   world state, fake X posts, and tonight's **real headlines** fetched
+   from the web. It writes what it does — strike, sanction, negotiate,
+   panic. `world.py` turns the wording into numbers: war intensity moves,
+   Brent moves, the rial moves, French pump prices move.
+3. **Midnight: everyone gets graded.** The sim compares today's reality
+   (simulated world *plus* real Brent/gold prices and real news) against
+   the bets each agent filed on previous nights. Each agent sees its own
+   report card — "your 72h call resolved WRONG, you gave 85%" — writes a
+   lesson, updates its stance, and files five new bets for the coming
+   days. The lesson goes into memory and shows up in tomorrow's prompt.
+
+So an agent that keeps crying wolf **literally becomes more cautious** —
+its failed calls are put back in front of it every night. Agents that
+forecast well accumulate better scorecards.
+
+**Predictions are falsifiable bets, not vibes.** Every night each agent
+files five dated claims — 24h / 72h / 7d / 14d / 30d — with a confidence
+number and a declared source (X feed, real wire, markets, memory, or the
+day's transcript). When a horizon matures, Jev judges the claim against
+the day's ground truth. Accuracy, Brier score, calibration, false
+positives/negatives, and performance by horizon and by source are all
+tracked cumulatively and drawn in `media/prediction_scoreboard.png`.
+
+**Three prediction layers, end to end:**
+
+```
+Geopolitical events ──> Economic effects ──> Real-world impact
+(what happens next)   (oil, gas, shipping,   (French petrol and
+                       markets, central      diesel in €/L,
+                       banks)                minus any rebate)
+```
+
+Every image is **regenerated after each night's learning cycle**, and the
+day's ready-to-paste post lands in `posts/dayN_tweet.txt` with the chart
+attached. The daemon then sleeps until the next midnight and repeats —
+fully hands-off.
+
 ## Scenario seed (25 September 2026)
 
 - ~7 months into the war. Khamenei Sr. was killed early on; **Mojtaba
@@ -315,7 +368,7 @@ jev/                     decision layer
   client.py              typed questions -> JSON -> validation -> heuristic fallback
   calibrate.py           de-anchors scores using Jev's own realized track record
 agents/
-  personas.py            the 11 in-character system prompts
+  personas.py            the 19 in-character system prompts
   base.py                generation, output parsing, memory + learn()
 simulation/
   state.py               SituationState, Sept-2026 seed, date advance, resume
@@ -350,11 +403,21 @@ and who actually moved the world state:
 
 Focused predictions — tonight's calls vs Jev's reference lines:
 
-![Day 3 predictions](media/day3_predictions.png)
+![Day 4 predictions](media/day4_predictions.png)
 
 Before vs after learning — how beliefs moved overnight:
 
-![Day 3 before/after](media/day3_before_after.png)
+![Day 4 before/after](media/day4_before_after.png)
+
+Prediction quality — per-agent accuracy + Brier, the calibration curve,
+and accuracy by horizon:
+
+![Prediction scoreboard](media/prediction_scoreboard.png)
+
+The pass-through chain — Hormuz insurance + Brent upstream, French pump
+prices downstream:
+
+![Fuel track](media/fuel_track.png)
 
 Cumulative history — oil track, Jev probability track, influence totals:
 
