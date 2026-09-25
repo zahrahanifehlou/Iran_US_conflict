@@ -104,6 +104,23 @@ class SituationState:
         return "\n".join(lines)
 
 
+def _advance_date_range(s: SituationState) -> None:
+    """'25-26 September 2026' -> '26-27 September 2026'."""
+    import re
+    m = re.match(r"(\d+)-(\d+)\s+(\w+)\s+(\d{4})", s.date_range)
+    if m:
+        d1, d2, month, year = int(m.group(1)), int(m.group(2)), m.group(3), m.group(4)
+        s.date_range = f"{d2}-{d2 + 1} {month} {year}"
+    s.day_of_war += 1
+
+
+def state_from_full(d: dict) -> SituationState:
+    """Rebuild a SituationState from a dumped asdict(). Unknown keys are
+    ignored so old dumps still load."""
+    fields = SituationState.__dataclass_fields__
+    return SituationState(**{k: v for k, v in d.items() if k in fields})
+
+
 def initial_state() -> SituationState:
     """25–26 September 2026 — the seeded real-world context."""
     return SituationState(

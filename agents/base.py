@@ -28,9 +28,8 @@ class AgentAction:
 class Agent:
     def __init__(self, persona: Persona, fast: bool = False):
         self.p = persona
-        self.model = config.FAST_MODEL if fast else (persona.model or config.AGENT_MODEL)
-        if fast:
-            self.model = config.FAST_MODEL
+        self.model = (config.FAST_MODEL if fast
+                      else persona.model or config.AGENT_MODEL)
 
     def act(self, state: SituationState, posts: list[XPost],
             escalation_allowed: bool, transcript: list[str]) -> AgentAction:
@@ -59,7 +58,9 @@ class Agent:
             f"RECENT X/TWITTER POSTS:\n{feed}\n\n"
             f"WHAT OTHERS JUST DID:\n{prior}\n\n"
             f"RULES: {gate} You MUST reference at least one post above by "
-            f"@handle. Cold, incentive-driven reasoning — no moral lectures.\n\n"
+            f"@handle. Cold, incentive-driven reasoning — no moral lectures. "
+            "Act only through the means YOUR role actually controls, and do "
+            "not copy or echo another actor's proposal.\n\n"
             f"{fmt}"
         )
         raw = ollama_client.chat(
@@ -68,6 +69,7 @@ class Agent:
              {"role": "user", "content": user}],
             temperature=self.p.temperature,
             num_predict=config.AGENT_NUM_PREDICT,
+            think=False,
         )
         return self._parse(raw)
 

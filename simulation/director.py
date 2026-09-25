@@ -154,8 +154,8 @@ class Director:
         if "brent" in a.fields:
             _p(f"  BRENT: {a.fields['brent']}  FORECAST: "
                f"{a.fields.get('forecast', '?')}")
-        stmt = a.statement if a.statement != a.raw else a.raw
-        _p(f"  STATEMENT: {stmt}")
+        if a.statement != a.raw:
+            _p(f"  STATEMENT: {a.statement}")
         if a.proposed_action:
             esc = " [ESCALATION REQUESTED]" if a.escalation_requested else ""
             _p(f"  ACTION: {a.proposed_action}{esc}")

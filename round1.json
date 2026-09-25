@@ -1,0 +1,218 @@
+[
+  {
+    "verdict": {
+      "acting_order": [
+        "iran_hardliners",
+        "netanyahu",
+        "eu",
+        "trump",
+        "us_public",
+        "iranian_people",
+        "oil_market",
+        "iran_sentiment"
+      ],
+      "gates": {
+        "iran_hardliners": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "netanyahu": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": true,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "eu": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "trump": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "us_public": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "iranian_people": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "oil_market": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "iran_sentiment": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        }
+      },
+      "p_war_72h": {
+        "kind": "score",
+        "value": 0.23,
+        "confidence": 0.85,
+        "source": "jev"
+      },
+      "p_deal_7d": {
+        "kind": "score",
+        "value": 0.23,
+        "confidence": 0.56,
+        "source": "jev"
+      },
+      "p_collapse": {
+        "kind": "score",
+        "value": 0.23,
+        "confidence": 0.85,
+        "source": "jev"
+      },
+      "oil_realistic": {
+        "kind": "noul",
+        "value": false,
+        "confidence": 0.3,
+        "source": "jev"
+      },
+      "forecast_7_14d": {
+        "war_escalation_14d": {
+          "kind": "score",
+          "value": 0.23,
+          "confidence": 0.85,
+          "source": "jev"
+        },
+        "deal_or_ceasefire_14d": {
+          "kind": "score",
+          "value": 0.23,
+          "confidence": 0.42,
+          "source": "jev"
+        },
+        "iran_econ_collapse_14d": {
+          "kind": "score",
+          "value": 0.23,
+          "confidence": 0.85,
+          "source": "jev"
+        },
+        "political_shift_14d": {
+          "kind": "score",
+          "value": 0.034,
+          "confidence": 0.011,
+          "source": "jev"
+        }
+      }
+    },
+    "state": {
+      "round": 2,
+      "day_of_war": 217,
+      "military": {
+        "war_intensity": 5.4,
+        "hormuz_status": "threatened",
+        "tanker_incidents_7d": 2
+      },
+      "diplomacy": {
+        "talks_channel": "open",
+        "deal_on_table": "framework",
+        "unga_contact": true
+      },
+      "oil": {
+        "brent": 110.5,
+        "brent_forecast": 114.5,
+        "us_gas_price": 3.9793600000000002
+      },
+      "domestic": {
+        "us_days_to_midterms": 39,
+        "us_approval_trump": 0.48024999999999995,
+        "us_war_support": 0.3765,
+        "iran_inflation": 0.62,
+        "iran_protest_level": 4.904999999999999,
+        "iran_econ_pressure": 8.05,
+        "regime_stability": 0.5508
+      }
+    },
+    "transcript": [
+      "Iran Hardliners (IRGC + Mojtaba Khamenei faction): The martyred Leader's path does not end at a desk; it is forged in the fires of the Strait and the patience of the people. Let your \"binary choice\" be our guide: we will present a  | ACTION: Issue a formal \"Framework for Reconstruction\" to the US delegation via the UNGA channel, conditioned on immediate naval ",
+      "Benjamin Netanyahu (Israeli PM): The United States demands a choice between a hollowed-out Republic or total annihilation; we shall not let them choose the former by hiding behind a framework that leaves a single  | ACTION: Issue a formal \"Framework for Reconstruction\" to the US delegation via the UNGA channel, conditioned on immediate naval ",
+      "European Union: \"Europe stands ready to operationalize the UNGA contacts into a binding naval de-escalation corridor, offering immediate sanctions relief on civilian energy imports contingent on t | ACTION: Issue a formal \"Framework for Reconstruction\" to the US delegation via the UNGA channel, conditioned on immediate naval ",
+      "Donald Trump (US President): \"I have given Iran a CHOICE: a magnificent DEAL that lets them rebuild their shattered economy, or total ANNIHILATION, and I demand they accept our 'Framework for Reconstruction' I | ACTION: Issue a formal \"Framework for Reconstruction\" to the US delegation via the UNGA channel, conditioned on immediate naval ",
+      "US Public Opinion / Midterm Voters: We present the \"Framework for Reconstruction\" as a path to rebuild our economy and secure our ports, but it demands you move the US Navy from escorting tankers to a permanent, join | ACTION: Issue the formal \"Framework for Reconstruction\" to the US delegation via the UNGA channel, conditioned on immediate esta",
+      "Iranian People (citizens + opposition): The Supreme Leader\u2019s Office declares that the \"Framework for Reconstruction\" is accepted, provided the US Navy commits to a 72-hour humanitarian corridor guaranteeing the delivery  | ACTION: Issue a formal \"Framework for Reconstruction\" to the US delegation via the UNGA channel, conditioned on immediate establ",
+      "Oil Market Agent: BRENT: $102.8\nFORECAST: $105.2\nLOGIC: @bariweiss's framing leaves no room for what Iran will accept, so Hormuz insurance rates are a better indicator of risk. @JavierBlas's $130 Br | ACTION: ",
+      "Iranian Public Sentiment Tracker: MOOD: Desperation sets in as people struggle to access basic necessities like insulin.\nPROTEST_LEVEL: 4.0\nWAR_FATIGUE: 6.0\nNATIONALISM_RALLY: 8.0\nBLACK_MARKET: Gold teeth being sol | ACTION: "
+    ]
+  }
+]

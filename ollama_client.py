@@ -20,6 +20,7 @@ def chat(
     temperature: float = 0.7,
     num_predict: int = 512,
     json_mode: bool = False,
+    think: bool | None = None,
     timeout: int | None = None,
 ) -> str:
     """Send a chat request to Ollama and return the assistant content."""
@@ -34,6 +35,8 @@ def chat(
     }
     if json_mode:
         payload["format"] = "json"
+    if think is not None:
+        payload["think"] = think
 
     req = urllib.request.Request(
         f"{config.OLLAMA_HOST}/api/chat",
@@ -47,7 +50,11 @@ def chat(
     except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
         raise OllamaError(f"Ollama call failed ({model}): {exc}") from exc
 
-    return body.get("message", {}).get("content", "")
+    msg = body.get("message", {})
+    content = msg.get("content", "")
+    # thinking-style models may exhaust num_predict on 'thinking' and leave
+    # content empty — fall back to it so callers never see a blank turn.
+    return content if content.strip() else msg.get("thinking", "")
 
 
 def ping() -> bool:

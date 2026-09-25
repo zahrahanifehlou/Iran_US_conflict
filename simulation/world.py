@@ -1,7 +1,10 @@
-"""World-update rules — how agent actions move the state between rounds.
+"""World-update rules — how agent actions move the state.
 
-The oil agent's Brent call is taken as the market's raw vote; if Jev judges
-it unrealistic, a deterministic fair-value model overrides it instead.
+Per-step updates (`apply_single_action`) run after every agent acts so the
+round can be animated as a trajectory. Structural drift
+(`end_of_round_drift`) and the oil-market settlement (`apply_market`) run
+once per round. The oil agent's Brent call is the market's raw vote; if Jev
+judges it unrealistic, the fair-value model overrides it.
 """
 
 from __future__ import annotations
@@ -27,26 +30,22 @@ def clamp(x, lo, hi):
     return max(lo, min(hi, x))
 
 
-def apply_market(state: SituationState, brent_call: float | None,
-                 forecast_call: float | None, realistic: bool) -> None:
-    fair = fair_brent(state)
-    prev = state.brent
-    if brent_call is not None and realistic:
-        # market vote accepted, but mean-revert a bit toward fair value
-        state.brent = clamp(0.5 * brent_call + 0.5 * fair, 70, 180)
-    else:
-        state.brent = clamp(fair + 0.25 * (prev - fair), 70, 180)
-    state.brent_forecast = clamp(
-        forecast_call if forecast_call is not None else fair + 4, 70, 200)
-    # gas price lags Brent roughly $0.024/gal per $1 crude
-    state.us_gas_price = clamp(3.10 + 0.024 * (state.brent - 70), 2.5, 7.5)
+def gas_from_brent(brent: float) -> float:
+    """Pump price lags crude ~$0.024/gal per $1 above $70 oil."""
+    return clamp(3.10 + 0.024 * (brent - 70), 2.5, 7.5)
 
 
-def apply_actions(state: SituationState, actions) -> list[str]:
-    """Nudge state variables from parsed agent actions. Returns change notes."""
+def tick_brent(state: SituationState, weight: float = 0.30) -> None:
+    """Intra-round: market drifts part-way toward fair value after each act."""
+    state.brent = clamp(
+        state.brent + weight * (fair_brent(state) - state.brent), 70, 180)
+    state.us_gas_price = gas_from_brent(state.brent)
+
+
+def apply_single_action(state: SituationState, action) -> list[str]:
+    """Keyword-driven state nudges from ONE agent's action. Returns notes."""
     notes = []
-    text = " ".join(
-        f"{a.statement} {a.proposed_action}" for a in actions).lower()
+    text = f"{action.statement} {action.proposed_action}".lower()
 
     def hit(*words):
         return any(w in text for w in words)
@@ -56,35 +55,39 @@ def apply_actions(state: SituationState, actions) -> list[str]:
             state.hormuz_status = "partially_closed"
             state.tanker_incidents_7d += 2
             state.war_intensity = clamp(state.war_intensity + 1.0, 0, 10)
-            notes.append("Hormuz threatened with closure -> partially closed")
+            notes.append(f"{action.agent_id}: Hormuz -> partially closed")
         else:
             state.tanker_incidents_7d += 1
-            notes.append("Hormuz pressure rises (tanker incident)")
+            notes.append(f"{action.agent_id}: Hormuz pressure rises")
 
     if hit("strike", "bomb", "missile", "attack", "hit ", "target"):
         state.war_intensity = clamp(state.war_intensity + 0.5, 0, 10)
         state.recent_strikes.append(
-            f"R{state.round_no}: new kinetic action claimed")
-        notes.append("War intensity up on new strikes")
+            f"R{state.round_no}: kinetic action by {action.agent_id}")
+        notes.append(f"{action.agent_id}: war intensity up (new strikes)")
 
     if hit("ceasefire", "deal", "talks", "negotiat", "freeze", "escrow",
-           "framework", "de-escalat"):
-        state.war_intensity = clamp(state.war_intensity - 0.6, 0, 10)
+           "framework", "de-escalat", "corridor"):
+        state.war_intensity = clamp(state.war_intensity - 0.5, 0, 10)
         state.talks_channel = "open"
         if state.deal_on_table == "none":
             state.deal_on_table = "framework"
-        notes.append("Diplomatic track strengthened")
+        notes.append(f"{action.agent_id}: diplomatic track strengthened")
 
     if hit("sanction", "snapback", "export ban"):
         state.iran_econ_pressure = clamp(state.iran_econ_pressure + 0.4, 0, 10)
-        notes.append("Iranian economic pressure up")
+        notes.append(f"{action.agent_id}: Iran economic pressure up")
 
     if hit("protest", "riot", "bazaar shut", "strike action"):
         state.iran_protest_level = clamp(state.iran_protest_level + 0.6, 0, 10)
         state.regime_stability = clamp(state.regime_stability - 0.03, 0, 1)
-        notes.append("Iranian street pressure rising")
+        notes.append(f"{action.agent_id}: Iranian street pressure rising")
 
-    # slow structural drift
+    return notes
+
+
+def end_of_round_drift(state: SituationState) -> None:
+    """Slow structural pressure applied once per round."""
     state.iran_econ_pressure = clamp(state.iran_econ_pressure + 0.15, 0, 10)
     state.regime_stability = clamp(
         state.regime_stability - 0.01 + 0.02 * (10 - state.iran_protest_level) / 10,
@@ -99,4 +102,16 @@ def apply_actions(state: SituationState, actions) -> list[str]:
         0.30 + 0.5 * state.us_war_support - 0.02 * (state.war_intensity - 5),
         0.15, 0.75)
 
-    return notes
+
+def apply_market(state: SituationState, brent_call: float | None,
+                 forecast_call: float | None, realistic: bool) -> None:
+    fair = fair_brent(state)
+    prev = state.brent
+    if brent_call is not None and realistic:
+        # market vote accepted, but mean-revert a bit toward fair value
+        state.brent = clamp(0.5 * brent_call + 0.5 * fair, 70, 180)
+    else:
+        state.brent = clamp(fair + 0.25 * (prev - fair), 70, 180)
+    state.brent_forecast = clamp(
+        forecast_call if forecast_call is not None else fair + 4, 70, 200)
+    state.us_gas_price = gas_from_brent(state.brent)
