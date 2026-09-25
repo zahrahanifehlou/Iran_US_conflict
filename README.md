@@ -93,8 +93,32 @@ saved into `--dump` files so `--resume` restores what agents learned.
   (Hormuz-constrained days shaded), the Jev probability track
   (war / deal / collapse), and cumulative agent influence.
 
+- `dayN_predictions.png` — **focused predictions**: every agent's P(war) /
+  P(deal) for tomorrow, its Brent direction call (▲/▼/■), the predicted
+  event, and Jev's own scores as reference lines.
+- `dayN_before_after.png` — **before vs after learning**: dumbbell chart
+  showing how each agent's P(war) and P(deal) moved between last night's
+  prediction (grey) and tonight's post-learning update (colored arrow).
+
 Snapshots are taken after every agent action (`world.apply_single_action`
 + `tick_brent`), so the animation shows the round unfolding act by act.
+
+## Automatic nightly runs (daemon mode)
+
+```bash
+# stays resident; runs one simulated day at every 00:00 local time
+nohup python3 main.py --daemon --dump sim_log.json > daemon.out 2>&1 &
+
+# run one day right now, then continue the midnight schedule
+python3 main.py --daemon --run-now --dump sim_log.json
+```
+
+At each midnight the daemon: plays the day → runs the learning cycle →
+saves all six chart files → appends the day to the dump (which doubles as
+the checkpoint — restart with the same `--dump` file and it resumes the
+same world, memory included). Timestamps are printed when each day
+starts, when images are saved, and while waiting for the next 00:00.
+Stop cleanly with SIGTERM/SIGINT — the checkpoint is always current.
 
 ## Gallery
 

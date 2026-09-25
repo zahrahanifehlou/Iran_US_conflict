@@ -118,7 +118,6 @@ def run_daemon(dump_path: str, fast: bool, offline: bool,
         _p(f"\n[{_ts()}] DAY {d.state.round_no - 1} COMPLETE — "
            f"graphs + checkpoint saved")
         _p(f"[{_ts()}]   -> {dump_path} now holds "
-           f"{len(history) + 1} simulated days")
-        history = d.history
+           f"{len(d.history)} simulated days")
 
     _p(f"[{_ts()}] daemon stopped. Checkpoint in {dump_path}")
