@@ -32,8 +32,8 @@ class SituationState:
     us_gas_price: float = 4.35            # $/gal national average
 
     # --- real-world impact layer: French pump prices (EUR/L) ---
-    fr_petrol: float = 1.85               # SP95-E10 pump price
-    fr_diesel: float = 1.78               # gazole pump price
+    fr_petrol: float = 2.22               # SP95-E10 pump price (Sep-2026 anchor)
+    fr_diesel: float = 2.38               # gazole pump price (Sep-2026 anchor)
     fr_fuel_rebate: float = 0.0           # govt rebate / tax cut (EUR/L)
 
     # --- domestic politics ---

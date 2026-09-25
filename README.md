@@ -140,13 +140,17 @@ calibrated answers are marked `source: jev-calibrated` in the log.
   spread; gold drifts toward `1900 + 110·intensity + 200·(Hormuz≠open)`;
   war-risk insurance is `base(Hormuz) + 0.35·incidents` (open 0.6% →
   closed 12% of hull). All three tick toward fair value alongside Brent.
-- **The French pump (impact layer)** — `petrol = 1.28 + 0.006·Brent`,
-  `diesel = 1.23 + 0.006·Brent`, minus any active `fr_fuel_rebate`
-  (€/L). ~60% of the pump price is fixed French tax, so crude arrives
-  damped and ~1–2 weeks late (12% drift/day). When the EU or any actor
-  says "rebate / tax cut / bouclier / price cap", the rebate activates
-  (~−€0.15/L per mention) and sunsets ~12%/day — intervention is
-  real, temporary, and visible on `media/fuel_track.png`.
+- **The French pump (impact layer)** — `petrol = 1.62 + 0.006·Brent`,
+  `diesel = 1.79 + 0.006·Brent`, minus any active `fr_fuel_rebate`
+  (€/L). Calibrated to reality: Brent ~$100 → €2.22/€2.38 per liter
+  (actual fuel-prices.eu values, Sep 2026). ~60% of the pump price is
+  fixed French tax, so crude arrives damped and ~1–2 weeks late
+  (12% drift/day). When the EU or any actor says "rebate / tax cut /
+  bouclier / price cap", the rebate activates (~−€0.15/L per mention)
+  and sunsets ~12%/day — intervention is real, temporary, and visible
+  on `media/fuel_track.png`. The midnight wire also fetches the **real**
+  French petrol/diesel price so agents grade pump forecasts against
+  actual data.
 - **Oil** — `fair_brent = 82 + Hormuz_premium + 1.2·intensity + 2·incidents`.
   Premium: open $0, threatened $18, partially closed $35, closed $60.
   Intra-day, Brent drifts 30% toward fair value after every act; at settle,

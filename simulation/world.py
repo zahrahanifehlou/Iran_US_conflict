@@ -58,11 +58,11 @@ def _fair_insurance(state: SituationState) -> float:
 # +$10 Brent ≈ +EUR0.06/L, arriving over ~1-2 weeks. A government rebate
 # ("bouclier carburant") subtracts directly at the pump while it lasts.
 def _fair_fr_petrol(state: SituationState) -> float:
-    return 1.28 + 0.0060 * state.brent
+    return 1.62 + 0.0060 * state.brent     # = 2.22 at real Brent ~$100
 
 
 def _fair_fr_diesel(state: SituationState) -> float:
-    return 1.23 + 0.0060 * state.brent
+    return 1.79 + 0.0060 * state.brent     # = 2.38 at real Brent ~$100
 
 
 def tick_fuel(state: SituationState, weight: float = 0.12) -> None:

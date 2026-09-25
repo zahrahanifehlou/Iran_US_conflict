@@ -26,6 +26,7 @@ NEWS_RSS = (
     "q=Iran%20Israel%20war%20OR%20Strait%20of%20Hormuz%20OR%20Brent%20crude"
     "%20when:1d&hl=en-US&gl=US&ceid=US:en"
 )
+FR_FUEL_URL = "https://www.fuel-prices.eu/France/"
 TIMEOUT = 12
 HEADLINE_COUNT = 8
 
@@ -52,6 +53,22 @@ def fetch_quote(symbol: str, label: str) -> str:
         return ""
 
 
+def fetch_fr_fuel() -> str:
+    """Real French pump prices — 'FR petrol €2.219/L | diesel €2.383/L'."""
+    import re
+    try:
+        html = _get(FR_FUEL_URL)
+        pet = re.search(r'95-price"\s+content="([\d.]+)', html)
+        dsl = re.search(r'diesel-price"\s+content="([\d.]+)', html)
+        if pet and dsl:
+            return (f"FR petrol €{float(pet.group(1)):.3f}/L | "
+                    f"FR diesel €{float(dsl.group(1)):.3f}/L "
+                    "(fuel-prices.eu)")
+    except Exception:
+        pass
+    return ""
+
+
 def fetch_headlines(n: int = HEADLINE_COUNT) -> list[str]:
     try:
         root = ET.fromstring(_get(NEWS_RSS))
@@ -75,6 +92,10 @@ def fetch_day(day_no: int, out_dir: str = "real_events") -> str:
         q = fetch_quote(symbol, label)
         if q:
             parts.append(f"MARKET: {q}")
+
+    fuel = fetch_fr_fuel()
+    if fuel:
+        parts.append(f"MARKET: {fuel}")
 
     heads = fetch_headlines()
     if heads:
