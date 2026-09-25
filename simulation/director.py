@@ -4,25 +4,35 @@ Flow per round:
   1. Print Situation State.
   2. Loop: Jev picks who acts next (or 'end_round'); for each chosen agent,
      Jev answers escalation-permitted and human-review gate questions; the
-     agent then speaks, citing X posts.
-  3. World-update rules + market agent's Brent call produce the new price;
-     Jev validates the oil reaction.
+     agent then speaks, citing X posts. After every act the world state is
+     nudged and a snapshot is taken — the snapshots drive the animation.
+  3. Structural drift + the market agent's Brent call set the new price;
+     Jev validates the oil reaction (fair-value override if unrealistic).
   4. Jev emits 72h / 7d / 7-14d probability scores.
+  5. Animated GIF + summary PNG are written for the round.
 """
 
 from __future__ import annotations
 
 import json
-import sys
+from dataclasses import asdict
 
 from agents import Agent, BY_ID, ALL_IDS
 from jev import JevClient, RoundVerdict, TurnGate
-from .state import SituationState, initial_state
+from .state import (SituationState, initial_state, state_from_full,
+                    _advance_date_range)
 from .xfeed import feed_for
 from . import world
 
 BAR = "=" * 72
 SUB = "-" * 72
+
+SHORT = {
+    "trump": "TRUMP", "netanyahu": "NETANYAHU", "iran_hardliners": "IRGC",
+    "iranian_people": "IR-PEOPLE", "eu": "EU", "oil_market": "OIL",
+    "us_public": "US-PUBLIC", "iran_sentiment": "IR-STREET",
+    "start": "START", "end": "END",
+}
 
 
 def _p(s=""):
@@ -32,25 +42,49 @@ def _p(s=""):
 class Director:
     def __init__(self, state: SituationState | None = None,
                  fast: bool = False, offline: bool = False,
-                 max_acts_per_round: int = 8):
+                 viz: bool = True, max_acts_per_round: int = 8):
         self.state = state or initial_state()
         self.jev = JevClient(offline=offline)
         self.agents = {aid: Agent(BY_ID[aid], fast=fast) for aid in ALL_IDS}
         self.max_acts = max_acts_per_round
         self.offline = offline
+        self.viz = viz
+        self.snapshots: list[dict] = []
 
-    # ------------------------------------------------------------ printing
+    # ------------------------------------------------------------ helpers
     def _jev_line(self, label, ans):
         _p(f"  [JEV] {label:<46} -> {ans.fmt()}")
+
+    def _snapshot(self, label: str, event: str = "", esc_denied: bool = False,
+                  review: bool = False):
+        st = self.state
+        self.snapshots.append({
+            "step": len(self.snapshots),
+            "label": label,
+            "brent": round(st.brent, 2),
+            "forecast": round(st.brent_forecast, 2),
+            "war": round(st.war_intensity, 2),
+            "gas": round(st.us_gas_price, 2),
+            "war_support": round(st.us_war_support, 3),
+            "protests": round(st.iran_protest_level, 2),
+            "cohesion": round(st.regime_stability, 3),
+            "econ_pressure": round(st.iran_econ_pressure, 2),
+            "hormuz": st.hormuz_status,
+            "event": event,
+            "esc_denied": esc_denied,
+            "review": review,
+        })
 
     # ------------------------------------------------------------ one round
     def run_round(self) -> dict:
         st = self.state
         verdict = RoundVerdict()
+        self.snapshots = []
         _p(BAR)
         _p(st.human_summary())
         _p(BAR)
 
+        self._snapshot("start", "round opens")
         state_dict = st.to_dict()
         transcript: list[str] = []
         acted: list[str] = []
@@ -74,8 +108,8 @@ class Director:
             verdict.gates[aid] = TurnGate(aid, esc, rev)
 
             if rev.value:
-                _p(f"  !! HUMAN REVIEW FLAGGED — action proceeds under "
-                   f"review hold")
+                _p("  !! HUMAN REVIEW FLAGGED — action proceeds under "
+                   "review hold")
 
             agent = self.agents[aid]
             if self.offline:
@@ -93,6 +127,16 @@ class Director:
             transcript.append(
                 f"{action.name}: {action.statement[:180]} | ACTION: "
                 f"{action.proposed_action[:120]}")
+
+            # ---- intra-round world update -> snapshot for the animation
+            notes = world.apply_single_action(st, action)
+            world.tick_brent(st)
+            ev = action.proposed_action or action.statement
+            flag = " [esc denied]" if action.escalation_requested and not esc.value else ""
+            self._snapshot(SHORT.get(aid, aid),
+                           f"{SHORT.get(aid, aid)}: {ev[:140]}{flag}",
+                           esc_denied=action.escalation_requested and not esc.value,
+                           review=bool(rev.value))
             state_dict = st.to_dict()
 
         # ------------------------------------------------ scores this round
@@ -104,8 +148,8 @@ class Director:
         verdict.p_collapse = self.jev.p_collapse(state_dict)
         self._jev_line("P(Iranian econ collapse accelerates)", verdict.p_collapse)
 
-        # ------------------------------------------------ world update
-        notes = world.apply_actions(st, actions)
+        # ------------------------------------------------ world settlement
+        world.end_of_round_drift(st)
         oil = next((a for a in actions if a.agent_id == "oil_market"), None)
         brent_call = oil.fields.get("brent") if oil else None
         fc_call = oil.fields.get("forecast") if oil else None
@@ -118,6 +162,8 @@ class Director:
             _p("  [JEV] overriding market call with fair-value model")
             st.brent = world.fair_brent(st)
             st.brent_forecast = world.fair_brent(st) + 4
+        self._snapshot("end", "round closes — Jev scores locked",
+                       review=False)
 
         # ------------------------------------------------ 7-14d forecast
         _p(f"\n{SUB}\nJEV FORECAST — next 7-14 days")
@@ -127,8 +173,6 @@ class Director:
 
         # ------------------------------------------------ updated state
         _p(f"\n{SUB}\nUPDATED SITUATION")
-        for n in notes:
-            _p(f"  * {n}")
         _p(f"  * Brent ${prev:.1f} -> ${st.brent:.1f} "
            f"(forecast ${st.brent_forecast:.1f}) | "
            f"US gas ${st.us_gas_price:.2f}/gal")
@@ -139,9 +183,24 @@ class Director:
         _p(BAR)
 
         st.round_no += 1
-        return {"verdict": verdict.to_dict(),
-                "state": st.to_dict(),
-                "transcript": transcript}
+        _advance_date_range(st)
+        log = {"verdict": verdict.to_dict(),
+               "state": st.to_dict(),
+               "state_full": asdict(st),
+               "snapshots": self.snapshots,
+               "transcript": transcript}
+
+        if self.viz:
+            self._render(log, st.round_no - 1)
+        return log
+
+    def _render(self, log: dict, round_no: int):
+        try:
+            from . import viz
+            gif, png = viz.render_round(log, round_no)
+            _p(f"\nAnimation: {gif}\nSummary:   {png}")
+        except Exception as exc:
+            _p(f"\n!! visualization failed: {exc}")
 
     def _print_action(self, a):
         _p(f"\n{SUB}\n>> {a.name}  [{a.model}]")
@@ -169,8 +228,24 @@ class Director:
             proposed_action="hold position", model="offline")
 
 
-def main(rounds: int, fast: bool, offline: bool, dump: str | None):
-    d = Director(fast=fast, offline=offline)
+def _load_resume(path: str) -> SituationState | None:
+    try:
+        with open(path) as f:
+            log = json.load(f)
+        full = log[-1].get("state_full")
+        if not full:
+            _p(f"!! {path} has no state_full (pre-viz dump?) — starting fresh")
+            return None
+        return state_from_full(full)
+    except Exception as exc:
+        _p(f"!! could not resume from {path}: {exc} — starting fresh")
+        return None
+
+
+def main(rounds: int, fast: bool, offline: bool, dump: str | None,
+         resume: str | None = None, viz: bool = True):
+    state = _load_resume(resume) if resume else None
+    d = Director(state=state, fast=fast, offline=offline, viz=viz)
     log = []
     for _ in range(rounds):
         log.append(d.run_round())

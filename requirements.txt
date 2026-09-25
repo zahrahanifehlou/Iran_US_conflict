@@ -1,5 +1,4 @@
-# No third-party dependencies — the simulation talks to Ollama over HTTP
-# using only the Python standard library.
-# Requires: a running local Ollama instance (https://ollama.com) with at least:
-#   ollama pull llama3.2:3b          # Jev decision layer
-#   ollama pull qwen35-uncensored    # default character-agent model
+# Runtime: stdlib only (Ollama is talked to over HTTP).
+# Visualization (simulation/viz.py):
+matplotlib>=3.8
+pillow>=10.0      # GIF writer (ffmpeg also works if installed)
