@@ -1,5 +1,13 @@
 # Iran – US – Israel Conflict Simulation (Sept 2026)
 
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Ollama](https://img.shields.io/badge/Ollama-local%20LLMs-000000?logo=ollama&logoColor=white)](https://ollama.com)
+[![Jev](https://img.shields.io/badge/Jev-typed%20decision%20layer-blueviolet)](jev/)
+[![Jev model](https://img.shields.io/badge/decision%20model-llama3.2%3A3b-f7941d?logo=meta&logoColor=white)](https://ollama.com/library/llama3.2)
+[![Agent model](https://img.shields.io/badge/agent%20model-qwen35--uncensored-c0392b)](https://ollama.com)
+[![Charts](https://img.shields.io/badge/charts-matplotlib-11557c)](https://matplotlib.org)
+[![Runs](https://img.shields.io/badge/runs-100%25%20local-success)](config.py)
+
 A fully local multi-agent geopolitical simulation. Eight LLM agents play
 state and non-state actors in a fictionalized September-2026 Iran–US–Israel
 war; a fast typed decision layer called **Jev** governs who may act, who may
@@ -22,6 +30,19 @@ The split is deliberate:
   or annihilation. Witkoff/Kushner met Iranian officials on the sidelines.
 - Limited exchanges of fire continue. Brent ≈ $100. US midterms ~40 days
   out. Iran's economy is under blockade, ~60% inflation, rial ≈ 1.65M/USD.
+
+## The stack — what runs what
+
+| Component | Model (default) | Job |
+|---|---|---|
+| **Jev** decision layer | `llama3.2:3b` | typed gates + probabilities only; never prose |
+| **Character agents** | `qwen35-uncensored` | in-character statements, strategy, midnight learning |
+| **Oil market / IR street tracker** | `llama3.2:3b` | structured metric output |
+| **Charts** | matplotlib + pillow | GIF animation + PNG boards |
+| **Runtime** | stdlib HTTP → Ollama | zero third-party deps for the sim core |
+
+Swap any model via env: `SIM_JEV_MODEL`, `SIM_AGENT_MODEL`,
+`SIM_FAST_MODEL` (see `config.py`).
 
 ## The eight agents
 
@@ -246,5 +267,7 @@ Cumulative history — oil track, Jev probability track, influence totals:
   which is intentional but coarse. Richer effect parsing is the obvious
   next step.
 
-cd /home/zahra/Iran_US_conflict
-nohup python3 main.py --daemon --dump sim_log.json > daemon.out 2>&1 &
+---
+
+*Everything runs on your machine. No API keys, no cloud calls — just
+Ollama and Python.*
