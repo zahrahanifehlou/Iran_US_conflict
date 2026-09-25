@@ -163,7 +163,8 @@ def render_round(log: dict, round_no: int,
                  prefix: str | None = None) -> tuple[str, str]:
     snaps = log["snapshots"]
     verdict = log["verdict"]
-    date_range = log.get("state_full", {}).get("date_range", "")
+    date_range = log.get("date_range") or \
+        log.get("state_full", {}).get("date_range", "")
     prefix = prefix or f"round{round_no}"
     gif_path = f"{prefix}_animation.gif"
     png_path = f"{prefix}_summary.png"

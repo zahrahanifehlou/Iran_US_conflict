@@ -182,9 +182,11 @@ class Director:
            f"protests {st.iran_protest_level:.1f}/10")
         _p(BAR)
 
+        played_dates = st.date_range
         st.round_no += 1
         _advance_date_range(st)
         log = {"verdict": verdict.to_dict(),
+               "date_range": played_dates,
                "state": st.to_dict(),
                "state_full": asdict(st),
                "snapshots": self.snapshots,

@@ -53,12 +53,27 @@ Model assignments live in `config.py` (env overrides: `SIM_JEV_MODEL`,
 ## Run
 
 ```bash
-python3 main.py                  # Round 1: 25–26 Sept 2026
-python3 main.py --rounds 5       # keep simulating; state carries forward
-python3 main.py --fast           # all agents on llama3.2:3b (quickest)
-python3 main.py --offline        # no LLM calls — heuristic Jev + stub agents
-python3 main.py --dump out.json  # save every Jev verdict + state to JSON
+python3 main.py                     # Round 1: 25–26 Sept 2026
+python3 main.py --rounds 5          # keep simulating; state carries forward
+python3 main.py --resume out.json   # continue a saved world (--dump file)
+python3 main.py --fast              # all agents on llama3.2:3b (quickest)
+python3 main.py --offline           # no LLM calls — heuristic Jev + stub agents
+python3 main.py --no-viz            # skip animation rendering
+python3 main.py --dump out.json     # save verdicts + full state to JSON
 ```
+
+## Visualization
+
+After every round, `simulation/viz.py` renders the round's per-action
+snapshot trajectory to:
+
+- `roundN_animation.gif` — animated 4-panel build: Brent, war intensity
+  (X = Jev denied an escalation request, \* = human-review flag), Iran
+  street/regime, US domestic — plus an event ticker and Jev's final scores.
+- `roundN_summary.png` — the final frame as a static chart.
+
+Snapshots are taken after every agent action (`world.apply_single_action`
++ `tick_brent`), so the animation shows the round unfolding act by act.
 
 ## Steer the simulation
 
