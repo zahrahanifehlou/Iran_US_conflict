@@ -295,8 +295,17 @@ class Director:
             f"  - Jev: war72h {_fmt(verdict.p_war_72h)} | "
             f"deal7d {_fmt(verdict.p_deal_7d)} | "
             f"collapse {_fmt(verdict.p_collapse)}")
-        # optional injected real-world events for this day
+        # try to fetch the real-world wire first (Brent + headlines); if it
+        # fails or a hand-written file exists, that file is used instead
         ev_file = f"real_events/day{st.round_no}.txt"
+        if not os.path.exists(ev_file):
+            try:
+                from . import realworld
+                if realworld.fetch_day(st.round_no):
+                    _p(f"  [DIRECTOR] fetched real-world wire -> {ev_file}")
+            except Exception as exc:
+                _p(f"  [DIRECTOR] real-world fetch failed ({exc}) — "
+                   f"continuing on simulated ground truth")
         if os.path.exists(ev_file):
             with open(ev_file) as f:
                 injected = f.read().strip()

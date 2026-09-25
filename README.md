@@ -111,8 +111,13 @@ Jev's seven questions per round:
 After each day closes:
 
 1. **Ground truth** — the day's actual state changes, the settled Brent,
-   Jev's scores, plus anything you drop into `real_events/dayN.txt`
-   (optional real-world injection; detected automatically).
+   Jev's scores, plus the **real-world wire**: at midnight the sim fetches
+   the actual Brent/WTI close (Yahoo Finance) and the day's top conflict
+   headlines (Google News RSS) into `real_events/dayN.txt`, so agents grade
+   their predictions against reality, not just the simulation. A
+   hand-written `real_events/dayN.txt` always takes precedence if it
+   already exists; if the fetch fails the day simply runs on simulated
+   ground truth.
 2. **Every agent reflects** (`Agent.learn`): gets the day's outcomes + its
    own prediction from last midnight, returns
    `LEARNED / BELIEF / STANCE / PREDICTION / P_WAR / P_DEAL / BRENT_DIR`.
