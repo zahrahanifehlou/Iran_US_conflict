@@ -237,10 +237,10 @@ ground truth.
 
 Two things are **not** live, by design:
 
-- **The X/Twitter feed is synthetic.** `simulation/xfeed.py` holds
-  hand-written posts with plausible handles per round — there is no X API
-  call. Agents must cite one by handle, so the feed is a *scripted
-  stimulus*, not evidence about the real world.
+- **The default X/Twitter feed is synthetic.** `simulation/xfeed.py` holds
+  hand-written posts with plausible handles per round — but see
+  [The social feed](#the-social-feed--real-posts-no-paid-api) below: it can
+  now collect real public posts instead.
 - **The scenario itself is fictional** (September 2026). Real data is used
   only as a yardstick to grade forecasts, never as the plot.
 
@@ -272,6 +272,96 @@ Each prediction an agent files also **declares which of these inputs drove
 it** (`SOURCE: xfeed | wire | markets | memory | transcript`), so the
 scoreboard can show accuracy *by source* — i.e. whether the real wire
 beats the synthetic feed as a signal.
+
+## The social feed — real posts, no paid API
+
+`simulation/xfeed.py` is a pluggable provider layer:
+
+```
+XFeed
+├── SyntheticXFeed     hand-written posts — deterministic; tests + offline
+├── RealPublicXFeed    real X posts from free public endpoints (below)
+└── BlueskyPublicFeed  real posts via Bluesky's public unauthenticated API
+```
+
+**How the free X path works.** There is no free public X *search* API —
+anyone claiming otherwise sells a paid proxy. What exists unauthenticated:
+
+- **`syndication.twitter.com`** — the same backend X's own embed.js
+  widgets call to render timeline embeds. `RealPublicXFeed` requests each
+  watched account's public timeline once, extracts the embedded
+  `__NEXT_DATA__` JSON, and pulls out real tweets. No login, no key, no
+  credential borrowing — and **no retry around a 429**: a rate limit is a
+  rate limit. In practice this endpoint is heavily throttled (often
+  unusable from datacenter IPs), so treat it as best-effort.
+- **Nitter RSS mirrors** — optional, configured per-instance; every public
+  instance is currently dead, which is itself part of the answer: *as of
+  today there is no reliable free path to arbitrary X content.*
+
+Both are honest about it: if zero posts come back, the feed raises
+
+```
+Real X feed unavailable.
+No real posts were supplied to the simulation.
+Use SyntheticXFeed explicitly for testing.
+```
+
+and the agents that day are explicitly told there are **no posts** — the
+sim never swaps in fabricated content silently.
+
+**The honest alternative — Bluesky.** `provider: bluesky` uses
+`api.bsky.app/xrpc/app.bsky.feed.searchPosts` — real public search, no
+auth required. Posts arrive labelled `source: bluesky` and the agent
+prompt says so explicitly (*"real posts, NOT X/Twitter"*) — they are never
+represented as X content anywhere. `provider: auto` tries real X first,
+then Bluesky; when it falls through, the status records
+`fallback_from: real-x` with the failure reason, so the substitution is
+always visible in the log.
+
+**Enabling it** — config block in `config.py` (all env-overridable):
+
+```python
+X_FEED = {
+    "provider": "synthetic",   # SIM_FEED_PROVIDER: real|bluesky|auto
+    "query": "Iran OR Israel OR US OR Trump OR Hormuz OR Brent",
+    "max_posts": 50,
+    "cache": True,             # SIM_FEED_CACHE=0 disables
+    "cache_ttl_hours": 12,     # SIM_FEED_TTL_H
+    "accounts": [...],         # watched handles for the X embed path
+    "nitter_instances": [...], # optional Nitter mirrors
+    "timeout": 10,
+}
+```
+
+```bash
+SIM_FEED_PROVIDER=auto python3 main.py --daemon --dump sim_log.json
+# or per-run:
+python3 main.py --feed bluesky
+```
+
+**Caching.** Every successful collection is written to
+`cache/xfeed/<provider>_<queryhash>.json` (query + account list keyed;
+gitignored). A cache younger than `cache_ttl_hours` is served without any
+network access — a simulation can be re-run entirely offline from cache.
+If a live fetch fails but an *expired* cache exists, it is served as
+`stale-cache` and flagged as such in the status — stale real data, clearly
+marked, never fresh-looking.
+
+**Provenance — how to tell real from synthetic.** Every post normalizes to
+`{post_id, author, text, created_at, url, retrieved_at, source}` where
+`source` ∈ `synthetic | x:syndication | x:nitter@<host> | bluesky`.
+Provenance shows up in three places: the `[FEED] provider=… state=…` line
+in the console log, the `xfeed` block in the dump file (every post stored
+with its full record), and the header of the feed section in each agent
+prompt, which states plainly whether posts are real X, real Bluesky, or
+fictional. Relevance tags (which agents see which post) are inferred from
+keywords for real posts and curated for synthetic ones; every post is also
+deduplicated by `post_id` (text-hash fallback) and query-filtered before
+it reaches an agent.
+
+**Tests** — `tests/test_xfeed.py` covers parsing, normalization, dedup,
+caching, provenance, filtering and the unavailable-source error with fully
+mocked HTTP: `python3 -m unittest discover -s tests`.
 
 ## The midnight learning cycle
 
@@ -429,6 +519,7 @@ python3 main.py [options]
 --dump FILE     append each day's verdict/state/learning to JSON
 --no-push       with --daemon: don't commit/push the day's artifacts
 --push          also publish after a one-off (non-daemon) run
+--feed PROVIDER social-feed provider: synthetic | real | bluesky | auto
 ```
 
 ## Daemon mode (automatic 12-hourly runs)
@@ -505,6 +596,9 @@ Everything model-related lives in `config.py`, overridable by env:
 | `OLLAMA_HOST` | `http://localhost:11434` | local Ollama endpoint |
 | `SIM_CYCLE_HOURS` | `12` | daemon cadence, in hours of the local clock |
 | `SIM_AUTOPUSH` | `1` | set `0` to disable the automatic git commit + push |
+| `SIM_FEED_PROVIDER` | `synthetic` | `real` (public X) · `bluesky` · `auto` |
+| `SIM_FEED_QUERY` | `Iran OR Israel OR US OR Trump OR Hormuz OR Brent` | feed search terms |
+| `SIM_FEED_CACHE` | `1` | set `0` to always refetch the feed |
 
 Notes: thinking-style models (qwen3.5, deepseek-r1, gemma4) are called with
 `think=false` — otherwise they can exhaust `num_predict` on reasoning and
@@ -537,7 +631,8 @@ agents/
   base.py                generation, output parsing, memory + learn()
 simulation/
   state.py               SituationState, Sept-2026 seed, date advance, resume
-  xfeed.py               seeded X/Twitter posts per round (agents must cite)
+  xfeed.py               feed providers: synthetic script / real public X /
+                         Bluesky; normalization, dedup, cache, provenance
   world.py               action->state rules, fair-Brent model, drift
   director.py            the day loop, Jev gates, midnight learning, artifacts
   viz.py                 GIF animation + learning/prediction/history PNGs -> media/
@@ -594,7 +689,8 @@ Cumulative history — oil track, Jev probability track, influence totals:
 - **Inject reality**: write `real_events/dayN.txt` before a midnight run —
   it's added to the ground truth every agent learns from.
 - **Steer the feed**: add posts to `ROUND_POSTS[N]` in
-  `simulation/xfeed.py` — agents cite them, the market reacts.
+  `simulation/xfeed.py` — agents cite them, the market reacts. Or point the
+  feed at real posts: `--feed auto` / `SIM_FEED_PROVIDER=real`.
 - **Tune the world**: `simulation/world.py` controls every action→state
   mapping and the oil model.
 - **Tune Jev**: question text and the heuristic fallback live in

@@ -24,7 +24,7 @@ from jev.types import JevAnswer
 from jev.calibrate import JevCalibrator
 from .state import (SituationState, initial_state, state_from_full,
                     _advance_date_range)
-from .xfeed import feed_for
+from . import xfeed
 from . import world, predictions
 
 BAR = "=" * 72
@@ -148,6 +148,24 @@ class Director:
         self._snapshot("start", "round opens")
         state_dict = st.to_dict()
 
+        # ---- social feed: real public posts or the synthetic script ----
+        feed_posts: list[xfeed.XPost] = []
+        feed_status: dict = {}
+        try:
+            feed_posts, feed_status = xfeed.collect_feed(
+                round_no=st.round_no, offline=self.offline)
+        except xfeed.RealFeedUnavailable as exc:
+            feed_status = {"provider": "real", "state": "unavailable",
+                           "n_posts": 0, "error": str(exc)}
+            _p(f"  !! {exc}")
+        _p(f"  [FEED] provider={feed_status.get('provider')} "
+           f"state={feed_status.get('state')} "
+           f"posts={feed_status.get('n_posts')}"
+           + (f" sources={sorted(feed_status['sources'])}"
+              if feed_status.get("sources") else "")
+           + (f" [cache: {feed_status['cache_path']}]"
+              if feed_status.get("cache_path") else ""))
+
         # ---- live wire: real-world headlines shape today's acting ----
         live_wire: list[str] = []
         if not self.offline:
@@ -193,9 +211,10 @@ class Director:
             else:
                 _p(f"  ... {agent.p.name} speaking ({agent.model})")
                 try:
-                    action = agent.act(st, feed_for(st.round_no, aid),
-                                       bool(esc.value), transcript,
-                                       live_wire=live_wire)
+                    action = agent.act(
+                        st, xfeed.posts_for(feed_posts, aid),
+                        bool(esc.value), transcript,
+                        live_wire=live_wire)
                 except Exception as exc:
                     _p(f"  !! model call failed for {aid}: {exc} — offline line")
                     action = self._offline_act(agent, st)
@@ -311,6 +330,8 @@ class Director:
                "snapshots": self.snapshots,
                "transcript": transcript,
                "live_wire": live_wire,
+               "xfeed": {**feed_status,
+                         "posts": [p.to_dict() for p in feed_posts]},
                "influence": influence_map,
                "scoreboard": predictions.scoreboard(self.agents),
                "learning": learning}

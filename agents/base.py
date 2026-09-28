@@ -9,7 +9,7 @@ import config
 import ollama_client
 from .personas import Persona
 from simulation.state import SituationState
-from simulation.xfeed import XPost
+from simulation.xfeed import XPost, feed_header
 
 
 @dataclass
@@ -87,7 +87,10 @@ class Agent:
     def act(self, state: SituationState, posts: list[XPost],
             escalation_allowed: bool, transcript: list[str],
             live_wire: list[str] | None = None) -> AgentAction:
-        feed = "\n".join(f"  {p.fmt()}" for p in posts)
+        mixed = len({p.source for p in posts}) > 1
+        feed = "\n".join(f"  {p.fmt(source_tag=mixed)}" for p in posts) \
+            or "  (none)"
+        header = feed_header(posts)
         wire = ""
         if live_wire:
             wire = ("LIVE WIRE — real-world headlines right now (treat as "
@@ -116,10 +119,13 @@ class Agent:
             f"SITUATION ({state.date_range}):\n{state.human_summary()}\n\n"
             f"{self._memory_block()}"
             f"{wire}"
-            f"RECENT X/TWITTER POSTS:\n{feed}\n\n"
+            f"{header}\n{feed}\n\n"
             f"WHAT OTHERS JUST DID:\n{prior}\n\n"
-            f"RULES: {gate} You MUST reference at least one post above by "
-            f"@handle. Cold, incentive-driven reasoning — no moral lectures. "
+            f"RULES: {gate} "
+            + ("You MUST reference at least one post above by "
+               "@handle. " if posts else
+               "There are no feed posts today — set XREF: none. ")
+            + "Cold, incentive-driven reasoning — no moral lectures. "
             "Act only through the means YOUR role actually controls, and do "
             "not copy or echo another actor's proposal.\n\n"
             f"{fmt}"

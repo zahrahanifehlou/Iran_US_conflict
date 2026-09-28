@@ -1,7 +1,7 @@
 IRAN–US–ISR SIM · day 1 (25-26 September 2026)
-P(war 72h) 0.23 · P(deal 7d) 0.23 · P(collapse) 0.23
-Brent $141.6
-Key call: A tactical pause in kinetic strikes to allow Witkoff/Kushner to present a "rebuilding" framework that preserves…
+P(war 72h) 0.50 · P(deal 7d) 0.47 · P(collapse) 0.73
+Brent $108.6
+FR pump: petrol €2.26/L · diesel €2.43/L
 AI simulation — not a real-world forecast.
 
 [attach image: media/day1_predictions.png]

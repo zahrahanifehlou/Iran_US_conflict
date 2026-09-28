@@ -45,7 +45,16 @@ if __name__ == "__main__":
                          "(auto-publish is on by default in daemon mode)")
     ap.add_argument("--push", action="store_true",
                     help="commit/push the artifacts after a one-off run too")
+    ap.add_argument("--feed",
+                    choices=["synthetic", "real", "bluesky", "auto"],
+                    metavar="PROVIDER",
+                    help="social-feed provider: synthetic | real | bluesky | "
+                         "auto (overrides SIM_FEED_PROVIDER)")
     args = ap.parse_args()
+
+    if args.feed:
+        import config
+        config.X_FEED["provider"] = args.feed
 
     if not args.offline and not ollama_client.ping():
         sys.exit("Ollama is not reachable at the configured host. "

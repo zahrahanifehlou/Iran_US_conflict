@@ -2,6 +2,7 @@ daemon.out
 __pycache__/
 *.pyc
 sim_log.backup.json
+cache/
 
 # published by the daemon on every run (see simulation/autopush.py):
 #   sim_log.json  real_events/  posts/  media/

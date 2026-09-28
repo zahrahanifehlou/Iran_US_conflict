@@ -31,3 +31,26 @@ AGENT_NUM_PREDICT = 420        # statements stay punchy
 SIM_TITLE = "Iran - US - Israel Conflict Simulation"
 START_DATE = "25 September 2026"
 REQUEST_TIMEOUT = 300          # seconds per Ollama call (big models are slow)
+
+# --- social feed -------------------------------------------------------------
+# provider: synthetic | real | bluesky | auto  (see simulation/xfeed.py)
+#   real = free public X endpoints, fails loudly rather than fabricating
+#   auto = real X first, then Bluesky public search (labelled, never hidden)
+# Cached collections live in cache/xfeed/*.json — replay runs with no network.
+X_FEED = {
+    "provider": os.environ.get("SIM_FEED_PROVIDER", "synthetic"),
+    "query": os.environ.get(
+        "SIM_FEED_QUERY",
+        "Iran OR Israel OR US OR Trump OR Hormuz OR Brent"),
+    "max_posts": int(os.environ.get("SIM_FEED_MAX", "50")),
+    "cache": os.environ.get("SIM_FEED_CACHE", "1") not in ("0", "false", "no"),
+    "cache_ttl_hours": float(os.environ.get("SIM_FEED_TTL_H", "12")),
+    "accounts": [h for h in os.environ.get(
+        "SIM_FEED_ACCOUNTS",
+        "realDonaldTrump,netanyahu,khamenei_ir,IranIntl_En,"
+        "JavierBlas,amanpour,vonderleyen").split(",") if h],
+    "nitter_instances": [h for h in os.environ.get(
+        "SIM_FEED_NITTER",
+        "nitter.net,nitter.privacydev.net").split(",") if h],
+    "timeout": int(os.environ.get("SIM_FEED_TIMEOUT", "10")),
+}
