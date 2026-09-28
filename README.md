@@ -489,6 +489,41 @@ a closed evaluation loop over a frozen model, and its effect is visible in
 `media/dayN_before_after.png` (last night's call vs tonight's revision) and
 in the calibration curve on `media/prediction_scoreboard.png`.
 
+## The swarm — a second forecasting voice
+
+Jev is one small model scoring alone. `simulation/swarm.py` is the swarm
+answer: after the midnight learning cycle every agent has already filed
+`P_WAR` / `P_DEAL` / `BRENT_DIR`, so the swarm **costs no extra LLM
+calls**. It runs a UNU-style iterated convergence on those votes:
+
+- each vote is weighted by the voter's **track record** (prediction
+  accuracy in the ledger so far; unproven agents start neutral at 0.5);
+- each iteration pulls every position toward the **skill-weighted** mean,
+  with a twist — the pull is `pull · (1 − skill)`, so proven forecasters
+  are *sticky* and unproven ones get dragged toward the consensus;
+- the swarm settles when the largest movement drops below epsilon or the
+  iteration cap hits; the **residual dispersion is kept on purpose** — it
+  is the honest measure of how much the group still disagrees, and feeds
+  the `conviction` score (`1 − 2·mean_dispersion`).
+
+Brent direction resolves by skill-weighted plurality. The output lands in
+the dump as `swarm` (consensus values, per-agent final positions,
+conviction, `jev_gap` — the absolute distance between the swarm and Jev's
+calibrated scores, itself a signal worth watching), prints a
+`SWARM CONSENSUS` block each night, and adds a line to
+`posts/dayN_tweet.txt`. Deterministic, stdlib-only, microseconds.
+
+```
+SWARM CONSENSUS — 5 voters, skill-weighted
+  swarm P(war 72h)  0.60 (dispersion 0.037, 12 iters)
+  swarm P(deal 7d)  0.48 (dispersion 0.039, 12 iters)
+  swarm brent dir   up (57% of weighted votes)
+  swarm-vs-Jev gap: p_war_72h Δ0.38 | p_deal_7d Δ0.23
+```
+
+Config in `config.py` (`SWARM`): `SIM_SWARM=0` disables; `SIM_SWARM_PULL`,
+`SIM_SWARM_ITERS`, `SIM_SWARM_EPS` tune the convergence.
+
 ## Generated artifacts (every day)
 
 | File | Contents |
@@ -599,6 +634,7 @@ Everything model-related lives in `config.py`, overridable by env:
 | `SIM_FEED_PROVIDER` | `synthetic` | `real` (public X) · `bluesky` · `auto` |
 | `SIM_FEED_QUERY` | `Iran OR Israel OR US OR Trump OR Hormuz OR Brent` | feed search terms |
 | `SIM_FEED_CACHE` | `1` | set `0` to always refetch the feed |
+| `SIM_SWARM` | `1` | set `0` to disable the swarm consensus layer |
 
 Notes: thinking-style models (qwen3.5, deepseek-r1, gemma4) are called with
 `think=false` — otherwise they can exhaust `num_predict` on reasoning and
@@ -639,6 +675,7 @@ simulation/
   daemon.py              resident 12-hourly scheduler with checkpointing
   realworld.py           Brent/WTI/Gold + FR pump + headlines fetch (no keys)
   predictions.py         prediction ledger: horizons, judging, Brier, calibration
+  swarm.py               skill-weighted swarm consensus over nightly votes
   dailypost.py           writes posts/dayN_tweet.txt for manual posting
   autopush.py            commits + pushes the day's artifacts to the remote
 real_events/dayN.txt     optional real-world injection for the learning cycle

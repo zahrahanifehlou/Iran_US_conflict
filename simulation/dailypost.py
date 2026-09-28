@@ -46,6 +46,13 @@ def compose_post(log: dict) -> str:
         f"· P(collapse) {s('p_collapse')}",
         f"Brent {brent_txt}",
     ]
+    sw = log.get("swarm") or {}
+    sw_war = (sw.get("p_war_72h") or {}).get("value")
+    sw_deal = (sw.get("p_deal_7d") or {}).get("value")
+    if sw_war is not None or sw_deal is not None:
+        lines.append(
+            f"Swarm ({sw.get('n_voters', '?')} agents): "
+            f"war {sw_war:.2f} · deal {sw_deal:.2f}")
     if pump:
         lines.append(pump)
     board = log.get("scoreboard") or {}

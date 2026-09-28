@@ -54,3 +54,14 @@ X_FEED = {
         "nitter.net,nitter.privacydev.net").split(",") if h],
     "timeout": int(os.environ.get("SIM_FEED_TIMEOUT", "10")),
 }
+
+# --- swarm consensus layer ---------------------------------------------------
+# A second forecasting voice next to Jev: the agents' midnight P_WAR/P_DEAL/
+# BRENT_DIR votes, skill-weighted and iterated to a UNU-style consensus.
+# Pure stdlib, no extra model calls. SIM_SWARM=0 disables.
+SWARM = {
+    "enabled": os.environ.get("SIM_SWARM", "1") not in ("0", "false", "no"),
+    "pull": float(os.environ.get("SIM_SWARM_PULL", "0.35")),
+    "iterations": int(os.environ.get("SIM_SWARM_ITERS", "12")),
+    "epsilon": float(os.environ.get("SIM_SWARM_EPS", "0.0001")),
+}

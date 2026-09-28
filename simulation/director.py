@@ -26,6 +26,7 @@ from .state import (SituationState, initial_state, state_from_full,
                     _advance_date_range)
 from . import xfeed
 from . import world, predictions
+import config
 
 BAR = "=" * 72
 SUB = "-" * 72
@@ -321,6 +322,17 @@ class Director:
             learning = self._midnight(played_dates, day_notes,
                                       verdict, influence_map)
 
+        # ------------------------------------------ swarm consensus layer
+        # a second forecasting voice next to Jev: every agent's P_WAR /
+        # P_DEAL / BRENT_DIR vote, skill-weighted, converged iteratedly
+        swarm_block = {}
+        if config.SWARM.get("enabled"):
+            try:
+                swarm_block = _run_swarm(learning, self.agents, verdict)
+            except Exception as exc:
+                _p(f"  !! swarm consensus failed: {exc}")
+                swarm_block = {"state": "error", "error": str(exc)}
+
         st.round_no += 1
         _advance_date_range(st)
         log = {"verdict": verdict.to_dict(),
@@ -332,6 +344,7 @@ class Director:
                "live_wire": live_wire,
                "xfeed": {**feed_status,
                          "posts": [p.to_dict() for p in feed_posts]},
+               "swarm": swarm_block,
                "influence": influence_map,
                "scoreboard": predictions.scoreboard(self.agents),
                "learning": learning}
@@ -548,6 +561,38 @@ class Director:
             agent.p.agent_id, agent.p.name,
             statement="(offline mode — LLM call skipped)",
             proposed_action="hold position", model="offline")
+
+
+def _run_swarm(learning: dict, agents: dict,
+               verdict: RoundVerdict) -> dict:
+    """Skill-weighted swarm consensus over the agents' midnight votes —
+    a second forecasting voice alongside Jev's calibrated scores."""
+    from . import swarm
+    votes = swarm.collect_votes(learning, agents)
+    block = swarm.swarm_consensus(
+        votes, pull=config.SWARM["pull"], iters=config.SWARM["iterations"],
+        eps=config.SWARM["epsilon"])
+    if not block.get("n_voters"):
+        return block
+    sw, sd = block.get("p_war_72h") or {}, block.get("p_deal_7d") or {}
+    _p(f"\n{SUB}\nSWARM CONSENSUS — {block['n_voters']} voters, "
+       f"skill-weighted")
+    if sw.get("value") is not None:
+        _p(f"  swarm P(war 72h)  {sw['value']:.2f} "
+           f"(dispersion {sw['dispersion']}, {sw['iters']} iters)")
+    if sd.get("value") is not None:
+        _p(f"  swarm P(deal 7d)  {sd['value']:.2f} "
+           f"(dispersion {sd['dispersion']}, {sd['iters']} iters)")
+    bd = block.get("brent_dir") or {}
+    if bd.get("direction"):
+        _p(f"  swarm brent dir   {bd['direction']} "
+           f"({bd['share']:.0%} of weighted votes)")
+    gaps = swarm.compare_with_jev(block, verdict.to_dict())
+    if gaps:
+        _p("  swarm-vs-Jev gap: "
+           + " | ".join(f"{k} Δ{g:.2f}" for k, g in gaps.items()))
+    block["jev_gap"] = gaps
+    return block
 
 
 def _load_resume(path: str):
