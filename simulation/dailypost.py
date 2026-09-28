@@ -38,8 +38,6 @@ def compose_post(log: dict) -> str:
             if p:
                 key_event = p
                 break
-    key_event = key_event[:110] + ("…" if len(key_event) > 110 else "")
-
     date = log.get("date_range", "")
     day = (log.get("state_full", {}).get("round_no") or 1) - 1
     lines = [
@@ -50,17 +48,28 @@ def compose_post(log: dict) -> str:
     ]
     if pump:
         lines.append(pump)
-    if key_event:
-        lines.append(f"Key call: {key_event}")
     board = log.get("scoreboard") or {}
+    tail = []
     if board:
         best = max(board, key=lambda a: board[a]["accuracy"])
         total = sum(b["n"] for b in board.values())
-        lines.append(f"Ledger: {total} calls graded · top forecaster "
-                     f"{best} ({board[best]['accuracy']:.0%} acc)")
-    lines.append(DISCLAIMER)
-    text = "\n".join(lines)
-    return text[:278] if len(text) > 278 else text
+        tail.append(f"Ledger: {total} calls graded · top forecaster "
+                    f"{best} ({board[best]['accuracy']:.0%} acc)")
+    tail.append(DISCLAIMER)
+
+    # the key call is the only elastic part — shrink it so the ledger and
+    # the disclaimer always survive the 278-char budget
+    fixed = len("\n".join(lines + tail)) + (len("\nKey call: ")
+                                            if key_event else 0)
+    if key_event:
+        budget = 278 - fixed
+        if budget < 20:
+            key_event = ""
+        elif len(key_event) > budget:
+            key_event = key_event[:budget - 1].rstrip() + "…"
+        if key_event:
+            lines.append(f"Key call: {key_event}")
+    return "\n".join(lines + tail)[:278]
 
 
 def save_daily_post(log: dict, round_no: int,

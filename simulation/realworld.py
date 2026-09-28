@@ -2,8 +2,10 @@
 agents grade their predictions against reality, not just the simulation.
 
 Sources (no API keys needed):
-  - Brent crude futures quote: stooq.com CSV endpoint
-  - Top conflict headlines: Google News RSS search
+  - Brent / WTI / gold futures quotes: Yahoo Finance chart endpoint
+    https://query1.finance.yahoo.com/v8/finance/chart/BZ=F
+  - French pump prices (petrol 95 / diesel): https://www.fuel-prices.eu/France/
+  - Top conflict headlines: Google News RSS search (last 24h) search
 
 Every call fails soft: no network / bad payload -> empty output, and the
 learning cycle simply runs without the wire. Nothing here can crash a day.

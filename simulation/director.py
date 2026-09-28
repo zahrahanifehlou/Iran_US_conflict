@@ -591,7 +591,8 @@ def _load_resume(path: str):
 
 
 def main(rounds: int, fast: bool, offline: bool, dump: str | None,
-         resume: str | None = None, viz: bool = True, learn: bool = True):
+         resume: str | None = None, viz: bool = True, learn: bool = True,
+         push: bool = False):
     state, history, memories = (None, [], {})
     if resume:
         state, history, memories = _load_resume(resume)
@@ -612,3 +613,6 @@ def main(rounds: int, fast: bool, offline: bool, dump: str | None,
         with open(dump, "w") as f:
             json.dump(log, f, indent=2)
         _p(f"\nTranscript + Jev verdicts written to {dump}")
+    if push:
+        from . import autopush
+        autopush.publish(d.state.round_no - 1, dump or "", log=_p)

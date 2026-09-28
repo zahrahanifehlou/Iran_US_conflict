@@ -25,9 +25,10 @@ The split is deliberate:
 
 ## In plain words
 
-Think of it as a **fake world that plays itself every night**. Nineteen
+Think of it as a **fake world that plays itself twice a day**. Nineteen
 characters — Trump, Netanyahu, Iran's generals, an oil trader, a panicked
-French voter — are each played by an AI on your computer. Every midnight
+French voter — are each played by an AI on your computer. Every 12 hours
+(00:00 and 12:00)
 the drama advances one day; then every character goes home, thinks about
 what happened, and wakes up a little smarter.
 
@@ -73,7 +74,7 @@ Geopolitical events ──> Economic effects ──> Real-world impact
 
 Every image is **regenerated after each night's learning cycle**, and the
 day's ready-to-paste post lands in `posts/dayN_tweet.txt` with the chart
-attached. The daemon then sleeps until the next midnight and repeats —
+attached. The daemon then sleeps until the next 12-hour mark and repeats —
 fully hands-off.
 
 ## Scenario seed (25 September 2026)
@@ -217,6 +218,61 @@ calibrated answers are marked `source: jev-calibrated` in the log.
   score. Ambient market drift is deliberately *not* attributed, so the
   metric measures agency, not luck.
 
+## Where the information comes from (live sources)
+
+Nothing is scraped behind a paywall and **no API keys are required** —
+every fetch is a plain unauthenticated HTTP GET from
+`simulation/realworld.py`, with a 12 s timeout, and every one of them
+**fails soft**: if a source is down the day still runs, just on simulated
+ground truth.
+
+| What | Source | Exact endpoint | Refreshed |
+|---|---|---|---|
+| Brent crude (`BZ=F`) | [Yahoo Finance](https://finance.yahoo.com/quote/BZ%3DF/) | [`query1.finance.yahoo.com/v8/finance/chart/BZ=F`](https://query1.finance.yahoo.com/v8/finance/chart/BZ=F?interval=1d&range=5d) | at midnight, per day |
+| WTI crude (`CL=F`) | [Yahoo Finance](https://finance.yahoo.com/quote/CL%3DF/) | [`.../chart/CL=F`](https://query1.finance.yahoo.com/v8/finance/chart/CL=F?interval=1d&range=5d) | at midnight, per day |
+| Gold (`GC=F`) | [Yahoo Finance](https://finance.yahoo.com/quote/GC%3DF/) | [`.../chart/GC=F`](https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=1d&range=5d) | at midnight, per day |
+| French pump prices (petrol 95 / diesel) | [fuel-prices.eu](https://www.fuel-prices.eu/France/) | [`fuel-prices.eu/France/`](https://www.fuel-prices.eu/France/) (two `<meta content>` regexes) | at midnight, per day |
+| Conflict headlines | [Google News RSS](https://news.google.com/rss/search?q=Iran%20Israel%20war%20OR%20Strait%20of%20Hormuz%20OR%20Brent%20crude%20when:1d&hl=en-US&gl=US&ceid=US:en) | `news.google.com/rss/search?q=Iran Israel war OR Strait of Hormuz OR Brent crude when:1d` | **twice**: 5 headlines when the day opens, 8 at midnight |
+| Model inference | [Ollama](https://ollama.com), local only | `http://localhost:11434` (`OLLAMA_HOST`) | every call |
+
+Two things are **not** live, by design:
+
+- **The X/Twitter feed is synthetic.** `simulation/xfeed.py` holds
+  hand-written posts with plausible handles per round — there is no X API
+  call. Agents must cite one by handle, so the feed is a *scripted
+  stimulus*, not evidence about the real world.
+- **The scenario itself is fictional** (September 2026). Real data is used
+  only as a yardstick to grade forecasts, never as the plot.
+
+How a day's information flow works:
+
+1. **Day opens** — `realworld.fetch_headlines(5)` pulls the last 24 h of
+   real headlines and injects them into *every* agent prompt as a
+   `LIVE WIRE` block, labelled "treat as actual events unfolding in
+   parallel" (`agents/base.py:act`). They are also stored in the dump
+   under `live_wire`.
+2. **Midnight** — `realworld.fetch_day(N)` pulls the three futures
+   quotes, the French pump prices and 8 headlines, and writes them to
+   **`real_events/dayN.txt`**, which is then appended to the day's ground
+   truth as the `REAL-WORLD WIRE` block.
+3. **Manual override** — if `real_events/dayN.txt` already exists, it is
+   used verbatim and **no fetch happens**. Drop your own file there to
+   feed the sim whatever wire you want (real, hypothetical, or a stress
+   test).
+4. **`--offline`** skips all of it: no HTTP, no Ollama, heuristic Jev.
+
+Check what a given day actually saw:
+
+```bash
+cat real_events/day4.txt        # the midnight wire, verbatim
+rg '"live_wire"' -A6 sim_log.json | head -20   # the morning headlines
+```
+
+Each prediction an agent files also **declares which of these inputs drove
+it** (`SOURCE: xfeed | wire | markets | memory | transcript`), so the
+scoreboard can show accuracy *by source* — i.e. whether the real wire
+beats the synthetic feed as a signal.
+
 ## The midnight learning cycle
 
 After each day closes:
@@ -280,6 +336,69 @@ persist in the dump file across restarts.
   prediction declares whether `xfeed | wire | markets | memory |
   transcript` drove it, so you can see which signals actually pay off.
 
+## How "training" happens for the next prediction
+
+**No weights are ever updated.** There is no fine-tuning, no gradients, no
+LoRA — the Ollama models are frozen. All learning is **in-context**: what
+changes between days is the *text* each agent is fed. That is the whole
+mechanism, and it is deliberately auditable — you can read every byte of
+what an agent "learned" in `sim_log.json`.
+
+The loop, in the order it executes each midnight
+(`simulation/director.py` → `predictions.evaluate_due` →
+`agents/base.py:learn`):
+
+1. **Ground truth is assembled** — the day's state deltas (Brent, war
+   intensity, Hormuz status, protests, regime cohesion, US gas), Jev's
+   three scores, and the real-world wire from `real_events/dayN.txt`.
+   This single text blob is the *only* arbiter.
+2. **Matured claims are graded first, before the agent reflects.** Every
+   pending prediction whose `due` day has arrived is judged against that
+   blob: **Jev returns a typed yes/no verdict** on whether the event
+   substantively occurred (online), or a keyword-overlap heuristic decides
+   (offline: ≥50% of content words present → hit, 0 → miss, in-between →
+   undetermined). Undetermined claims linger one day, then **expire**
+   rather than being scored as wrong — the ledger refuses to guess.
+3. **Each graded claim produces numbers**: `brier = (conf − outcome)²` and
+   `hit = (conf ≥ 0.5) == outcome`, accumulated per agent into `n`,
+   accuracy, mean Brier, false positives/negatives, and splits **by
+   horizon** and **by declared source**.
+4. **The results are handed back to the agent as prompt text** — this is
+   the actual "training signal":
+
+   ```
+   YOUR PREDICTIONS THAT JUST RESOLVED:
+     - [72h] 'Iran closes Hormuz to all tanker traffic' -> WRONG
+       (you gave 85%, it did not happen)
+   ```
+
+   Immediately followed by "Reflect coldly… you will be graded." An agent
+   that keeps crying wolf therefore reads its own failed 85% calls every
+   single night, which is why over-confident personas measurably cool off.
+5. **The agent returns a typed update**, not prose:
+   `LEARNED / BELIEF / STANCE / PREDICTION / PRED_24H…PRED_30D (each with
+   a 0–100 confidence) / SOURCE / P_WAR / P_DEAL / BRENT_DIR`.
+6. **What carries into tomorrow** — the `LEARNED` line is pushed onto the
+   agent's memory (**last 8 lessons only**, a deliberate rolling window)
+   and `STANCE` replaces the old one. Both are rendered into the *daytime*
+   prompt by `_memory_block`, so tonight's lesson changes tomorrow's
+   actions, not just tomorrow's forecast.
+7. **The five new claims are filed** into the ledger with
+   `made = today`, `due = today + {1,3,7,14,30}`, their confidence, and
+   their declared `SOURCE` — and the cycle repeats. Pending lists are
+   capped at the most recent 40 claims per agent.
+8. **Persistence** — memory, stance, pending claims and `pred_stats` are
+   written into the `--dump` file every day. `--resume` (and a daemon
+   restart) reloads them, so learning survives restarts and the ledger is
+   continuous across runs. Delete the dump and every agent is amnesiac
+   again.
+
+So "smarter tomorrow" means precisely: *worse Brier → harsher feedback text
+in the prompt → a different stance and lower confidences filed.* It is
+a closed evaluation loop over a frozen model, and its effect is visible in
+`media/dayN_before_after.png` (last night's call vs tonight's revision) and
+in the calibration curve on `media/prediction_scoreboard.png`.
+
 ## Generated artifacts (every day)
 
 | File | Contents |
@@ -301,16 +420,18 @@ python3 main.py [options]
 
 --rounds N      simulate N days in one process (state carries forward)
 --resume FILE   continue from a --dump file (world + memories + history)
---daemon        stay resident; run one day at every 00:00, forever
+--daemon        stay resident; run one day every 12h (00:00 / 12:00), forever
 --run-now       with --daemon: run one day immediately, then the schedule
 --fast          every agent on the small model (llama3.2:3b)
 --offline       zero LLM calls — heuristic Jev + stub agents (CI/debug)
 --no-viz        skip all chart rendering
 --no-learn      skip the midnight learning cycle
 --dump FILE     append each day's verdict/state/learning to JSON
+--no-push       with --daemon: don't commit/push the day's artifacts
+--push          also publish after a one-off (non-daemon) run
 ```
 
-## Daemon mode (automatic midnight runs)
+## Daemon mode (automatic 12-hourly runs)
 
 ```bash
 nohup python3 main.py --daemon --dump sim_log.json > daemon.out 2>&1 &
@@ -318,17 +439,59 @@ nohup python3 main.py --daemon --dump sim_log.json > daemon.out 2>&1 &
 
 Behavior:
 
+- Runs one simulated day at every **12-hour mark of the local clock —
+  00:00 and 12:00**. Marks are absolute, so a restart never drifts the
+  schedule. Set `SIM_CYCLE_HOURS=6` (etc.) to change the cadence.
 - Prints a timestamped banner when a new day starts and when each image is
-  saved; between runs it prints `waiting for midnight (Xh until next cycle)`.
+  saved; between runs it prints
+  `waiting for the next 12h mark (Xh until next cycle)`.
 - Sleeps in 30 s slices — SIGTERM/SIGINT shut it down promptly and the
   checkpoint is always current.
 - The `--dump` file doubles as the checkpoint: point the daemon at the same
   file on restart and it resumes the same world, agent memory included.
-- If a day crashes, the error is logged and it retries next midnight —
+- If a day crashes, the error is logged and it retries on the next cycle —
   the checkpoint is never left half-written.
 - After checkpointing it writes the day's ready-to-post summary file
   (see below).
 
+## Auto-publishing to GitHub
+
+In daemon mode, every completed day is **committed and pushed
+automatically** once the charts, the post and the checkpoint are on disk
+(`simulation/autopush.py`, called after `append_dump`). The log shows it:
+
+```
+[2026-09-29 00:11:04] DAY 5 COMPLETE — graphs + checkpoint saved
+  [PUSH] committed day 5 artifacts
+  [PUSH] pushed day 5 to origin/main
+```
+
+Rules it follows:
+
+- **Only artifacts are staged** — `media/`, `posts/`, `real_events/` and the
+  `--dump` file, by explicit path. Source edits you make while the daemon
+  is resident are *never* swept into an automated commit.
+- **Never forces, never rewrites history.** If the remote has diverged the
+  push is rejected, the commit stays local, and the reason is logged
+  (`! [rejected] … (fetch first)`). Resolve it with a normal
+  `git pull --rebase`; the backlog goes out with the next run.
+- **Nothing to commit → no empty commit** (identical charts on a rerun are
+  detected and skipped).
+- **Fails soft and time-boxed** (120 s): no remote, no network, or an
+  SSH key that needs a passphrase logs one line and the daemon carries on.
+  Git runs with `BatchMode=yes` / `GIT_TERMINAL_PROMPT=0`, so an
+  unattended run can never hang on a credential prompt.
+
+Turn it off with `--no-push`, or `SIM_AUTOPUSH=0`. For a one-off
+(non-daemon) run, publishing is **opt-in** with `--push`:
+
+```bash
+python3 main.py --resume sim_log.json --dump sim_log.json --push
+```
+
+Note that `media/` is committed as ordinary git blobs, so history grows by
+roughly 2.5 MB per run (the animation is the bulk of it). If that becomes
+a problem, route `media/*.gif` and `media/*.png` through `git lfs track`.
 
 ## Configuration
 
@@ -340,6 +503,8 @@ Everything model-related lives in `config.py`, overridable by env:
 | `SIM_AGENT_MODEL` | `qwen35-uncensored` | default character model |
 | `SIM_FAST_MODEL` | `llama3.2:3b` | oil market, sentiment tracker, `--fast` |
 | `OLLAMA_HOST` | `http://localhost:11434` | local Ollama endpoint |
+| `SIM_CYCLE_HOURS` | `12` | daemon cadence, in hours of the local clock |
+| `SIM_AUTOPUSH` | `1` | set `0` to disable the automatic git commit + push |
 
 Notes: thinking-style models (qwen3.5, deepseek-r1, gemma4) are called with
 `think=false` — otherwise they can exhaust `num_predict` on reasoning and
@@ -376,10 +541,11 @@ simulation/
   world.py               action->state rules, fair-Brent model, drift
   director.py            the day loop, Jev gates, midnight learning, artifacts
   viz.py                 GIF animation + learning/prediction/history PNGs -> media/
-  daemon.py              resident 00:00 scheduler with checkpointing
-  realworld.py           Brent/WTI/Gold + headlines fetch (no keys needed)
+  daemon.py              resident 12-hourly scheduler with checkpointing
+  realworld.py           Brent/WTI/Gold + FR pump + headlines fetch (no keys)
   predictions.py         prediction ledger: horizons, judging, Brier, calibration
   dailypost.py           writes posts/dayN_tweet.txt for manual posting
+  autopush.py            commits + pushes the day's artifacts to the remote
 real_events/dayN.txt     optional real-world injection for the learning cycle
 posts/dayN_tweet.txt     ready-to-paste daily post (manual X/Twitter)
 media/                   all generated PNG/GIF artifacts

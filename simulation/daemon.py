@@ -1,14 +1,15 @@
-"""Nightly daemon — keeps the simulation resident and runs one full
-simulated day at every 00:00 local time, forever.
+"""Resident daemon — keeps the simulation live and runs one full
+simulated day at every 12-hour mark of local time (00:00 and 12:00),
+forever.
 
-Each midnight run:
+Each cycle:
   1. plays the day (Jev-driven acting order, gated escalation),
   2. runs the midnight learning cycle (agents review real outcomes,
      update beliefs, file predictions),
   3. saves all graphs (animation, summary, learning board, focused
      predictions, before/after learning, cumulative history),
   4. appends the day to the dump file (which doubles as the resume
-     checkpoint), then sleeps until the next midnight.
+     checkpoint), then sleeps until the next 12-hour mark.
 
 Run detached, e.g.:
     nohup python3 main.py --daemon --dump sim_log.json > daemon.out 2>&1 &
@@ -22,9 +23,12 @@ import signal
 import time
 from datetime import datetime, timedelta
 
+from . import autopush
 from .director import Director, _load_resume, _p, BAR
 
 _running = True
+
+CYCLE_HOURS = int(os.environ.get("SIM_CYCLE_HOURS", "12"))
 
 
 def _stop(signum, frame):
@@ -37,17 +41,21 @@ def _ts() -> str:
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
-def _seconds_until_midnight() -> float:
+def _seconds_until_next_cycle() -> float:
+    """Time to the next CYCLE_HOURS mark of the local clock (with
+    CYCLE_HOURS=12 that is the next 00:00 or 12:00)."""
     now = datetime.now()
-    nxt = (now + timedelta(days=1)).replace(hour=0, minute=0,
-                                           second=0, microsecond=0)
+    midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    elapsed = (now - midnight).total_seconds()
+    step = CYCLE_HOURS * 3600
+    nxt = midnight + timedelta(seconds=(int(elapsed // step) + 1) * step)
     return (nxt - now).total_seconds()
 
 
-def _sleep_until_midnight() -> None:
+def _sleep_until_next_cycle() -> None:
     """Sleep in 30s slices so SIGTERM is honoured promptly."""
     while _running:
-        remaining = _seconds_until_midnight()
+        remaining = _seconds_until_next_cycle()
         if remaining <= 1:
             return
         time.sleep(min(30.0, remaining))
@@ -67,7 +75,8 @@ def append_dump(path: str, entry: dict) -> None:
 
 
 def run_daemon(dump_path: str, fast: bool, offline: bool,
-               viz: bool, learn: bool, run_now: bool) -> None:
+               viz: bool, learn: bool, run_now: bool,
+               push: bool = True) -> None:
     signal.signal(signal.SIGINT, _stop)
     signal.signal(signal.SIGTERM, _stop)
 
@@ -92,8 +101,12 @@ def run_daemon(dump_path: str, fast: bool, offline: bool,
                 d.agents[aid].pred_stats = m["pred_stats"]
 
     _p(BAR)
-    _p(f"[{_ts()}] SIMULATION DAEMON ONLINE — one day runs at every 00:00")
+    _p(f"[{_ts()}] SIMULATION DAEMON ONLINE — one day runs every "
+       f"{CYCLE_HOURS}h on the clock "
+       f"({', '.join(f'{h:02d}:00' for h in range(0, 24, CYCLE_HOURS))})")
     _p(f"[{_ts()}] checkpoint/log file: {dump_path}")
+    _p(f"[{_ts()}] auto-publish to git: "
+       f"{'ON' if push and autopush.enabled() else 'OFF'}")
     _p(BAR)
 
     first = run_now
@@ -101,10 +114,10 @@ def run_daemon(dump_path: str, fast: bool, offline: bool,
         if first:
             _p(f"[{_ts()}] --run-now: executing a day immediately")
         else:
-            wait = _seconds_until_midnight()
-            _p(f"[{_ts()}] waiting for midnight "
+            wait = _seconds_until_next_cycle()
+            _p(f"[{_ts()}] waiting for the next {CYCLE_HOURS}h mark "
                f"({wait / 3600:.1f}h until next cycle)...")
-            _sleep_until_midnight()
+            _sleep_until_next_cycle()
             if not _running:
                 break
         first = False
@@ -115,12 +128,14 @@ def run_daemon(dump_path: str, fast: bool, offline: bool,
             entry = d.run_round()
         except Exception as exc:
             _p(f"[{_ts()}] !! day {d.state.round_no} crashed: {exc} "
-               f"— checkpoint preserved, retrying next midnight")
+               f"— checkpoint preserved, retrying next cycle")
             continue
         append_dump(dump_path, entry)
         _p(f"\n[{_ts()}] DAY {d.state.round_no - 1} COMPLETE — "
            f"graphs + checkpoint saved")
         _p(f"[{_ts()}]   -> {dump_path} now holds "
            f"{len(d.history)} simulated days")
+        if push:
+            autopush.publish(d.state.round_no - 1, dump_path, log=_p)
 
     _p(f"[{_ts()}] daemon stopped. Checkpoint in {dump_path}")

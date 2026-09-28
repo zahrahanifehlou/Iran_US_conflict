@@ -32,13 +32,19 @@ if __name__ == "__main__":
     ap.add_argument("--no-learn", action="store_true",
                     help="skip the midnight learning cycle")
     ap.add_argument("--daemon", action="store_true",
-                    help="stay resident; run one simulated day at every "
-                         "00:00 local time, forever")
+                    help="stay resident; run one simulated day every 12h "
+                         "on the local clock (00:00 / 12:00), forever")
     ap.add_argument("--run-now", action="store_true",
                     help="with --daemon: run one day immediately, then "
-                         "continue the midnight schedule")
+                         "continue the 12-hourly schedule")
     ap.add_argument("--dump", metavar="FILE",
                     help="write round verdicts/state to JSON")
+    ap.add_argument("--no-push", action="store_true",
+                    help="with --daemon: do not commit/push the day's "
+                         "charts, post and checkpoint to the git remote "
+                         "(auto-publish is on by default in daemon mode)")
+    ap.add_argument("--push", action="store_true",
+                    help="commit/push the artifacts after a one-off run too")
     args = ap.parse_args()
 
     if not args.offline and not ollama_client.ping():
@@ -50,8 +56,8 @@ if __name__ == "__main__":
         run_daemon(args.dump or "sim_daemon_log.json",
                    fast=args.fast, offline=args.offline,
                    viz=not args.no_viz, learn=not args.no_learn,
-                   run_now=args.run_now)
+                   run_now=args.run_now, push=not args.no_push)
     else:
         run(args.rounds, fast=args.fast, offline=args.offline,
             dump=args.dump, resume=args.resume, viz=not args.no_viz,
-            learn=not args.no_learn)
+            learn=not args.no_learn, push=args.push)
