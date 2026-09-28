@@ -341,6 +341,14 @@ class Director:
                "state_full": asdict(st),
                "snapshots": self.snapshots,
                "transcript": transcript,
+               "actions": [{"agent": a.agent_id, "xref": a.xref,
+                            "statement": a.statement[:240],
+                            "reasoning": (a.fields.get("reasoning")
+                                          or a.fields.get("logic")
+                                          or "")[:240],
+                            "action": a.proposed_action[:240],
+                            "escalation": a.escalation_requested}
+                           for a in actions],
                "live_wire": live_wire,
                "xfeed": {**feed_status,
                          "posts": [p.to_dict() for p in feed_posts]},
@@ -502,6 +510,12 @@ class Director:
             _p(f"\nAnimation: {gif}\nSummary:   {png}")
         except Exception as exc:
             _p(f"\n!! visualization failed: {exc}")
+        try:
+            from . import viz
+            igif, ipng = viz.render_interactions(log, round_no)
+            _p(f"Network:   {igif}\nNet map:   {ipng}")
+        except Exception as exc:
+            _p(f"!! interaction network failed: {exc}")
 
     def _render_learning(self, log: dict, round_no: int):
         try:

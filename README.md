@@ -529,6 +529,8 @@ Config in `config.py` (`SWARM`): `SIM_SWARM=0` disables; `SIM_SWARM_PULL`,
 | File | Contents |
 |---|---|
 | `media/roundN_animation.gif` | Animated 4-panel build, one frame per agent act: Brent path, war intensity (✕ = Jev denied an escalation request, ★ = human-review flag), Iran street/regime, US domestic — plus an event ticker and Jev's closing scores. |
+| `media/roundN_interactions.gif` | Animated agent-interaction network: agents on a ring colored by layer (geo red / econ blue / society green), an arrow each time an agent's XREF cites a handle mapped to another agent — red edge if the action requested escalation — unmapped handles land on the central X FEED hub. Each frame captions *who* acted, on *which post*, and the agent's reasoning. |
+| `media/roundN_network.png` | The final interaction map as a static chart. |
 | `media/roundN_summary.png` | The final animation frame as a static chart. |
 | `media/dayN_learning.png` | Midnight board: each agent's lesson, prediction, P_war/P_deal, Brent call, W–L scorecard — and today's influence ranking. |
 | `media/dayN_predictions.png` | Focused predictions: per-agent P(war)/P(deal) bars, Brent direction glyph, predicted event text, Jev's scores as reference lines. |

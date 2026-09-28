@@ -618,3 +618,174 @@ def render_predictions(log: dict, round_no: int,
     plt.close(fig)
 
     return p_path, b_path
+
+
+# ==================================================================
+#  Interaction network — who reacts to whom, and why
+# ==================================================================
+# Each frame = one agent's act. Nodes are agents (colored by layer);
+# a directed edge appears when an agent's XREF cites a handle that maps
+# to another agent — otherwise it lands on the central FEED hub.
+# The acting node's size + a reasoning caption show *why* it moved.
+
+HANDLE_TO_AGENT = {
+    "realdonaldtrump": "trump", "potus": "trump", "secrubio": "trump",
+    "whitehouse": "trump", "jdvance": "trump",
+    "netanyahu": "netanyahu", "israelipm": "netanyahu",
+    "khamenei_ir_fa": "iran_hardliners", "khamenei_ir": "iran_hardliners",
+    "irgc": "iran_hardliners", "iranintl_en": "iran_hardliners",
+    "mfa_russia": "russia", "tass_agency": "russia",
+    "spokespersonchn": "china", "mfa_china": "china",
+    "mofa_taiwan": "taiwan",
+    "vonderleyen": "eu", "eucouncil": "eu", "europeancommission": "eu",
+    "ksamofa": "gulf", "ksagov": "gulf",
+    "rterdogan": "turkey", "mfaturkiye": "turkey",
+    "haaretzcom": "israeli_public", "timesofisrael": "israeli_public",
+    "markets": "markets", "business": "central_banks",
+    "javierblas": "oil_market", "reutersenergy": "oil_market",
+    "amanpour": "media", "gstephanopoulos": "media",
+    "osinttechnical": "media", "afp": "media", "ap": "media",
+    "reuters": "media", "bariweiss": "us_public",
+    "charliekirk11": "us_public", "mekhbar": "iran_public",
+    "radio_farda": "iran_public", "afshin_tehran": "iran_public",
+    "unocha": "humanitarian", "un": "humanitarian",
+    "msf": "humanitarian", "icrc": "humanitarian",
+}
+
+_LAYER_COLORS = {"geo": "#c0392b", "econ": "#2980b9", "society": "#16a085"}
+
+
+def _agent_layers() -> dict:
+    try:
+        from agents import BY_ID
+        return {aid: p.layer for aid, p in BY_ID.items()}
+    except Exception:
+        return {}
+
+
+def _resolve_target(xref: str) -> tuple[str, str]:
+    """XREF string -> (target_node, raw handle). Maps known handles to the
+    agent they stand for; anything else lands on the FEED hub."""
+    import re
+    m = re.search(r"@([A-Za-z0-9_]+)", xref or "")
+    if not m:
+        return "FEED", ""
+    handle = m.group(1)
+    return HANDLE_TO_AGENT.get(handle.lower(), "FEED"), f"@{handle}"
+
+
+def render_interactions(log: dict, round_no: int,
+                        prefix: str | None = None) -> tuple[str, str]:
+    """Animated agent-interaction network + static PNG of the final state.
+
+    frames = one per agent act; edges accumulate. Returns (gif, png)."""
+    import math
+    actions = log.get("actions") or []
+    prefix = prefix or f"round{round_no}"
+    gif_path = _out(f"{prefix}_interactions.gif")
+    png_path = _out(f"{prefix}_network.png")
+    if not actions:
+        return gif_path, png_path
+
+    layers = _agent_layers()
+    acted = [a["agent"] for a in actions]
+    ids = list(ALL_ORDER)
+    for a in acted:                       # a persona not on the fixed ring
+        if a not in ids:
+            ids.append(a)
+    pos = {aid: (math.cos(2 * math.pi * i / len(ids)),
+                 math.sin(2 * math.pi * i / len(ids)))
+           for i, aid in enumerate(ids)}
+    pos["FEED"] = (0.0, 0.0)
+
+    def _draw(ax, k: int):
+        ax.clear()
+        ax.axis("off")
+        ax.set_xlim(-1.6, 1.6); ax.set_ylim(-1.45, 1.6)
+
+        # cumulative edges up to and including frame k
+        edges: dict[tuple[str, str], int] = {}
+        esc_edges: set[tuple[str, str]] = set()
+        for a in actions[:k + 1]:
+            dst, _ = _resolve_target(a.get("xref"))
+            if dst == a["agent"]:
+                continue                       # citing own voice = no edge
+            key = (a["agent"], dst)
+            edges[key] = edges.get(key, 0) + 1
+            if a.get("escalation"):
+                esc_edges.add(key)
+        for (src, dst), n in edges.items():
+            x1, y1 = pos.get(src, (0, 0))
+            x2, y2 = pos.get(dst, (0, 0))
+            color = "#c0392b" if (src, dst) in esc_edges else "#7f8c8d"
+            ax.annotate("", xy=(x2 * 0.88, y2 * 0.88),
+                        xytext=(x1 * 0.88, y1 * 0.88),
+                        arrowprops=dict(arrowstyle="-|>",
+                                        connectionstyle="arc3,rad=0.18",
+                                        color=color,
+                                        lw=1.0 + n * 0.9, alpha=0.65))
+
+        # nodes
+        cur = actions[k]["agent"]
+        for aid, (x, y) in pos.items():
+            if aid == "FEED":
+                ax.plot(0, 0, "s", ms=13, color="#f39c12", zorder=3)
+                ax.text(0, -0.14, "X FEED", ha="center", fontsize=8,
+                        fontweight="bold", color="#b06c00")
+                continue
+            col = _LAYER_COLORS.get(layers.get(aid, ""), "#555")
+            hot = aid == cur
+            ax.plot(x, y, "o", ms=22 if hot else 13, color=col,
+                    mec="#111" if hot else "white", mew=1.5 if hot else 0.8,
+                    alpha=1.0 if hot else 0.85, zorder=4)
+            ax.text(x, y + 0.12, SHORT_LABELS.get(aid, aid),
+                    ha="center", fontsize=8.5,
+                    fontweight="bold" if hot else "normal",
+                    color="#111" if hot else "#333", zorder=5)
+
+        # caption: who acted, on what, and why
+        a = actions[k]
+        tgt, raw = _resolve_target(a.get("xref"))
+        who = SHORT_LABELS.get(a["agent"], a["agent"])
+        reacts = (f" reacts to {raw} ({SHORT_LABELS.get(tgt, 'external post')})"
+                  if raw else " speaks")
+        reason = a.get("reasoning") or a.get("action") or ""
+        cap = (f"t={k}  {who}{reacts}\n"
+               + textwrap.shorten(reason, 170, placeholder="…"))
+        ax.text(0, -1.28, cap, ha="center", va="top", fontsize=8.5,
+                color="#222", fontfamily="monospace", wrap=True)
+
+    fig, ax = plt.subplots(figsize=(9, 8))
+    fig.suptitle(f"AGENT INTERACTION NETWORK — day {round_no} "
+                 f"({log.get('date_range', '')})",
+                 fontsize=13, fontweight="bold")
+
+    n_frames = len(actions) + HOLD_FRAMES
+
+    def draw(frame):
+        _draw(ax, min(frame, len(actions) - 1))
+        return []
+
+    anim = FuncAnimation(fig, draw, frames=n_frames,
+                         interval=int(1000 / FPS), repeat=False)
+    anim.save(gif_path, writer=PillowWriter(fps=FPS))
+    plt.close(fig)
+
+    fig2, ax2 = plt.subplots(figsize=(9, 8))
+    fig2.suptitle(f"AGENT INTERACTIONS — day {round_no} "
+                  f"({log.get('date_range', '')})",
+                  fontsize=13, fontweight="bold")
+    _draw(ax2, len(actions) - 1)
+    fig2.tight_layout()
+    fig2.savefig(png_path, dpi=110)
+    plt.close(fig2)
+    return gif_path, png_path
+
+
+# fixed ring order so the layout is stable across days
+ALL_ORDER = [
+    "trump", "netanyahu", "iran_hardliners", "russia", "china", "eu",
+    "taiwan", "gulf", "turkey", "oil_market", "gas_market", "shipping",
+    "markets", "central_banks", "us_public", "iran_public",
+    "israeli_public", "media", "humanitarian",
+]
