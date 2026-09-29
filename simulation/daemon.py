@@ -52,13 +52,35 @@ def _seconds_until_next_cycle() -> float:
     return (nxt - now).total_seconds()
 
 
+def _mark_due(prev: float | None, remaining: float) -> bool:
+    """True when the cycle mark is reached. The common case is an
+    overshoot: a mark crossed between two checks makes `remaining` jump
+    back up to ~step, which means we just passed a mark and must fire."""
+    return remaining <= 1 or (prev is not None and remaining > prev)
+
+
 def _sleep_until_next_cycle() -> None:
-    """Sleep in 30s slices so SIGTERM is honoured promptly."""
+    """Sleep in slices so SIGTERM is honoured promptly. Lands ~1s before
+    the mark; if a slice overshoots it, `_mark_due` catches the jump."""
+    prev: float | None = None
     while _running:
         remaining = _seconds_until_next_cycle()
-        if remaining <= 1:
+        if _mark_due(prev, remaining):
             return
-        time.sleep(min(30.0, remaining))
+        prev = remaining
+        time.sleep(min(30.0, max(remaining - 1.0, 1.0)))
+
+
+def _acquire_lock(path: str = ".sim_daemon.lock"):
+    """Single-instance guard: a leftover daemon must not double-run days."""
+    import fcntl
+    fd = os.open(path, os.O_CREAT | os.O_RDWR)
+    try:
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError:
+        raise SystemExit(
+            f"another daemon already holds {path} — refusing to start")
+    return fd          # stays open for the process lifetime
 
 
 def append_dump(path: str, entry: dict) -> None:
@@ -79,6 +101,7 @@ def run_daemon(dump_path: str, fast: bool, offline: bool,
                push: bool = True) -> None:
     signal.signal(signal.SIGINT, _stop)
     signal.signal(signal.SIGTERM, _stop)
+    _lock_fd = _acquire_lock()
 
     # the dump file doubles as the checkpoint — resume if it has days
     state, history, memories = (None, [], {})

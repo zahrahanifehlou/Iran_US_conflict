@@ -101,3 +101,23 @@ class TestJevComparison(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestDaemonSchedule(unittest.TestCase):
+    """The scheduler must fire when a 12h mark is crossed, not only when
+    a check lands inside a 1-second window before it."""
+
+    def test_mark_due_on_approach(self):
+        from simulation import daemon
+        self.assertTrue(daemon._mark_due(prev=25.0, remaining=0.8))
+
+    def test_mark_due_on_overshoot(self):
+        from simulation import daemon
+        # slept 30s from 00:00-05s -> woke at 00:00+25s; remaining jumped
+        # to ~12h because the mark is now in the past
+        self.assertTrue(daemon._mark_due(prev=5.0, remaining=43175.0))
+
+    def test_not_due_mid_wait(self):
+        from simulation import daemon
+        self.assertFalse(daemon._mark_due(prev=43100.0, remaining=43070.0))
+        self.assertFalse(daemon._mark_due(prev=None, remaining=50000.0))
