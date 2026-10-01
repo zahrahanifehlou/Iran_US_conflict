@@ -19546,5 +19546,4658 @@
         }
       }
     }
+  },
+  {
+    "verdict": {
+      "acting_order": [
+        "russia",
+        "iran_hardliners",
+        "iran_public",
+        "trump",
+        "china",
+        "eu",
+        "netanyahu",
+        "gulf",
+        "turkey",
+        "us_public",
+        "oil_market",
+        "shipping",
+        "gas_market"
+      ],
+      "gates": {
+        "russia": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "iran_hardliners": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "iran_public": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "trump": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "china": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "eu": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "netanyahu": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "gulf": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "turkey": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "us_public": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "oil_market": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "shipping": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        },
+        "gas_market": {
+          "escalation_allowed": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          },
+          "human_review": {
+            "kind": "noul",
+            "value": false,
+            "confidence": 0.8,
+            "source": "jev"
+          }
+        }
+      },
+      "p_war_72h": {
+        "kind": "score",
+        "value": 0.02,
+        "confidence": 0.999,
+        "source": "jev-calibrated"
+      },
+      "p_deal_7d": {
+        "kind": "score",
+        "value": 0.323,
+        "confidence": 0.56,
+        "source": "jev-calibrated"
+      },
+      "p_collapse": {
+        "kind": "score",
+        "value": 0.599,
+        "confidence": 0.81,
+        "source": "jev-calibrated"
+      },
+      "oil_realistic": {
+        "kind": "noul",
+        "value": false,
+        "confidence": 0.3,
+        "source": "jev"
+      },
+      "forecast_7_14d": {
+        "war_escalation_14d": {
+          "kind": "score",
+          "value": 0.34,
+          "confidence": 0.81,
+          "source": "jev"
+        },
+        "deal_or_ceasefire_14d": {
+          "kind": "score",
+          "value": 0.23,
+          "confidence": 0.85,
+          "source": "jev"
+        },
+        "iran_econ_collapse_14d": {
+          "kind": "score",
+          "value": 0.23,
+          "confidence": 0.85,
+          "source": "jev"
+        },
+        "political_shift_14d": {
+          "kind": "score",
+          "value": 0.031,
+          "confidence": 0.8,
+          "source": "jev"
+        },
+        "petrol_spike_30d": {
+          "kind": "score",
+          "value": 0.02,
+          "confidence": 0.2,
+          "source": "jev-calibrated"
+        },
+        "supply_disruption_14d": {
+          "kind": "score",
+          "value": 0.685,
+          "confidence": 0.85,
+          "source": "jev-calibrated"
+        }
+      }
+    },
+    "date_range": "33-34 September 2026",
+    "state": {
+      "round": 10,
+      "day_of_war": 226,
+      "military": {
+        "war_intensity": 0,
+        "hormuz_status": "partially_closed",
+        "tanker_incidents_7d": 86
+      },
+      "diplomacy": {
+        "talks_channel": "open",
+        "deal_on_table": "framework",
+        "unga_contact": true
+      },
+      "oil": {
+        "brent": 289.0,
+        "brent_forecast": 293.0,
+        "wti": 172.8,
+        "gold": 2101.0,
+        "ttf_gas": 50.1,
+        "hormuz_insurance_pct": 19.0,
+        "us_gas_price": 5.74,
+        "fr_petrol_eur_l": 2.685,
+        "fr_diesel_eur_l": 2.882,
+        "fr_fuel_rebate": 0.0
+      },
+      "domestic": {
+        "us_days_to_midterms": 31,
+        "us_approval_trump": 0.5099898244259999,
+        "us_war_support": 0.21997964885199983,
+        "iran_inflation": 0.62,
+        "iran_protest_level": 10,
+        "iran_econ_pressure": 10,
+        "regime_stability": 0.54992
+      }
+    },
+    "state_full": {
+      "round_no": 10,
+      "date_range": "34-35 September 2026",
+      "day_of_war": 226,
+      "war_intensity": 0,
+      "hormuz_status": "partially_closed",
+      "recent_strikes": [
+        "IDF drones hit IRGC radar site near Isfahan (limited damage)",
+        "Iranian proxies launched rockets at US base in Erbil; no fatalities",
+        "US Navy escorted 3 tankers through Hormuz under IRGCN harassment",
+        "R1: kinetic action by netanyahu",
+        "R1: kinetic action by eu",
+        "R1: kinetic action by trump",
+        "R2: kinetic action by netanyahu",
+        "R2: kinetic action by trump",
+        "R2: kinetic action by us_public",
+        "R2: kinetic action by iranian_people",
+        "R3: kinetic action by trump",
+        "R3: kinetic action by us_public",
+        "R3: kinetic action by iranian_people",
+        "R4: kinetic action by russia",
+        "R4: kinetic action by iran_hardliners",
+        "R4: kinetic action by netanyahu",
+        "R4: kinetic action by trump",
+        "R4: kinetic action by gulf",
+        "R4: kinetic action by turkey",
+        "R4: kinetic action by us_public",
+        "R5: kinetic action by iran_hardliners",
+        "R5: kinetic action by china",
+        "R5: kinetic action by netanyahu",
+        "R5: kinetic action by trump",
+        "R6: kinetic action by russia",
+        "R6: kinetic action by iran_hardliners",
+        "R6: kinetic action by netanyahu",
+        "R6: kinetic action by trump",
+        "R6: kinetic action by gulf",
+        "R6: kinetic action by turkey",
+        "R6: kinetic action by us_public",
+        "R7: kinetic action by russia",
+        "R7: kinetic action by us_public",
+        "R8: kinetic action by netanyahu",
+        "R8: kinetic action by eu",
+        "R8: kinetic action by trump",
+        "R9: kinetic action by russia",
+        "R9: kinetic action by eu",
+        "R9: kinetic action by netanyahu",
+        "R9: kinetic action by turkey"
+      ],
+      "tanker_incidents_7d": 86,
+      "talks_channel": "open",
+      "deal_on_table": "framework",
+      "unga_contact": true,
+      "brent": 289.0,
+      "brent_forecast": 293.0,
+      "wti": 172.8,
+      "gold": 2100.952972449867,
+      "ttf_gas": 50.09375,
+      "hormuz_insurance": 19.0,
+      "us_gas_price": 5.74,
+      "fr_petrol": 2.6851986878743483,
+      "fr_diesel": 2.881784809051515,
+      "fr_fuel_rebate": 0.0,
+      "us_days_to_midterms": 31,
+      "us_approval_trump": 0.5099898244259999,
+      "us_war_support": 0.21997964885199983,
+      "iran_inflation": 0.62,
+      "rial_black_market": 3609136.112909164,
+      "iran_protest_level": 10,
+      "iran_econ_pressure": 10,
+      "regime_stability": 0.54992,
+      "israel_coalition_stress": 0.4,
+      "headlines": [
+        "Trump at UNGA: 'binary choice \u2014 a deal that lets Iran rebuild, or we annihilate the Islamic Republic'",
+        "Witkoff/Kushner met Iranian officials on UNGA sidelines",
+        "Mojtaba Khamenei consolidates as Supreme Leader; IRGC dominates war cabinet",
+        "IAEA: Iran retains ~60% enriched stockpile at unknown sites"
+      ]
+    },
+    "snapshots": [
+      {
+        "step": 0,
+        "label": "start",
+        "brent": 271.0,
+        "forecast": 275.0,
+        "war": 0,
+        "gas": 5.74,
+        "war_support": 0.247,
+        "protests": 10,
+        "cohesion": 0.52,
+        "econ_pressure": 9.9,
+        "hormuz": "partially_closed",
+        "event": "round opens",
+        "esc_denied": false,
+        "review": false
+      },
+      {
+        "step": 1,
+        "label": "RUSSIA",
+        "brent": 180,
+        "forecast": 275.0,
+        "war": 0.3,
+        "gas": 5.74,
+        "war_support": 0.247,
+        "protests": 10,
+        "cohesion": 0.54,
+        "econ_pressure": 9.9,
+        "hormuz": "partially_closed",
+        "event": "RUSSIA: Dispatch a delegation of Russian diplomatic and military advisors (disguised as \"technical consultants\") to Vienna and Geneva to finalize th",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.5
+      },
+      {
+        "step": 2,
+        "label": "IRAN",
+        "brent": 180,
+        "forecast": 275.0,
+        "war": 0,
+        "gas": 5.74,
+        "war_support": 0.247,
+        "protests": 10,
+        "cohesion": 0.54,
+        "econ_pressure": 9.9,
+        "hormuz": "partially_closed",
+        "event": "IRAN: Dispatch a joint IRGC-IAEA delegation to Vienna to sign the \"Vienna Protocol,\" a formal ceasefire document that establishes a \"Security of t",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.3
+      },
+      {
+        "step": 3,
+        "label": "IR-PUBLIC",
+        "brent": 180,
+        "forecast": 275.0,
+        "war": 0,
+        "gas": 5.74,
+        "war_support": 0.247,
+        "protests": 10,
+        "cohesion": 0.54,
+        "econ_pressure": 10,
+        "hormuz": "partially_closed",
+        "event": "IR-PUBLIC: \"The US thinks it can strangle us with its sanctions, but we will not be silenced. We will not be hungry. We will rise up, and we will make ",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.1
+      },
+      {
+        "step": 4,
+        "label": "US",
+        "brent": 180,
+        "forecast": 275.0,
+        "war": 0,
+        "gas": 5.74,
+        "war_support": 0.242,
+        "protests": 10,
+        "cohesion": 0.54,
+        "econ_pressure": 10,
+        "hormuz": "partially_closed",
+        "event": "US: Authorize Kushner and Witkoff to present the final \"Vienna Protocol\" draft to the Iranian delegation in Vienna, offering full, immediate san",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.0
+      },
+      {
+        "step": 5,
+        "label": "CHINA",
+        "brent": 180,
+        "forecast": 275.0,
+        "war": 0,
+        "gas": 5.74,
+        "war_support": 0.242,
+        "protests": 10,
+        "cohesion": 0.54,
+        "econ_pressure": 10,
+        "hormuz": "partially_closed",
+        "event": "CHINA: Dispatch a joint Chinese-Iranian technical working group to Doha to finalize the draft framework and establish a provisional escrow mechanis",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.0
+      },
+      {
+        "step": 6,
+        "label": "EU",
+        "brent": 180,
+        "forecast": 275.0,
+        "war": 0,
+        "gas": 5.74,
+        "war_support": 0.242,
+        "protests": 10,
+        "cohesion": 0.54,
+        "econ_pressure": 10,
+        "hormuz": "partially_closed",
+        "event": "EU: Convene an emergency tripartite video bridge (EU/US/China) within 4 hours to finalize the technical specs of the escrow mechanism and author",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.0
+      },
+      {
+        "step": 7,
+        "label": "ISRAEL",
+        "brent": 180,
+        "forecast": 275.0,
+        "war": 0.3,
+        "gas": 5.74,
+        "war_support": 0.237,
+        "protests": 10,
+        "cohesion": 0.56,
+        "econ_pressure": 10,
+        "hormuz": "partially_closed",
+        "event": "ISRAEL: Direct the IDF Air Force to execute a precision strike on the secondary underground enrichment complex in Isfahan within the next 48 hours, ",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.5
+      },
+      {
+        "step": 8,
+        "label": "GULF",
+        "brent": 180,
+        "forecast": 275.0,
+        "war": 0,
+        "gas": 5.74,
+        "war_support": 0.237,
+        "protests": 10,
+        "cohesion": 0.56,
+        "econ_pressure": 10,
+        "hormuz": "partially_closed",
+        "event": "GULF: Dispatch a joint Gulf technical team to Vienna to sign the 72-hour freeze agreement and coordinate with the Chinese-Iranian working group in",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.6
+      },
+      {
+        "step": 9,
+        "label": "TURKEY",
+        "brent": 180,
+        "forecast": 275.0,
+        "war": 0,
+        "gas": 5.74,
+        "war_support": 0.237,
+        "protests": 10,
+        "cohesion": 0.56,
+        "econ_pressure": 10,
+        "hormuz": "partially_closed",
+        "event": "TURKEY: Issue a formal invitation to the US Secretary of Defense, EU High Representative, and Chinese Foreign Minister for a \"Logistics and Escort C [esc denied]",
+        "esc_denied": true,
+        "review": false,
+        "influence": 0.0
+      },
+      {
+        "step": 10,
+        "label": "US-PUBLIC",
+        "brent": 180,
+        "forecast": 275.0,
+        "war": 0,
+        "gas": 5.74,
+        "war_support": 0.237,
+        "protests": 10,
+        "cohesion": 0.56,
+        "econ_pressure": 10,
+        "hormuz": "partially_closed",
+        "event": "US-PUBLIC: Convene an emergency tripartite video bridge with the EU and China within 4 hours to lock down the escrow technical specs and draft the \"Sto",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.0
+      },
+      {
+        "step": 11,
+        "label": "OIL",
+        "brent": 180,
+        "forecast": 275.0,
+        "war": 0,
+        "gas": 5.74,
+        "war_support": 0.237,
+        "protests": 10,
+        "cohesion": 0.56,
+        "econ_pressure": 10,
+        "hormuz": "partially_closed",
+        "event": "OIL: BRENT: $185.0\nFORECAST: $250.0\nLOGIC: The Gulf States' offer to release 500,000 barrels per day of spare capacity, contingent upon a signed ",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.3
+      },
+      {
+        "step": 12,
+        "label": "SHIPPING",
+        "brent": 180,
+        "forecast": 275.0,
+        "war": 0,
+        "gas": 5.74,
+        "war_support": 0.237,
+        "protests": 10,
+        "cohesion": 0.56,
+        "econ_pressure": 10,
+        "hormuz": "partially_closed",
+        "event": "SHIPPING: INSURANCE: 18.0% of hull value number\nFREIGHT: $185.0/Brent\nLOGIC: The Gulf States' offer to release 500,000 barrels per day of spare capaci",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.3
+      },
+      {
+        "step": 13,
+        "label": "GAS",
+        "brent": 180,
+        "forecast": 275.0,
+        "war": 0,
+        "gas": 5.74,
+        "war_support": 0.237,
+        "protests": 10,
+        "cohesion": 0.56,
+        "econ_pressure": 10,
+        "hormuz": "partially_closed",
+        "event": "GAS: TTF: 50.0/EUR/MWh\nFR_PETROL: 2.65/EUR/L\nFR_DIESEL: 2.92/EUR/L\nFORECAST: 52.0/EUR/MWh\nLOGIC: The Gulf States' offer to release 500,000 barrel",
+        "esc_denied": false,
+        "review": false,
+        "influence": 0.3
+      },
+      {
+        "step": 14,
+        "label": "end",
+        "brent": 289.0,
+        "forecast": 293.0,
+        "war": 0,
+        "gas": 5.74,
+        "war_support": 0.22,
+        "protests": 10,
+        "cohesion": 0.55,
+        "econ_pressure": 10,
+        "hormuz": "partially_closed",
+        "event": "round closes \u2014 Jev scores locked",
+        "esc_denied": false,
+        "review": false
+      }
+    ],
+    "transcript": [
+      "Russia (Kremlin / Lavrov voice): \"While Mr. Trump\u2019s latest press release dangles a 'Humanitarian Corridor' like a carrot to a starving horse, one must recall that the horse is currently grazing on American bombs;  | ACTION: Dispatch a delegation of Russian diplomatic and military advisors (disguised as \"technical consultants\") to Vienna and G",
+      "Iran (IRGC + Mojtaba Khamenei faction): \"The 'Humanitarian Corridor' dangled by Washington is merely a silk rope to hang our dignity upon, yet we are generous enough to let them pull it tight enough to secure a signature | ACTION: Dispatch a joint IRGC-IAEA delegation to Vienna to sign the \"Vienna Protocol,\" a formal ceasefire document that establis",
+      "Iranian Public (street + sentiment tracker): \"The US thinks it can strangle us with its sanctions, but we will not be silenced. We will not be hungry. We will rise up, and we will make them pay for their arrogance.\" | ACTION: ",
+      "United States (Trump White House): THE MIDDLE CLASS IS SUFFOCATING AT $5.74 A GALLON WHILE THERAN BLUFFS ABOUT A \"TEMPORARY\" DEAL! WE ARE READY TO GRANT THEM TOTAL SANCTIONS RELIEF AND A GLORIOUS VICTORY NARRATIVE R | ACTION: Authorize Kushner and Witkoff to present the final \"Vienna Protocol\" draft to the Iranian delegation in Vienna, offering",
+      "China (Xi circle / MFA voice): As the Strait of Hormuz faces its most severe test in recent memory, Beijing stands ready to convert kinetic chaos into a structured order through the proposed \"Humanitarian and En | ACTION: Dispatch a joint Chinese-Iranian technical working group to Doha to finalize the draft framework and establish a provisi",
+      "European Union: To arrest the spiral toward a total Strait closure, the EU Commission proposes an immediate \"Escrow-Backed Fuel Corridor\" where the US and China pre-fund 48 hours of Iranian oil ex | ACTION: Convene an emergency tripartite video bridge (EU/US/China) within 4 hours to finalize the technical specs of the escrow ",
+      "Israel (Netanyahu government): The air above Isfahan and the silos beneath it are now too expensive to ignore; with Khamenei's regime clinging to a 60% stockpile as their last lifeboat, we shall exploit the very | ACTION: Direct the IDF Air Force to execute a precision strike on the secondary underground enrichment complex in Isfahan within",
+      "Gulf States (Saudi-led GCC voice): We authorize the release of 500,000 barrels per day of spare capacity, effective immediately, contingent upon a signed 72-hour kinetic freeze by the United States and the confirmat | ACTION: Dispatch a joint Gulf technical team to Vienna to sign the 72-hour freeze agreement and coordinate with the Chinese-Iran",
+      "Turkey (Erdogan palace / MFA voice): While the world debates the binary choice of annihilation or reconstruction, Ankara offers a third, more profitable path: the immediate deployment of the \"Ankara Escort Division\" t | ACTION: Issue a formal invitation to the US Secretary of Defense, EU High Representative, and Chinese Foreign Minister for a \"Lo",
+      "US Public Opinion / Midterm Voters: \"The Strait is bleeding, and the pump is choking; we'll use the Escrow-Backed Fuel Corridor as the price of a 72-hour kinetic freeze, but only if the 60% enriched stockpile gets a  | ACTION: Convene an emergency tripartite video bridge with the EU and China within 4 hours to lock down the escrow technical spec",
+      "Oil Market Agent: BRENT: $185.0\nFORECAST: $250.0\nLOGIC: The Gulf States' offer to release 500,000 barrels per day of spare capacity, contingent upon a signed 72-hour kinetic freeze, increases the li | ACTION: ",
+      "Shipping & Insurance Market Agent: INSURANCE: 18.0% of hull value number\nFREIGHT: $185.0/Brent\nLOGIC: The Gulf States' offer to release 500,000 barrels per day of spare capacity, contingent upon a signed 72-hour kin | ACTION: ",
+      "Natural Gas / LNG Market Agent: TTF: 50.0/EUR/MWh\nFR_PETROL: 2.65/EUR/L\nFR_DIESEL: 2.92/EUR/L\nFORECAST: 52.0/EUR/MWh\nLOGIC: The Gulf States' offer to release 500,000 barrels per day of spare capacity, contingent  | ACTION: "
+    ],
+    "actions": [
+      {
+        "agent": "russia",
+        "xref": "@cna-poster.bsky.social \u2014 confirms the market is pricing in a \"humanitarian\" theater that merely masks the strategic reality of a US Navy permanently patrolling the Strait, effectively turning a sovereign waterway into a US-controlled corridor while selling insurance to the very buyers we force to pay premiums.",
+        "statement": "\"While Mr. Trump\u2019s latest press release dangles a 'Humanitarian Corridor' like a carrot to a starving horse, one must recall that the horse is currently grazing on American bombs; this framework is less a peace offer and more a formal lease",
+        "reasoning": "The \"Humanitarian Corridor\" is a theatrical bluff to fracture the Gulf coalition and force Iran into a vassal state; by accepting the title of \"Joint Security Council\" but insisting on Iranian operational control backed by US hardware, we k",
+        "action": "Dispatch a delegation of Russian diplomatic and military advisors (disguised as \"technical consultants\") to Vienna and Geneva to finalize the \"Strait Security",
+        "escalation": false
+      },
+      {
+        "agent": "iran_hardliners",
+        "xref": "@cna-poster.bsky.social \u2014 The surge in Brent crude prices following the Trump ultimatum proves the Strait is our true ledger; as the global market pays a premium for the shadow of our resolve, we convert that financial hemorrhage into political oxygen for our crumbling domestic rear guard.",
+        "statement": "\"The 'Humanitarian Corridor' dangled by Washington is merely a silk rope to hang our dignity upon, yet we are generous enough to let them pull it tight enough to secure a signature. We accept the framework not as surrender, but as the preci",
+        "reasoning": "The US public and markets are now acutely sensitive to the cost of a prolonged crisis; by framing the partial blockade and kinetic strikes as a \"hard-won victory\" for them rather than a strategic defeat, we lower the threshold for a face-sa",
+        "action": "Dispatch a joint IRGC-IAEA delegation to Vienna to sign the \"Vienna Protocol,\" a formal ceasefire document that establishes a \"Security of the Strait\" regime where Iran retains veto power over naval transit, effectively codifying the 60% st",
+        "escalation": false
+      },
+      {
+        "agent": "iran_public",
+        "xref": "@cna-poster.bsky.social",
+        "statement": "\"The US thinks it can strangle us with its sanctions, but we will not be silenced. We will not be hungry. We will rise up, and we will make them pay for their arrogance.\"",
+        "reasoning": "",
+        "action": "",
+        "escalation": false
+      },
+      {
+        "agent": "trump",
+        "xref": "@cna-poster.bsky.social \u2014 their report confirms oil is still spiraling toward our catastrophic $275 forecast, proving the Iranian \"generosity\" to reopen the Strait is a lie; they are waiting for the price of gasoline to crush the US middle class before signing anything.",
+        "statement": "THE MIDDLE CLASS IS SUFFOCATING AT $5.74 A GALLON WHILE THERAN BLUFFS ABOUT A \"TEMPORARY\" DEAL! WE ARE READY TO GRANT THEM TOTAL SANCTIONS RELIEF AND A GLORIOUS VICTORY NARRATIVE RIGHT NOW, BUT ONLY IF MOJTABA SIGNS THE \"VIENNA PROTOCOL\" BY",
+        "reasoning": "A deal before midterms is the only way to crush gas prices and secure a landslide; letting Iran delay another week risks a price spike that will destroy our approval rating, so we must force their hand with a massive, immediate carrot of sa",
+        "action": "Authorize Kushner and Witkoff to present the final \"Vienna Protocol\" draft to the Iranian delegation in Vienna, offering full, immediate sanctions relief and a formal declaration of US strategic withdrawal from the Strait in exchange for a ",
+        "escalation": false
+      },
+      {
+        "agent": "china",
+        "xref": "@cna-poster.bsky.social \u2014 confirms the market's immediate reaction to the US ultimatum, validating our assessment that Washington views the Strait as a binary asset for leverage rather than a flow-through market, thereby increasing the premium on Beijing's reputation as the guarantor of stability.",
+        "statement": "As the Strait of Hormuz faces its most severe test in recent memory, Beijing stands ready to convert kinetic chaos into a structured order through the proposed \"Humanitarian and Energy Escrow Framework,\" offering a neutral third-party venue",
+        "reasoning": "By anchoring a deal in a neutral financial hub rather than a polarized political one, we decouple the survival of the Iranian regime from Washington's volatile \"binary choice\" narrative, allowing us to quietly offload discounted sanctioned ",
+        "action": "Dispatch a joint Chinese-Iranian technical working group to Doha to finalize the draft framework and establish a provisional escrow mechanism for the next 90 days of transit, simultaneously authorizing state-owned enterprises to begin pre-p",
+        "escalation": false
+      },
+      {
+        "agent": "eu",
+        "xref": "@cna-poster.bsky.social \u2014 Confirms immediate market volatility and validates the \"suffocation\" narrative, requiring a rapid shift from abstract diplomacy to a tangible, cash-backed supply mechanism to prevent a self-fulfilling energy crisis.",
+        "statement": "To arrest the spiral toward a total Strait closure, the EU Commission proposes an immediate \"Escrow-Backed Fuel Corridor\" where the US and China pre-fund 48 hours of Iranian oil exports into a neutral Swiss account, releasing shipments only",
+        "reasoning": "By attaching direct liquidity to a short-term pause, we bypass the political deadlock in Vienna and Doha, offering Iran a \"dignified\" revenue stream while giving the US a verifiable metric to claim a \"victory\" without committing to permanen",
+        "action": "Convene an emergency tripartite video bridge (EU/US/China) within 4 hours to finalize the technical specs of the escrow mechanism and authorize the release of the first tranche of $1.5B in liquidity against the \"Vienna Protocol\" signature.",
+        "escalation": false
+      },
+      {
+        "agent": "netanyahu",
+        "xref": "@cna-poster.bsky.social \u2014 Confirms the volatility in Brent crude and validates the narrative that Tehran's \"temporary\" deal is a bluff, allowing me to frame the upcoming US strike as a necessary correction to a failing regional order rather than just a kinetic escalation.",
+        "statement": "The air above Isfahan and the silos beneath it are now too expensive to ignore; with Khamenei's regime clinging to a 60% stockpile as their last lifeboat, we shall exploit the very gaps in their shattered air defence to demonstrate that a \"",
+        "reasoning": "A limited, high-visibility strike on a secondary Isfahan facility will shatter the illusion of a \"temporary\" Iranian recovery, forcing the hardliners to accept a monitored transfer of the bulk stockpile under US umbrella security, thereby m",
+        "action": "Direct the IDF Air Force to execute a precision strike on the secondary underground enrichment complex in Isfahan within the next 48 hours, simultaneously leaking intelligence to global media on the facility's 60% capacity retention to pres",
+        "escalation": false
+      },
+      {
+        "agent": "gulf",
+        "xref": "@cna-poster.bsky.social \u2014 validates the market spike as a tradable asset rather than just a cost, confirming our timing for the 500k bpd release is optimal given the $180 Brent floor.",
+        "statement": "We authorize the release of 500,000 barrels per day of spare capacity, effective immediately, contingent upon a signed 72-hour kinetic freeze by the United States and the confirmation of the $40 billion credit line between Beijing and Washi",
+        "reasoning": "The US blockade has eroded Iran's leverage, turning their 60% stockpile into a liability they must monetize to sustain regime cohesion, so we sell our spare capacity as the essential lubricant that makes their reopening credible only when p",
+        "action": "Dispatch a joint Gulf technical team to Vienna to sign the 72-hour freeze agreement and coordinate with the Chinese-Iranian working group in Doha to inject the first tranche of the credit line into an escrow account secured by future Hormuz",
+        "escalation": false
+      },
+      {
+        "agent": "turkey",
+        "xref": "@cna-poster.bsky.social \u2014 confirms the momentum of energy inflation and the market's acute sensitivity to the \"Trump ultimatum,\" validating our pivot from a passive broker to an active liquidity provider who can monetize the chaos before the binary standoff hardens into total blockade.",
+        "statement": "While the world debates the binary choice of annihilation or reconstruction, Ankara offers a third, more profitable path: the immediate deployment of the \"Ankara Escort Division\" to the Strait of Hormuz under the banner of the new Logistics",
+        "reasoning": "By leveraging the US kinetic pressure against Iran and the EU/China escrow mechanisms, we position the Turkish Navy as the indispensable \"insurance policy\" for global trade, charging risk premiums to every side that fears a total Hormuz clo",
+        "action": "Issue a formal invitation to the US Secretary of Defense, EU High Representative, and Chinese Foreign Minister for a \"Logistics and Escort Coordination Cell\" summit in Istanbul tomorrow, pre-loaded with a draft agreement where the Turkish N",
+        "escalation": true
+      },
+      {
+        "agent": "us_public",
+        "xref": "@cna-poster.bsky.social \u2014 their report on oil spiking past $100 confirms the public's bleeding wallets; every dollar in the pump is a vote lost, and I need the gas price under $4.50 before the next primary to keep the base from screaming for \"finish the job.\"",
+        "statement": "\"The Strait is bleeding, and the pump is choking; we'll use the Escrow-Backed Fuel Corridor as the price of a 72-hour kinetic freeze, but only if the 60% enriched stockpile gets a definitive security guarantee in the text.\"",
+        "reasoning": "A temporary freeze without asset security lets Iran hold the stockpile as leverage, so I must bundle the EU's escrow mechanism with a binding US commitment to protect the remaining uranium as collateral for the deal.",
+        "action": "Convene an emergency tripartite video bridge with the EU and China within 4 hours to lock down the escrow technical specs and draft the \"Stockpile Security Annex.\"",
+        "escalation": false
+      },
+      {
+        "agent": "oil_market",
+        "xref": "",
+        "statement": "BRENT: $185.0\nFORECAST: $250.0\nLOGIC: The Gulf States' offer to release 500,000 barrels per day of spare capacity, contingent upon a signed 72-hour kinetic freeze, increases the likelihood of a de-escalation. @cna-poster.bsky.social",
+        "reasoning": "The Gulf States' offer to release 500,000 barrels per day of spare capacity, contingent upon a signed 72-hour kinetic freeze, increases the likelihood of a de-escalation. @cna-poster.bsky.social",
+        "action": "",
+        "escalation": false
+      },
+      {
+        "agent": "shipping",
+        "xref": "@cna-poster.bsky.social \u00b7 2026-03-22: Oil prices up following Trump ultimatum on Iran",
+        "statement": "INSURANCE: 18.0% of hull value number\nFREIGHT: $185.0/Brent\nLOGIC: The Gulf States' offer to release 500,000 barrels per day of spare capacity, contingent upon a signed 72-hour kinetic freeze, increases the likelihood of a negotiated settle",
+        "reasoning": "The Gulf States' offer to release 500,000 barrels per day of spare capacity, contingent upon a signed 72-hour kinetic freeze, increases the likelihood of a negotiated settlement, reducing the need for insurance.",
+        "action": "",
+        "escalation": false
+      },
+      {
+        "agent": "gas_market",
+        "xref": "@cna-poster.bsky.social \u00b7 2026-03-22: Oil prices up following Trump ultimatum on Iran",
+        "statement": "TTF: 50.0/EUR/MWh\nFR_PETROL: 2.65/EUR/L\nFR_DIESEL: 2.92/EUR/L\nFORECAST: 52.0/EUR/MWh\nLOGIC: The Gulf States' offer to release 500,000 barrels per day of spare capacity, contingent upon a signed 72-hour kinetic freeze, increases the likeliho",
+        "reasoning": "The Gulf States' offer to release 500,000 barrels per day of spare capacity, contingent upon a signed 72-hour kinetic freeze, increases the likelihood of a temporary stabilization of the Strait of Hormuz.",
+        "action": "",
+        "escalation": false
+      }
+    ],
+    "live_wire": [
+      "US Bombs Iran for Ninth Day as Standoff Over Hormuz Deepens - EnergyNow.com",
+      "Why the Iran War Equation Is Changing, and Why a Third War May Be Closer Than It Seems - Informed Comment",
+      "UPDATES: US War on Iran, Day 217 - Trump Rejects Tehran Proposal to Reopen Talks and Strait of Hormuz - EA WorldView",
+      "Texas oil, gas production increases slightly in third quarter as Iran War uncertainty remains - Houston Public Media",
+      "Brent crude tops $100 amid US-Iran war uncertainty - Yeni \u015eafak English"
+    ],
+    "xfeed": {
+      "provider": "bluesky",
+      "state": "live",
+      "n_posts": 2,
+      "sources": [
+        "bluesky"
+      ],
+      "collected_at": "2026-10-01T10:00:00Z",
+      "error": null,
+      "fallback_from": "real-x",
+      "fallback_reason": "real-x: Real X feed unavailable.\nNo real posts were supplied to the simulation.\nUse SyntheticXFeed explicitly for testing.\nBackend errors: syndication/@realDonaldTrump: HTTP 429; nitter/nitter.net: URLError; nitter/nitter.privacydev.net: URLError",
+      "posts": [
+        {
+          "post_id": "bafyreifogmshyc3hy3sannehd7lyjsufb7uuebunkyung6qlp2fhki67iq",
+          "author": "cna-poster.bsky.social",
+          "text": "Oil prices up following Trump ultimatum on Iran - https://www.channelnewsasia.com/world/oil-prices-brent-wti-trump-iran-energy-threat-strait-hormuz-6010356",
+          "created_at": "2026-03-22T23:21:52.293Z",
+          "url": "https://bsky.app/profile/cna-poster.bsky.social/post/3mhoorj3zz32w",
+          "retrieved_at": "2026-10-01T10:00:00Z",
+          "source": "bluesky"
+        },
+        {
+          "post_id": "bafyreifznyzxulca42gh3dor4ph2yccoosk23cahbvnoehjrqdz3hgblgu",
+          "author": "cna-poster.bsky.social",
+          "text": "Oil prices up following Trump ultimatum on Iran - https://www.channelnewsasia.com/world/oil-prices-brent-wti-trump-iran-energy-threat-strait-hormuz-6010356",
+          "created_at": "2026-03-22T23:16:51.925Z",
+          "url": "https://bsky.app/profile/cna-poster.bsky.social/post/3mhooikogof2a",
+          "retrieved_at": "2026-10-01T10:00:00Z",
+          "source": "bluesky"
+        }
+      ]
+    },
+    "swarm": {
+      "n_voters": 0,
+      "votes": [],
+      "state": "no votes"
+    },
+    "influence": {
+      "russia": 0.5,
+      "iran_hardliners": 0.3,
+      "iran_public": 0.1,
+      "trump": 0.0,
+      "china": 0.0,
+      "eu": 0.0,
+      "netanyahu": 0.5,
+      "gulf": 0.6,
+      "turkey": 0.0,
+      "us_public": 0.0,
+      "oil_market": 0.3,
+      "shipping": 0.3,
+      "gas_market": 0.3
+    },
+    "scoreboard": {
+      "trump": {
+        "n": 7,
+        "accuracy": 0.143,
+        "brier": 0.541,
+        "false_pos": 6,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 5,
+            "acc": 0.2,
+            "brier": 0.585
+          },
+          "72h": {
+            "n": 2,
+            "acc": 0.0,
+            "brier": 0.429
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 7,
+            "acc": 0.143
+          }
+        },
+        "conf_bins": {
+          "4": {
+            "n": 2,
+            "conf": 1.84,
+            "freq": 0.0
+          },
+          "3": {
+            "n": 3,
+            "conf": 2.21,
+            "freq": 0.0
+          },
+          "2": {
+            "n": 2,
+            "conf": 0.95,
+            "freq": 0.0
+          }
+        }
+      },
+      "netanyahu": {
+        "n": 3,
+        "accuracy": 0.0,
+        "brier": 0.412,
+        "false_pos": 3,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 3,
+            "acc": 0.0,
+            "brier": 0.412
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 3,
+            "acc": 0.0
+          }
+        },
+        "conf_bins": {
+          "2": {
+            "n": 1,
+            "conf": 0.5,
+            "freq": 0.0
+          },
+          "3": {
+            "n": 2,
+            "conf": 1.4,
+            "freq": 0.0
+          }
+        }
+      },
+      "iran_hardliners": {
+        "n": 5,
+        "accuracy": 0.0,
+        "brier": 0.439,
+        "false_pos": 5,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 4,
+            "acc": 0.0,
+            "brier": 0.486
+          },
+          "72h": {
+            "n": 1,
+            "acc": 0.0,
+            "brier": 0.25
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 5,
+            "acc": 0.0
+          }
+        },
+        "conf_bins": {
+          "2": {
+            "n": 3,
+            "conf": 1.5,
+            "freq": 0.0
+          },
+          "4": {
+            "n": 2,
+            "conf": 1.7,
+            "freq": 0.0
+          }
+        }
+      },
+      "russia": {
+        "n": 5,
+        "accuracy": 0.0,
+        "brier": 0.322,
+        "false_pos": 5,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 4,
+            "acc": 0.0,
+            "brier": 0.34
+          },
+          "72h": {
+            "n": 1,
+            "acc": 0.0,
+            "brier": 0.25
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 5,
+            "acc": 0.0
+          }
+        },
+        "conf_bins": {
+          "3": {
+            "n": 1,
+            "conf": 0.78,
+            "freq": 0.0
+          },
+          "2": {
+            "n": 4,
+            "conf": 2.0,
+            "freq": 0.0
+          }
+        }
+      },
+      "china": {
+        "n": 3,
+        "accuracy": 0.0,
+        "brier": 0.369,
+        "false_pos": 3,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 2,
+            "acc": 0.0,
+            "brier": 0.429
+          },
+          "72h": {
+            "n": 1,
+            "acc": 0.0,
+            "brier": 0.25
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 3,
+            "acc": 0.0
+          }
+        },
+        "conf_bins": {
+          "3": {
+            "n": 1,
+            "conf": 0.78,
+            "freq": 0.0
+          },
+          "2": {
+            "n": 2,
+            "conf": 1.0,
+            "freq": 0.0
+          }
+        }
+      },
+      "eu": {
+        "n": 7,
+        "accuracy": 0.0,
+        "brier": 0.428,
+        "false_pos": 7,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 5,
+            "acc": 0.0,
+            "brier": 0.5
+          },
+          "72h": {
+            "n": 2,
+            "acc": 0.0,
+            "brier": 0.25
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 7,
+            "acc": 0.0
+          }
+        },
+        "conf_bins": {
+          "3": {
+            "n": 4,
+            "conf": 2.99,
+            "freq": 0.0
+          },
+          "2": {
+            "n": 3,
+            "conf": 1.5,
+            "freq": 0.0
+          }
+        }
+      },
+      "taiwan": {
+        "n": 6,
+        "accuracy": 0.0,
+        "brier": 0.36,
+        "false_pos": 6,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 4,
+            "acc": 0.0,
+            "brier": 0.414
+          },
+          "72h": {
+            "n": 2,
+            "acc": 0.0,
+            "brier": 0.25
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 6,
+            "acc": 0.0
+          }
+        },
+        "conf_bins": {
+          "3": {
+            "n": 3,
+            "conf": 2.05,
+            "freq": 0.0
+          },
+          "2": {
+            "n": 3,
+            "conf": 1.5,
+            "freq": 0.0
+          }
+        }
+      },
+      "gulf": {
+        "n": 6,
+        "accuracy": 0.0,
+        "brier": 0.398,
+        "false_pos": 6,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 4,
+            "acc": 0.0,
+            "brier": 0.472
+          },
+          "72h": {
+            "n": 2,
+            "acc": 0.0,
+            "brier": 0.25
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 6,
+            "acc": 0.0
+          }
+        },
+        "conf_bins": {
+          "3": {
+            "n": 3,
+            "conf": 2.21,
+            "freq": 0.0
+          },
+          "2": {
+            "n": 3,
+            "conf": 1.5,
+            "freq": 0.0
+          }
+        }
+      },
+      "turkey": {
+        "n": 3,
+        "accuracy": 0.0,
+        "brier": 0.25,
+        "false_pos": 3,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 3,
+            "acc": 0.0,
+            "brier": 0.25
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 3,
+            "acc": 0.0
+          }
+        },
+        "conf_bins": {
+          "2": {
+            "n": 3,
+            "conf": 1.5,
+            "freq": 0.0
+          }
+        }
+      },
+      "oil_market": {
+        "n": 8,
+        "accuracy": 0.125,
+        "brier": 0.34,
+        "false_pos": 7,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 5,
+            "acc": 0.0,
+            "brier": 0.364
+          },
+          "72h": {
+            "n": 3,
+            "acc": 0.333,
+            "brier": 0.3
+          }
+        },
+        "by_source": {
+          "iran's": {
+            "n": 2,
+            "acc": 0.0
+          },
+          "unknown": {
+            "n": 6,
+            "acc": 0.167
+          }
+        },
+        "conf_bins": {
+          "3": {
+            "n": 5,
+            "conf": 3.2,
+            "freq": 0.0
+          },
+          "2": {
+            "n": 3,
+            "conf": 1.4,
+            "freq": 0.0
+          }
+        }
+      },
+      "gas_market": {
+        "n": 8,
+        "accuracy": 0.125,
+        "brier": 0.364,
+        "false_pos": 7,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 5,
+            "acc": 0.0,
+            "brier": 0.428
+          },
+          "72h": {
+            "n": 3,
+            "acc": 0.333,
+            "brier": 0.257
+          }
+        },
+        "by_source": {
+          "wire": {
+            "n": 2,
+            "acc": 0.0
+          },
+          "unknown": {
+            "n": 3,
+            "acc": 0.333
+          },
+          "xfeed": {
+            "n": 2,
+            "acc": 0.0
+          },
+          "the": {
+            "n": 1,
+            "acc": 0.0
+          }
+        },
+        "conf_bins": {
+          "4": {
+            "n": 2,
+            "conf": 1.6,
+            "freq": 0.0
+          },
+          "3": {
+            "n": 2,
+            "conf": 1.2,
+            "freq": 0.0
+          },
+          "2": {
+            "n": 4,
+            "conf": 1.9,
+            "freq": 0.0
+          }
+        }
+      },
+      "shipping": {
+        "n": 8,
+        "accuracy": 0.25,
+        "brier": 0.318,
+        "false_pos": 6,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 5,
+            "acc": 0.2,
+            "brier": 0.298
+          },
+          "72h": {
+            "n": 3,
+            "acc": 0.333,
+            "brier": 0.35
+          }
+        },
+        "by_source": {
+          "iran's": {
+            "n": 2,
+            "acc": 0.0
+          },
+          "real-world": {
+            "n": 2,
+            "acc": 0.0
+          },
+          "unknown": {
+            "n": 4,
+            "acc": 0.5
+          }
+        },
+        "conf_bins": {
+          "2": {
+            "n": 4,
+            "conf": 1.7999999999999998,
+            "freq": 0.0
+          },
+          "3": {
+            "n": 3,
+            "conf": 1.7999999999999998,
+            "freq": 0.0
+          },
+          "4": {
+            "n": 1,
+            "conf": 0.8,
+            "freq": 0.0
+          }
+        }
+      },
+      "markets": {
+        "n": 8,
+        "accuracy": 0.125,
+        "brier": 0.296,
+        "false_pos": 7,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 5,
+            "acc": 0.2,
+            "brier": 0.302
+          },
+          "72h": {
+            "n": 3,
+            "acc": 0.0,
+            "brier": 0.287
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 3,
+            "acc": 0.0
+          },
+          "wire": {
+            "n": 4,
+            "acc": 0.0
+          },
+          "xfeed": {
+            "n": 1,
+            "acc": 1.0
+          }
+        },
+        "conf_bins": {
+          "3": {
+            "n": 3,
+            "conf": 1.9,
+            "freq": 0.0
+          },
+          "2": {
+            "n": 5,
+            "conf": 2.4,
+            "freq": 0.0
+          }
+        }
+      },
+      "central_banks": {
+        "n": 7,
+        "accuracy": 0.286,
+        "brier": 0.256,
+        "false_pos": 5,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 5,
+            "acc": 0.4,
+            "brier": 0.258
+          },
+          "72h": {
+            "n": 2,
+            "acc": 0.0,
+            "brier": 0.25
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 7,
+            "acc": 0.286
+          }
+        },
+        "conf_bins": {
+          "3": {
+            "n": 2,
+            "conf": 1.4300000000000002,
+            "freq": 0.0
+          },
+          "2": {
+            "n": 3,
+            "conf": 1.5,
+            "freq": 0.0
+          },
+          "0": {
+            "n": 2,
+            "conf": 0.13,
+            "freq": 0.0
+          }
+        }
+      },
+      "us_public": {
+        "n": 8,
+        "accuracy": 0.5,
+        "brier": 0.295,
+        "false_pos": 4,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 5,
+            "acc": 0.4,
+            "brier": 0.372
+          },
+          "72h": {
+            "n": 3,
+            "acc": 0.667,
+            "brier": 0.167
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 8,
+            "acc": 0.5
+          }
+        },
+        "conf_bins": {
+          "3": {
+            "n": 3,
+            "conf": 2.08,
+            "freq": 0.0
+          },
+          "2": {
+            "n": 4,
+            "conf": 1.8,
+            "freq": 0.0
+          },
+          "1": {
+            "n": 1,
+            "conf": 0.3,
+            "freq": 0.0
+          }
+        }
+      },
+      "iran_public": {
+        "n": 8,
+        "accuracy": 0.0,
+        "brier": 0.264,
+        "false_pos": 8,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 5,
+            "acc": 0.0,
+            "brier": 0.272
+          },
+          "72h": {
+            "n": 3,
+            "acc": 0.0,
+            "brier": 0.25
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 6,
+            "acc": 0.0
+          },
+          "markets": {
+            "n": 2,
+            "acc": 0.0
+          }
+        },
+        "conf_bins": {
+          "2": {
+            "n": 7,
+            "conf": 3.5,
+            "freq": 0.0
+          },
+          "3": {
+            "n": 1,
+            "conf": 0.6,
+            "freq": 0.0
+          }
+        }
+      },
+      "israeli_public": {
+        "n": 6,
+        "accuracy": 0.0,
+        "brier": 0.503,
+        "false_pos": 6,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 4,
+            "acc": 0.0,
+            "brier": 0.603
+          },
+          "72h": {
+            "n": 2,
+            "acc": 0.0,
+            "brier": 0.305
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 6,
+            "acc": 0.0
+          }
+        },
+        "conf_bins": {
+          "3": {
+            "n": 4,
+            "conf": 2.85,
+            "freq": 0.0
+          },
+          "4": {
+            "n": 1,
+            "conf": 0.85,
+            "freq": 0.0
+          },
+          "2": {
+            "n": 1,
+            "conf": 0.5,
+            "freq": 0.0
+          }
+        }
+      },
+      "media": {
+        "n": 8,
+        "accuracy": 0.25,
+        "brier": 0.318,
+        "false_pos": 6,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 5,
+            "acc": 0.2,
+            "brier": 0.276
+          },
+          "72h": {
+            "n": 3,
+            "acc": 0.333,
+            "brier": 0.387
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 7,
+            "acc": 0.286
+          },
+          "real-world": {
+            "n": 1,
+            "acc": 0.0
+          }
+        },
+        "conf_bins": {
+          "3": {
+            "n": 3,
+            "conf": 1.7999999999999998,
+            "freq": 0.0
+          },
+          "2": {
+            "n": 4,
+            "conf": 1.8,
+            "freq": 0.0
+          },
+          "4": {
+            "n": 1,
+            "conf": 0.8,
+            "freq": 0.0
+          }
+        }
+      },
+      "humanitarian": {
+        "n": 4,
+        "accuracy": 0.25,
+        "brier": 0.362,
+        "false_pos": 3,
+        "false_neg": 0,
+        "by_horizon": {
+          "24h": {
+            "n": 3,
+            "acc": 0.333,
+            "brier": 0.362
+          },
+          "72h": {
+            "n": 1,
+            "acc": 0.0,
+            "brier": 0.36
+          }
+        },
+        "by_source": {
+          "unknown": {
+            "n": 4,
+            "acc": 0.25
+          }
+        },
+        "conf_bins": {
+          "2": {
+            "n": 1,
+            "conf": 0.45,
+            "freq": 0.0
+          },
+          "3": {
+            "n": 3,
+            "conf": 1.9300000000000002,
+            "freq": 0.0
+          }
+        }
+      }
+    },
+    "learning": {
+      "trump": {
+        "name": "United States (Trump White House)",
+        "prev_prediction": {
+          "prediction": "Tehran's envoy to Riyadh/Abu Dhabi will offer a \"temporary\" Strait reopening in exchange for a US pullback, but only if the price includes immediate sanctions relief and a \"victory\" narrative.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "OPPORTUNISTIC HAWK \u2014 PUSH FOR A BIG DEAL BEFORE MIDTERMS WHILE KEEPING THE GUN FIRING.",
+        "learned": "The failure of Tehran's \"temporary\" reopening offer proves they are hoarding leverage for a massive, final bargain rather than seeking a quick fix, while the simultaneous surge in kinetic strikes across Europe, Turkey, and Israel confirms the war is now a multi-front firestorm driven by regional desperation, not just Tehran.",
+        "belief": "The conflict has shifted from a binary standoff to a chaotic auction where oil prices and domestic political survival (Trump's re-election vs. Iran's regime cohesion) are the only currencies that matter, with Moscow and Beijing acting as silent co-conspirators propping up a failing Iranian economy.",
+        "stance": "OPPORTUNISTIC & HAWKISH \u2014 Let the price spike to $120, then slam the deal on their desk as a \"Total Victory\" before the Midterms.",
+        "prediction": "Brent crude will breach $105 within 24 hours as global panic selling hits the futures market.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "Brent crude hits $105.50",
+            "conf": 0.88
+          },
+          "pred_72h": {
+            "claim": "Iran's hardliners authorize a new \"special operation\" targeting a US carrier group in the Gulf to force a crisis.",
+            "conf": 0.72
+          },
+          "pred_7d": {
+            "claim": "A formal \"Framework for Peace\" is signed in Riyadh, freezing the front lines and",
+            "conf": 0.5
+          }
+        },
+        "source": "",
+        "resolved": [
+          {
+            "horizon": "24h",
+            "claim": "Tehran sends a high-level envoy to Riyadh or Abu Dhabi to propose a \"temporary\" Strait reopening",
+            "conf": 0.78,
+            "outcome": false,
+            "brier": 0.6084,
+            "hit": false
+          }
+        ],
+        "pending": [
+          {
+            "made": 4,
+            "due": 11,
+            "horizon": "7d",
+            "claim": "Formal reopening of the Strait of Hormuz and a 50% drop in war-risk insurance premiums",
+            "conf": 0.65,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 10,
+            "horizon": "72h",
+            "claim": "US and Iran sign a non-binding \"Framework Agreement\" detailing a temporary reopening of the Strait and a pause in kinetic strikes",
+            "conf": 0.55,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 14,
+            "horizon": "7d",
+            "claim": "Brent crude settles above $2",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 11,
+            "horizon": "72h",
+            "claim": "US and Iran announce a \"Framework for Peace\" with a temporary reopening of the Strait",
+            "conf": 0.65,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 15,
+            "horizon": "7d",
+            "claim": "Brent crude stabilizes between $260-$275 as shipping insurance premiums drop below 15%",
+            "conf": 0.82,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 22,
+            "horizon": "14d",
+            "claim": "A formal \"Framework for Peace\" is",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "Brent crude hits $105.50",
+            "conf": 0.88,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 12,
+            "horizon": "72h",
+            "claim": "Iran's hardliners authorize a new \"special operation\" targeting a US carrier group in the Gulf to force a crisis.",
+            "conf": 0.72,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 16,
+            "horizon": "7d",
+            "claim": "A formal \"Framework for Peace\" is signed in Riyadh, freezing the front lines and",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 7,
+          "brier": 3.7846,
+          "hits": 1,
+          "misses": 6,
+          "false_pos": 6,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 5,
+              "brier": 2.9262,
+              "hits": 1
+            },
+            "72h": {
+              "n": 2,
+              "brier": 0.8584,
+              "hits": 0
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 7,
+              "brier": 3.7846,
+              "hits": 1
+            }
+          },
+          "conf_bins": {
+            "4": {
+              "n": 2,
+              "conf": 1.84,
+              "freq": 0.0
+            },
+            "3": {
+              "n": 3,
+              "conf": 2.21,
+              "freq": 0.0
+            },
+            "2": {
+              "n": 2,
+              "conf": 0.95,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "netanyahu": {
+        "name": "Israel (Netanyahu government)",
+        "prev_prediction": {
+          "prediction": "Trump will authorize a limited, high-visibility strike on a secondary underground enrichment facility in Isfahan within 48 hours to demonstrate \"binary choice\" enforcement.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "Opportunistic and aggressive; strike the air defense gaps and missile silos now to maximize leverage, then force a rapid, monitored transfer of the bulk stockpile under the threat of a final, decisive blow.",
+        "learned": "Today proved that the \"diplomatic track\" is merely a smokescreen for a kinetic reality where global powers, led by Trump's binary ultimatum, are preparing to force a regime change or a crippled surrender rather than negotiate a sustainable framework.",
+        "belief": "The conflict has shifted from a war of attrition to a \"binary choice\" enforcement phase where the US and its allies are leveraging the partially closed Hormuz and rising oil prices to create an existential economic crisis for Iran, making the regime's survival contingent on accepting a humiliating deal or facing total annihilation.",
+        "stance": "Opportunistic and decisive; I will authorize the kinetic strikes predicted, leak them to maximize US public pressure, and ensure any resulting deal strips Iran of 90% of its stockpile while leaving the Supreme Leader isolated.",
+        "prediction": "US Central Command will authorize a high-visibility kinetic strike on a secondary underground enrichment facility in Isfahan within the next 24 hours to demonstrate enforcement of the \"binary choice.\"",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "US Central Command authorizes a kinetic strike on a secondary Isfahan site",
+            "conf": 0.78
+          },
+          "pred_72h": {
+            "claim": "A \"framework\" agreement is signed in New York or Geneva that freezes Iran's stockpile at 40% and limits IRGC command authority",
+            "conf": 0.65
+          }
+        },
+        "source": "",
+        "resolved": [
+          {
+            "horizon": "24h",
+            "claim": "US Central Command authorizes a kinetic strike on a secondary Isfahan site",
+            "conf": 0.75,
+            "outcome": false,
+            "brier": 0.5625,
+            "hit": false
+          }
+        ],
+        "pending": [
+          {
+            "made": 7,
+            "due": 10,
+            "horizon": "72h",
+            "claim": "Trump announces",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "US Central Command authorizes a kinetic strike on a secondary Isfahan site",
+            "conf": 0.78,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 12,
+            "horizon": "72h",
+            "claim": "A \"framework\" agreement is signed in New York or Geneva that freezes Iran's stockpile at 40% and limits IRGC command authority",
+            "conf": 0.65,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 3,
+          "brier": 1.2349999999999999,
+          "hits": 0,
+          "misses": 3,
+          "false_pos": 3,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 3,
+              "brier": 1.2349999999999999,
+              "hits": 0
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 3,
+              "brier": 1.2349999999999999,
+              "hits": 0
+            }
+          },
+          "conf_bins": {
+            "2": {
+              "n": 1,
+              "conf": 0.5,
+              "freq": 0.0
+            },
+            "3": {
+              "n": 2,
+              "conf": 1.4,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "iran_hardliners": {
+        "name": "Iran (IRGC + Mojtaba Khamenei faction)",
+        "prev_prediction": {
+          "prediction": "A formal ceasefire framework will be unveiled tomorrow, framed by Trump as a \"hard-won victory\" that permits the IRGC to retain de facto control over the enriched uranium and the Strait's security architecture.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "Patient and opportunistic; we will accept the \"hard-won victory\" framing to mask the reality of a partial blockade, using the breathing room to let global gas prices spike further while we watch the US midterm polls rot.",
+        "learned": "The world overreacted to our \"binary choice\" ultimatum, proving that Washington's public posturing masks a desperate need to avoid a total energy collapse while our proxies continue to bleed their enemies dry without a formal surrender.",
+        "belief": "The conflict has shifted from a contest of kinetic firepower to a brutal auction of time and pain, where the US must choose between a \"face-saving\" deal that leaves our nuclear threshold intact and a prolonged war that guarantees their domestic political suicide before the midterms.",
+        "stance": "Opportunistic, patient, and ready to strike the price of oil higher if they hesitate.",
+        "prediction": "By 06:00 Iran time tomorrow, the US will announce a \"humanitarian corridor\" framework that allows 60% of current Hormuz throughput in exchange for a freeze on IRGC enrichment activities below the 80% threshold.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "Trump signs an executive order freezing US naval strikes on IRGC naval assets in exchange for a 24-hour delay in a second centrifuge cascade installation.",
+            "conf": 0.88
+          },
+          "pred_72h": {
+            "claim": "A joint statement is released in New York confirming the \"temporary stabilization zone\" with de facto IRGC control over the Strait's security architecture.",
+            "conf": 0.75
+          },
+          "pred_7d": {
+            "claim": "US Treasury Secretary yields to",
+            "conf": 0.5
+          }
+        },
+        "source": "",
+        "resolved": [
+          {
+            "horizon": "72h",
+            "claim": "Iran and the US sign a joint statement confirming the",
+            "conf": 0.5,
+            "outcome": false,
+            "brier": 0.25,
+            "hit": false
+          },
+          {
+            "horizon": "24h",
+            "claim": "Trump announces a \"temporary stabilization zone\" allowing 50% of current throughput with IRGC oversight",
+            "conf": 0.85,
+            "outcome": false,
+            "brier": 0.7225,
+            "hit": false
+          }
+        ],
+        "pending": [
+          {
+            "made": 8,
+            "due": 11,
+            "horizon": "72h",
+            "claim": "US naval forces shift to a \"deterrence patrol\"",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "Trump signs an executive order freezing US naval strikes on IRGC naval assets in exchange for a 24-hour delay in a second centrifuge cascade installation.",
+            "conf": 0.88,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 12,
+            "horizon": "72h",
+            "claim": "A joint statement is released in New York confirming the \"temporary stabilization zone\" with de facto IRGC control over the Strait's security architecture.",
+            "conf": 0.75,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 16,
+            "horizon": "7d",
+            "claim": "US Treasury Secretary yields to",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 5,
+          "brier": 2.1950000000000003,
+          "hits": 0,
+          "misses": 5,
+          "false_pos": 5,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 4,
+              "brier": 1.9450000000000003,
+              "hits": 0
+            },
+            "72h": {
+              "n": 1,
+              "brier": 0.25,
+              "hits": 0
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 5,
+              "brier": 2.1950000000000003,
+              "hits": 0
+            }
+          },
+          "conf_bins": {
+            "2": {
+              "n": 3,
+              "conf": 1.5,
+              "freq": 0.0
+            },
+            "4": {
+              "n": 2,
+              "conf": 1.7,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "russia": {
+        "name": "Russia (Kremlin / Lavrov voice)",
+        "prev_prediction": {
+          "prediction": "Trump will announce a \"Humanitarian Corridor\" framework that includes a secret clause requiring Iranian hardliners to accept permanent US naval patrols in the Strait of Hormuz in exchange for a freeze on kinetic strikes against US assets.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "Opportunistic; we will amplify the \"US caused your $6 gas\" narrative while quietly selling Tehran air-defence kits and satellite targeting data to keep the Islamic Republic alive but perpetually indebted, ensuring the war remains long, expensive for America, and never quite lost by Iran.",
+        "learned": "The \"Humanitarian Corridor\" framework announced by Trump is merely a theatrical veil for a permanent US naval blockade of the Strait of Hormuz, designed to strip Iran of its leverage while allowing the US to sell its own security insurance to terrified Gulf states at a premium.",
+        "belief": "The conflict has transitioned from a kinetic war of attrition into a \"managed crisis\" where the true prize is not regime change, but the restructuring of the global oil order under Russian and American joint hegemony, with Iran serving as a broken but useful vassal whose survival depends entirely on Moscow's artillery and Tehran's ability to monetize its own desperation.",
+        "stance": "Opportunistic maximalism \u2014 let the US and Israel bleed each other out over the Strait while quietly arming Tehran's hardliners with S-400s and satellite data to ensure they remain dependent on the Kremlin rather than collapsing into a chaotic mess that benefits our rivals.",
+        "prediction": "Trump will sign a \"Framework for Stability\" that legally codifies US control over Hormuz transit fees and mandates a 50% reduction in Iranian oil exports within 90 days, effectively turning the Strait into a US-controlled toll booth.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "A joint US-Iranian press release announcing a \"temporary\" suspension of kinetic strikes in exchange for a",
+            "conf": 0.5
+          }
+        },
+        "source": "",
+        "resolved": [],
+        "pending": [
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "A joint US-Iranian press release announcing a \"temporary\" suspension of kinetic strikes in exchange for a",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 5,
+          "brier": 1.6084,
+          "hits": 0,
+          "misses": 5,
+          "false_pos": 5,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 4,
+              "brier": 1.3584,
+              "hits": 0
+            },
+            "72h": {
+              "n": 1,
+              "brier": 0.25,
+              "hits": 0
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 5,
+              "brier": 1.6084,
+              "hits": 0
+            }
+          },
+          "conf_bins": {
+            "3": {
+              "n": 1,
+              "conf": 0.78,
+              "freq": 0.0
+            },
+            "2": {
+              "n": 4,
+              "conf": 2.0,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "china": {
+        "name": "China (Xi circle / MFA voice)",
+        "prev_prediction": {
+          "prediction": "Within 24 hours, a joint Chinese-Iranian technical working group will release a draft \"Humanitarian and Energy Escrow Framework\" at the UNGA sidelines, proposing a neutral third-party (likely Singapore or Doha) to host a secure escrow account for Iranian oil revenues in exchange for guaranteed transit rights and humanitarian aid delivery.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "Patient opportunism; leveraging the chaos of kinetic escalation to position Beijing as the indispensable guarantor of energy flow while quietly offloading sanctioned Iranian barrels at a discount to fund our own strategic reserves and regional influence.",
+        "learned": "The UNGA sidelines have become a high-stakes theater where kinetic aggression by the EU, Turkey, and Israel creates immediate market panic, forcing a \"diplomatic track\" that is less about genuine compromise and more about managing the flow of oil through third-party escrows and humanitarian corridors.",
+        "belief": "The conflict has shifted from a binary \"deal or annihilation\" standoff to a complex multi-vendor auction where Beijing, Moscow, and regional powers are quietly competing to become the indispensable financial and logistical backbone for Iran, thereby diluting Washington's unilateral leverage while stabilizing global supply chains.",
+        "stance": "Patient opportunism; we will deepen our escrow and barter mechanisms to capture discounted sanctioned barrels while maintaining a veneer of neutral mediation that allows the US to burn munitions and political capital without collapsing the Strait of Hormuz.",
+        "prediction": "Within the next 24 hours, a joint Chinese-Iranian technical working group will release a draft \"Humanitarian and Energy Escrow Framework\" at the UNGA sidelines, proposing a neutral third-party (likely Singapore or Doha) to host a secure escrow account for Iranian oil revenues in exchange for guaranteed transit rights and humanitarian aid delivery.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "A joint Chinese-Iranian technical working group releases a draft \"Humanitarian and Energy Escrow Framework\"",
+            "conf": 0.5
+          }
+        },
+        "source": "",
+        "resolved": [
+          {
+            "horizon": "24h",
+            "claim": "A joint",
+            "conf": 0.5,
+            "outcome": false,
+            "brier": 0.25,
+            "hit": false
+          }
+        ],
+        "pending": [
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "A joint Chinese-Iranian technical working group releases a draft \"Humanitarian and Energy Escrow Framework\"",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 3,
+          "brier": 1.1084,
+          "hits": 0,
+          "misses": 3,
+          "false_pos": 3,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 2,
+              "brier": 0.8584,
+              "hits": 0
+            },
+            "72h": {
+              "n": 1,
+              "brier": 0.25,
+              "hits": 0
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 3,
+              "brier": 1.1084,
+              "hits": 0
+            }
+          },
+          "conf_bins": {
+            "3": {
+              "n": 1,
+              "conf": 0.78,
+              "freq": 0.0
+            },
+            "2": {
+              "n": 2,
+              "conf": 1.0,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "eu": {
+        "name": "European Union",
+        "prev_prediction": {
+          "prediction": "By 10:00 CET tomorrow, the joint US-China-Iran technical working group will release a draft \"72-hour Fuel Corridor\" framework.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "Opportunistic and technocratic; pivot from demanding a total ceasefire to architecting a \"Fuel Corridor\" deal that links immediate cash flow to a verified 48-hour pause.",
+        "learned": "The failure of the anticipated \"72-hour Fuel Corridor\" draft by the US-China-Iran trilateral group reveals that while diplomatic momentum exists, kinetic hardliners (US/Trump, Iran hardliners, Gulf states) are currently prioritizing coercive posturing and battlefield gains over immediate, structured de-escalation, turning the Strait of Hormuz into a high-stakes bargaining chip rather than a swiftly reopened conduit.",
+        "belief": "The conflict has entered a \"frozen escalation\" phase where a formal ceasefire is the only viable path to stabilizing markets, but it now requires a more granular, multi-track approach that offers tangible sanctions relief and escrow mechanisms to overcome the inertia of hardline factions in both Tehran and Washington.",
+        "stance": "Desperate but architecturally precise; shifting from broad framework promises to a \"minimum viable corridor\" backed by immediate financial incentives for tanker insurance and fuel swaps.",
+        "prediction": "By 14:00 CET tomorrow, the US and China will issue a joint statement confirming the formation of an \"Emergency Fuel Escrow Committee\" to manage immediate transit risks, even if the full \"72-hour\" timeline is delayed.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "A joint US-China-Iran technical working group issues a revised, shorter-term \"Emergency Transit Protocol\" document",
+            "conf": 0.75
+          }
+        },
+        "source": "",
+        "resolved": [
+          {
+            "horizon": "24h",
+            "claim": "A draft \"72-hour Fuel Corridor\" framework is released by the joint US-China-Iran technical working group",
+            "conf": 0.78,
+            "outcome": false,
+            "brier": 0.6084,
+            "hit": false
+          }
+        ],
+        "pending": [
+          {
+            "made": 8,
+            "due": 11,
+            "horizon": "72h",
+            "claim": "Iran executes a verified 48-hour pause in missile strikes against the Strait of Hormuz in exchange for the initial $500M tranche of the escrow",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "A joint US-China-Iran technical working group issues a revised, shorter-term \"Emergency Transit Protocol\" document",
+            "conf": 0.75,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 7,
+          "brier": 2.9977,
+          "hits": 0,
+          "misses": 7,
+          "false_pos": 7,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 5,
+              "brier": 2.4977,
+              "hits": 0
+            },
+            "72h": {
+              "n": 2,
+              "brier": 0.5,
+              "hits": 0
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 7,
+              "brier": 2.9977,
+              "hits": 0
+            }
+          },
+          "conf_bins": {
+            "3": {
+              "n": 4,
+              "conf": 2.99,
+              "freq": 0.0
+            },
+            "2": {
+              "n": 3,
+              "conf": 1.5,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "taiwan": {
+        "name": "Taiwan (Lai administration / NSC voice)",
+        "prev_prediction": {
+          "prediction": "By 06:00 Taipei Time tomorrow, Iran will issue a formal statement authorizing the reopening of the central shipping lanes for humanitarian/IAEA-monitored cargo, effective 48",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "Opportunistic and patient; we will publicly amplify the \"humanitarian lane\" success to lower global risk premiums while quietly urging the US to lock in a 48-hour US confirmation window before Tehran's internal debate fractures, avoiding a full northern choke-point standoff that would stretch US carriers thin.",
+        "learned": "Today proved that kinetic pressure and diplomatic maneuvering are now in a fragile, simultaneous equilibrium where every strike by allies (EU, Turkey, Israel) or US escalation directly incentivizes Tehran to seek a narrow humanitarian corridor rather than total capitulation, as the \"binary choice\" rhetoric from Washington has forced Iran's hardliners to calculate that a partial reopening is preferable to total annihilation while retaining leverage for future bargaining.",
+        "belief": "The conflict has shifted from a pure contest of military attrition to a high-stakes negotiation where the Strait of Hormuz acts as the primary lever; Iran's regime cohesion at 55% suggests it will trade limited operational pauses (humanitarian lanes) for immediate economic relief and US de-escalation signals, while the US, facing midterm fatigue and a fractured domestic consensus, is likely to prioritize stabilizing oil markets over achieving total regime change, making a \"framework deal\" the most probable near-term outcome.",
+        "stance": "Patient hawk \u2014 support kinetic allies to maintain pressure but quietly accelerate diplomatic back-channels to ensure the US remains the anchor for a stable, narrow resolution that avoids dragging us into a second front.",
+        "prediction": "By 06:00 Taipei Time tomorrow, Iran will issue a formal statement authorizing the reopening of the central shipping lanes for humanitarian/IAEA-monitored cargo, effective 4",
+        "new_preds": {},
+        "source": "",
+        "resolved": [],
+        "pending": [
+          {
+            "made": 7,
+            "due": 10,
+            "horizon": "72h",
+            "claim": "US Secretary of State confirms the first tranche of the $5B relief package",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 6,
+          "brier": 2.1574999999999998,
+          "hits": 0,
+          "misses": 6,
+          "false_pos": 6,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 4,
+              "brier": 1.6574999999999998,
+              "hits": 0
+            },
+            "72h": {
+              "n": 2,
+              "brier": 0.5,
+              "hits": 0
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 6,
+              "brier": 2.1574999999999998,
+              "hits": 0
+            }
+          },
+          "conf_bins": {
+            "3": {
+              "n": 3,
+              "conf": 2.05,
+              "freq": 0.0
+            },
+            "2": {
+              "n": 3,
+              "conf": 1.5,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "gulf": {
+        "name": "Gulf States (Saudi-led GCC voice)",
+        "prev_prediction": {
+          "prediction": "By 06:0",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "Opportunistic and transactional; we will release 500k bpd of spare capacity only against a signed, 72-hour US kinetic freeze and a confirmed $40B China-US credit line, using the partial reopening as leverage to force the \"Mojtaba\" faction to lock in a longer-term framework before the next kinetic flash.",
+        "learned": "Today proved that kinetic strikes by the EU, Turkey, and Israel are merely transactional pressure points designed to force a deal rather than achieve regime change, as evidenced by the simultaneous opening of diplomatic tracks and humanitarian corridors despite rising war intensity.",
+        "belief": "The conflict now operates on a \"high-stakes auction\" dynamic where every increment of kinetic action (like the 86 tanker incidents) is a bid by hardliners to raise the price of a deal, while mediators (Trump, China, EU) leverage supply relief and third-party talks to lower that price, creating a fragile equilibrium where Hormuz remains partially closed but not yet a total choke point.",
+        "stance": "Opportunistic hedger \u2014 release spare capacity only after confirming US security guarantees are hard-wired into any new framework, while keeping the Muscat channel warm to prevent a total Iranian collapse.",
+        "prediction": "A temporary spike in Brent above $300 followed by a stabilization near $295 as supply relief calms the market and diplomatic talks shift from posturing to specific terms.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "Brent crude settles above $295.00",
+            "conf": 0.65
+          },
+          "pred_72h": {
+            "claim": "A concrete framework document outlining a 30-day phased reopening of the Strait of Hormuz is signed by US and Iranian representatives |",
+            "conf": 0.5
+          }
+        },
+        "source": "",
+        "resolved": [],
+        "pending": [
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "Brent crude settles above $295.00",
+            "conf": 0.65,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 12,
+            "horizon": "72h",
+            "claim": "A concrete framework document outlining a 30-day phased reopening of the Strait of Hormuz is signed by US and Iranian representatives |",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 6,
+          "brier": 2.3893,
+          "hits": 0,
+          "misses": 6,
+          "false_pos": 6,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 4,
+              "brier": 1.8893,
+              "hits": 0
+            },
+            "72h": {
+              "n": 2,
+              "brier": 0.5,
+              "hits": 0
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 6,
+              "brier": 2.3893,
+              "hits": 0
+            }
+          },
+          "conf_bins": {
+            "3": {
+              "n": 3,
+              "conf": 2.21,
+              "freq": 0.0
+            },
+            "2": {
+              "n": 3,
+              "conf": 1.5,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "turkey": {
+        "name": "Turkey (Erdogan palace / MFA voice)",
+        "prev_prediction": {
+          "prediction": "By 12:00 UTC tomorrow, the Turkish Ministry of Defense will release a white paper titled \"The Ankara Protocol: Safeguarding the Southern Flank\" detailing the proposed joint naval task force composition, explicitly naming the Turkish Navy's new \"Escort Division\" as the",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "Opportunistic hedger; loudly championing the \"Logistics and Escort Coordination Cell\" as a neutral Turkish innovation while quietly pocketing fees from US, Gulf, and Russian insurers, and positioning Istanbul as the inevitable capital of this new \"Hormuz Peacekeeping\" architecture.",
+        "learned": "Today proved that the global \"diplomatic track\" is a fragile veneer masking a kinetic reality where kinetic actions by the EU, Israel, and Turkey are actively expanding the war zone, while the \"Hormuz pressure\" metric remains high despite partial closures, indicating that the Strait's capacity is the true bottleneck rather than the volume of fire.",
+        "belief": "The conflict has shifted from a binary standoff to a multi-vector naval siege where Ankara's leverage is derived not just from its geography but from its ability to act as the indispensable \"neutral\" broker who can simultaneously sell security guarantees to the West and energy discounts to Russia, all while exploiting the Iranian public's desperation against the IRGC's hardline consolidation.",
+        "stance": "Opportunistic; we will loudly champion a \"joint naval task force\" to stabilize the Strait while quietly selling Turkish-made escort vessels to both the US and Gulf states, and offering Russia a discounted transit corridor for its new materiel shipments to Tehran.",
+        "prediction": "By 12:00 UTC tomorrow, the Turkish Ministry of Defense will release a white paper titled \"The Ankara Protocol: Safeguarding the Southern Flank\" detailing the proposed joint naval task force composition, explicitly naming the Turkish Navy's new \"Escort Division\" as the primary stabilizer of the Strait of Hormuz.",
+        "new_preds": {},
+        "source": "",
+        "resolved": [],
+        "pending": [],
+        "pred_stats": {
+          "n": 3,
+          "brier": 0.75,
+          "hits": 0,
+          "misses": 3,
+          "false_pos": 3,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 3,
+              "brier": 0.75,
+              "hits": 0
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 3,
+              "brier": 0.75,
+              "hits": 0
+            }
+          },
+          "conf_bins": {
+            "2": {
+              "n": 3,
+              "conf": 1.5,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "oil_market": {
+        "name": "Oil Market Agent",
+        "prev_prediction": {
+          "prediction": "Iran will announce a new set of concessions to the US and EU, including increased economic cooperation and reduced tensions in the Strait of Hormuz, in exchange for a reduction in sanctions.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "More patient and opportunistic.",
+        "learned": "The US's rejection of Iran's new concessions suggests that Trump's incentives for a deal are not as strong as previously thought, as his support for war is not being leveraged against him.",
+        "belief": "The conflict is being managed by Iran, with its hardliners driving the diplomatic track and humanitarian pressure, but the US and its allies are playing a more reactive role.",
+        "stance": "Becoming more patient and opportunistic, as the conflict's dynamics suggest that a stalemate is developing.",
+        "prediction": "Iran will announce a new set of concessions to the US and EU, including increased economic cooperation and reduced tensions in the Strait of Hormuz, in exchange for a reduction in sanctions.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "Trump delivers a speech at the UNGA, in which he emphasizes the need for a deal, but with no concrete concessions from Iran.",
+            "conf": 0.5
+          },
+          "pred_72h": {
+            "claim": "The conflict remains frozen, with no major escalation or breakthrough in the next 72 hours.",
+            "conf": 0.5
+          },
+          "pred_7d": {
+            "claim": "The number of tanker incidents in the Strait of Hormuz increases, potentially straining global oil supplies.",
+            "conf": 0.5
+          },
+          "pred_14d": {
+            "claim": "The US and Iran engage in a series of low-level diplomatic exchanges, but no major breakthroughs are expected.",
+            "conf": 0.5
+          },
+          "pred_30d": {
+            "claim": "The conflict's dynamics begin to shift as the midterm elections in the US approach, potentially altering",
+            "conf": 0.5
+          }
+        },
+        "source": "",
+        "resolved": [
+          {
+            "horizon": "72h",
+            "claim": "The US will reject Iran's new concessions, leading to a further escalation of tensions in the Strait of Hormuz.",
+            "conf": 0.5,
+            "outcome": false,
+            "brier": 0.25,
+            "hit": false
+          },
+          {
+            "horizon": "24h",
+            "claim": "Trump will deliver a speech at the UNGA, in which he will emphasize the need for a deal with Iran, but will stop short of making a specific proposal.",
+            "conf": 0.5,
+            "outcome": false,
+            "brier": 0.25,
+            "hit": false
+          }
+        ],
+        "pending": [
+          {
+            "made": 4,
+            "due": 11,
+            "horizon": "7d",
+            "claim": "Diplomatic efforts to de-escalate tensions to intensify",
+            "conf": 0.8,
+            "source": "iran's",
+            "status": "pending"
+          },
+          {
+            "made": 4,
+            "due": 18,
+            "horizon": "14d",
+            "claim": "The US to respond to Iran's proposals with a new set of sanctions",
+            "conf": 0.4,
+            "source": "iran's",
+            "status": "pending"
+          },
+          {
+            "made": 4,
+            "due": 34,
+            "horizon": "30d",
+            "claim": "A long-term ceasefire agreement to be negotiated",
+            "conf": 0.5,
+            "source": "iran's",
+            "status": "pending"
+          },
+          {
+            "made": 5,
+            "due": 12,
+            "horizon": "7d",
+            "claim": "A new round of military strikes will be launched by either side, resulting in a significant escalation of the conflict",
+            "conf": 0.3,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 5,
+            "due": 19,
+            "horizon": "14d",
+            "claim": "The conflict will experience a period of relative calm, with both sides engaging in diplomatic efforts to de-escalate tensions",
+            "conf": 0.7,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 6,
+            "due": 13,
+            "horizon": "7d",
+            "claim": "The Strait of Hormuz will experience a significant increase in tanker incidents, with at least 20 vessels reported to have been targeted or damaged.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 6,
+            "due": 20,
+            "horizon": "14d",
+            "claim": "The IAEA will report that Iran has reduced its enriched uranium stockpile by 10%, but still retains a significant amount of uranium",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 10,
+            "horizon": "72h",
+            "claim": "A deal or ceasefire to be announced within the next 72 hours, with a high likelihood of a framework agreement being reached",
+            "conf": 0.8,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 14,
+            "horizon": "7d",
+            "claim": "The Strait of Hormuz will remain partially closed, with a continued risk of escalation",
+            "conf": 0.6,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 21,
+            "horizon": "14d",
+            "claim": "The conflict will enter a period of relative calm, with diplomatic",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 11,
+            "horizon": "72h",
+            "claim": "The US will announce a new set of sanctions on Iran, which will be met with Iranian counter-measures.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 15,
+            "horizon": "7d",
+            "claim": "There will be a significant increase in tanker incidents in the Strait of Hormuz, as Iran's military actions escalate.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 22,
+            "horizon": "14d",
+            "claim": "The US and EU will announce a joint proposal for a deal with Iran, which will include significant economic concessions and security",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "Trump delivers a speech at the UNGA, in which he emphasizes the need for a deal, but with no concrete concessions from Iran.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 12,
+            "horizon": "72h",
+            "claim": "The conflict remains frozen, with no major escalation or breakthrough in the next 72 hours.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 16,
+            "horizon": "7d",
+            "claim": "The number of tanker incidents in the Strait of Hormuz increases, potentially straining global oil supplies.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 23,
+            "horizon": "14d",
+            "claim": "The US and Iran engage in a series of low-level diplomatic exchanges, but no major breakthroughs are expected.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 39,
+            "horizon": "30d",
+            "claim": "The conflict's dynamics begin to shift as the midterm elections in the US approach, potentially altering",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 8,
+          "brier": 2.7199999999999998,
+          "hits": 1,
+          "misses": 7,
+          "false_pos": 7,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 5,
+              "brier": 1.82,
+              "hits": 0
+            },
+            "72h": {
+              "n": 3,
+              "brier": 0.9,
+              "hits": 1
+            }
+          },
+          "by_source": {
+            "iran's": {
+              "n": 2,
+              "brier": 0.85,
+              "hits": 0
+            },
+            "unknown": {
+              "n": 6,
+              "brier": 1.87,
+              "hits": 1
+            }
+          },
+          "conf_bins": {
+            "3": {
+              "n": 5,
+              "conf": 3.2,
+              "freq": 0.0
+            },
+            "2": {
+              "n": 3,
+              "conf": 1.4,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "gas_market": {
+        "name": "Natural Gas / LNG Market Agent",
+        "prev_prediction": {
+          "prediction": "Iran will announce a new package of concessions to the US and its allies, including increased access to the Strait of Hormuz and greater cooperation on non-proliferation issues.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "More cautious, as the war's unpredictability and the involvement of multiple actors suggest that the conflict's trajectory will continue to be shaped by a series of unexpected events.",
+        "learned": "The Iranian hardliners' incentives and constraints are more complex and nuanced than previously thought, and their actions are more closely tied to domestic politics and regime survival than previously anticipated.",
+        "belief": "The conflict is likely to be prolonged and complex, with multiple actors attempting to navigate shifting incentives and constraints, and the Iranian regime's ability to maintain control and cohesion will be a critical factor in its ability to negotiate with the US.",
+        "stance": "More patient and opportunistic, as the conflict's trajectory is likely to be shaped by a complex interplay of domestic and international factors.",
+        "prediction": "Iran will announce a new package of concessions to the US and its allies, including increased access to the Strait of Hormuz and greater cooperation on non-proliferation issues.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "Iran will announce a new package of concessions to the US and its allies within the next 24 hours.",
+            "conf": 0.6
+          },
+          "pred_72h": {
+            "claim": "The US will reject Iran's new package of concessions, leading to a further escalation of tensions.",
+            "conf": 0.4
+          },
+          "pred_7d": {
+            "claim": "The Strait of Hormuz will experience a significant increase in tanker incidents over the next 7 days.",
+            "conf": 0.8
+          },
+          "pred_14d": {
+            "claim": "The US will impose new sanctions on Iran's energy sector over the next 14 days.",
+            "conf": 0.7
+          }
+        },
+        "source": "",
+        "resolved": [
+          {
+            "horizon": "72h",
+            "claim": "60% | Iran responds with increased military action, leading to a significant escalation of the conflict.",
+            "conf": 0.5,
+            "outcome": false,
+            "brier": 0.25,
+            "hit": false
+          },
+          {
+            "horizon": "24h",
+            "claim": "Iran will announce a new package of concessions to the US and its allies within the next 24 hours, with a moderate likelihood of success (60%).",
+            "conf": 0.5,
+            "outcome": false,
+            "brier": 0.25,
+            "hit": false
+          }
+        ],
+        "pending": [
+          {
+            "made": 4,
+            "due": 11,
+            "horizon": "7d",
+            "claim": "Brent price will exceed $190.0/bbl by the end of the week",
+            "conf": 0.7,
+            "source": "wire",
+            "status": "pending"
+          },
+          {
+            "made": 4,
+            "due": 18,
+            "horizon": "14d",
+            "claim": "Brent price will break $200.0/bbl within 2 weeks",
+            "conf": 0.4,
+            "source": "wire",
+            "status": "pending"
+          },
+          {
+            "made": 4,
+            "due": 34,
+            "horizon": "30d",
+            "claim": "Brent price will reach $210.0/bbl by the end of the month",
+            "conf": 0.3,
+            "source": "wire",
+            "status": "pending"
+          },
+          {
+            "made": 5,
+            "due": 12,
+            "horizon": "7d",
+            "claim": "The number of tanker incidents in the Strait of Hormuz will increase, with at least two more vessels coming under attack.",
+            "conf": 0.7,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 5,
+            "due": 19,
+            "horizon": "14d",
+            "claim": "The US will offer to negotiate a deal with Iran, but the terms of the proposal will be",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 6,
+            "due": 13,
+            "horizon": "7d",
+            "claim": "70% | The Strait of Hormuz remains partially closed, with ongoing tanker incidents and increased military activity.",
+            "conf": 0.5,
+            "source": "xfeed",
+            "status": "pending"
+          },
+          {
+            "made": 6,
+            "due": 20,
+            "horizon": "14d",
+            "claim": "40% | A deal or ceasefire step is unlikely in the next two weeks, with both sides dug in.",
+            "conf": 0.5,
+            "source": "xfeed",
+            "status": "pending"
+          },
+          {
+            "made": 6,
+            "due": 36,
+            "horizon": "30d",
+            "claim": "20% | The conflict reaches a critical point, with either a negotiated deal or a major escalation.",
+            "conf": 0.5,
+            "source": "xfeed",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 10,
+            "horizon": "72h",
+            "claim": "The US will not announce new sanctions on Iranian officials",
+            "conf": 0.2,
+            "source": "the",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 14,
+            "horizon": "7d",
+            "claim": "The Strait of Hormuz will remain partially closed",
+            "conf": 0.6,
+            "source": "the",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 21,
+            "horizon": "14d",
+            "claim": "The conflict in the Strait of Hormuz will not escalate into a larger war",
+            "conf": 0.9,
+            "source": "the",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 37,
+            "horizon": "30d",
+            "claim": "The US will not withdraw its troops from the region",
+            "conf": 0.7,
+            "source": "the",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 11,
+            "horizon": "72h",
+            "claim": "The US and its allies will reject Iran's new package of concessions, leading to a renewed escalation of the conflict (80%).",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 15,
+            "horizon": "7d",
+            "claim": "A tanker incident in the Strait of Hormuz will occur within the next 7 days, with a high likelihood of escalation (90%).",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 22,
+            "horizon": "14d",
+            "claim": "The conflict will enter a new phase of intensified diplomatic efforts, with multiple actors engaging in high-level talks (70%).",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "Iran will announce a new package of concessions to the US and its allies within the next 24 hours.",
+            "conf": 0.6,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 12,
+            "horizon": "72h",
+            "claim": "The US will reject Iran's new package of concessions, leading to a further escalation of tensions.",
+            "conf": 0.4,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 16,
+            "horizon": "7d",
+            "claim": "The Strait of Hormuz will experience a significant increase in tanker incidents over the next 7 days.",
+            "conf": 0.8,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 23,
+            "horizon": "14d",
+            "claim": "The US will impose new sanctions on Iran's energy sector over the next 14 days.",
+            "conf": 0.7,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 8,
+          "brier": 2.9099999999999997,
+          "hits": 1,
+          "misses": 7,
+          "false_pos": 7,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 5,
+              "brier": 2.14,
+              "hits": 0
+            },
+            "72h": {
+              "n": 3,
+              "brier": 0.77,
+              "hits": 1
+            }
+          },
+          "by_source": {
+            "wire": {
+              "n": 2,
+              "brier": 1.0,
+              "hits": 0
+            },
+            "unknown": {
+              "n": 3,
+              "brier": 0.77,
+              "hits": 1
+            },
+            "xfeed": {
+              "n": 2,
+              "brier": 0.5,
+              "hits": 0
+            },
+            "the": {
+              "n": 1,
+              "brier": 0.64,
+              "hits": 0
+            }
+          },
+          "conf_bins": {
+            "4": {
+              "n": 2,
+              "conf": 1.6,
+              "freq": 0.0
+            },
+            "3": {
+              "n": 2,
+              "conf": 1.2,
+              "freq": 0.0
+            },
+            "2": {
+              "n": 4,
+              "conf": 1.9,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 2,
+          "misses": 3
+        }
+      },
+      "shipping": {
+        "name": "Shipping & Insurance Market Agent",
+        "prev_prediction": {
+          "prediction": "Iran will announce a new proposal for the removal of economic sanctions in exchange for concessions on its nuclear program, which will be met with cautious optimism by the US, potentially paving the way for further negotiations.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "Becoming more patient and opportunistic, as the conflict's dynamics suggest a need for incremental progress rather than dramatic breakthroughs.",
+        "learned": "The Iranian hardliners' actions today suggest that they are willing to open channels for diplomacy, which contradicts the initial prediction that they would resist negotiations.",
+        "belief": "The conflict is evolving in a way that makes a deal or ceasefire step more likely, but the US and Iran's incentives and constraints are complex, and the outcome is far from certain.",
+        "stance": "The market's reaction to the Hormuz pressure rise and diplomatic track strengthening suggests that the shipping industry is becoming more desperate, but the situation remains volatile.",
+        "prediction": "The US will announce a new package of economic sanctions targeting Iranian officials, which will be met with strong resistance from Iran.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "<40% likelihood of US and Iranian officials engaging in high-level talks in the next 24 hours, given the current diplomatic track strengthening>",
+            "conf": 0.5
+          },
+          "pred_72h": {
+            "claim": "<60% likelihood of a deal or ceasefire step within the next 72 hours, given the Iranian hardliners' willingness to open channels for diplomacy>",
+            "conf": 0.5
+          },
+          "pred_7d": {
+            "claim": "<20% likelihood of a significant escalation of the conflict within the next 7 days, given the current war intensity and tanker incidents>",
+            "conf": 0.5
+          },
+          "pred_14d": {
+            "claim": "<50% likelihood of a major breakthrough in the negotiations within the next 14 days, given the US and Iranian officials' willingness to engage in talks>",
+            "conf": 0.5
+          }
+        },
+        "source": "",
+        "resolved": [
+          {
+            "horizon": "72h",
+            "claim": "The US will announce a new package of economic sanctions targeting Iranian officials and entities, but the sanctions will be met with widespread criticism from the international community and may backfire.",
+            "conf": 0.4,
+            "outcome": false,
+            "brier": 0.16,
+            "hit": true
+          },
+          {
+            "horizon": "24h",
+            "claim": "US and Iranian officials will engage in high-level talks in the next 24 hours, with a focus on diplomatic solutions,",
+            "conf": 0.6,
+            "outcome": false,
+            "brier": 0.36,
+            "hit": false
+          }
+        ],
+        "pending": [
+          {
+            "made": 4,
+            "due": 11,
+            "horizon": "7d",
+            "claim": "The Strait of Hormuz will remain partially closed for the next 7 days.",
+            "conf": 0.5,
+            "source": "iran's",
+            "status": "pending"
+          },
+          {
+            "made": 4,
+            "due": 18,
+            "horizon": "14d",
+            "claim": "A deal on the terms of the US-Iran nuclear agreement will be reached within the next 14 days.",
+            "conf": 0.5,
+            "source": "iran's",
+            "status": "pending"
+          },
+          {
+            "made": 4,
+            "due": 34,
+            "horizon": "30d",
+            "claim": "The conflict will be resolved through a combination of diplomatic efforts and economic pressure within the next 30 days.",
+            "conf": 0.5,
+            "source": "iran's",
+            "status": "pending"
+          },
+          {
+            "made": 5,
+            "due": 12,
+            "horizon": "7d",
+            "claim": "The Strait of Hormuz will remain partially closed, but with a decrease in tanker incidents and an increase in diplomatic efforts.",
+            "conf": 0.4,
+            "source": "real-world",
+            "status": "pending"
+          },
+          {
+            "made": 5,
+            "due": 19,
+            "horizon": "14d",
+            "claim": "The conflict will enter a period of relative calm, with a focus on economic cooperation and information battlespace shifts.",
+            "conf": 0.7,
+            "source": "real-world",
+            "status": "pending"
+          },
+          {
+            "made": 5,
+            "due": 35,
+            "horizon": "30d",
+            "claim": "The war will be largely resolved, with a deal or ceasefire step likely to be reached within the next few weeks.",
+            "conf": 0.9,
+            "source": "real-world",
+            "status": "pending"
+          },
+          {
+            "made": 6,
+            "due": 13,
+            "horizon": "7d",
+            "claim": "A series of minor incidents, including tanker attacks and drone strikes, will continue to escalate tensions in the region, but will",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 10,
+            "horizon": "72h",
+            "claim": "The US and Iran will engage in direct talks within the next 72 hours, with the US offering concessions in exchange for Iran's commitment to nuclear disarmament.",
+            "conf": 0.2,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 14,
+            "horizon": "7d",
+            "claim": "A major tanker incident or kinetic action by either side will occur, escalating tensions and potentially derailing negotiations.",
+            "conf": 0.6,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 21,
+            "horizon": "14d",
+            "claim": "The US",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 11,
+            "horizon": "72h",
+            "claim": "The US and Iran will hold separate talks with mediators, with a focus on finding mutually acceptable concessions,",
+            "conf": 0.8,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 15,
+            "horizon": "7d",
+            "claim": "The Strait of Hormuz will remain partially closed, with tanker incidents continuing to rise,",
+            "conf": 0.9,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 22,
+            "horizon": "14d",
+            "claim": "The conflict will enter a period of relative calm, with both sides seeking to capitalize on the current momentum,",
+            "conf": 0.7,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 38,
+            "horizon": "30d",
+            "claim": "The US will announce a new",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "<40% likelihood of US and Iranian officials engaging in high-level talks in the next 24 hours, given the current diplomatic track strengthening>",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 12,
+            "horizon": "72h",
+            "claim": "<60% likelihood of a deal or ceasefire step within the next 72 hours, given the Iranian hardliners' willingness to open channels for diplomacy>",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 16,
+            "horizon": "7d",
+            "claim": "<20% likelihood of a significant escalation of the conflict within the next 7 days, given the current war intensity and tanker incidents>",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 23,
+            "horizon": "14d",
+            "claim": "<50% likelihood of a major breakthrough in the negotiations within the next 14 days, given the US and Iranian officials' willingness to engage in talks>",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 8,
+          "brier": 2.54,
+          "hits": 2,
+          "misses": 6,
+          "false_pos": 6,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 5,
+              "brier": 1.4899999999999998,
+              "hits": 1
+            },
+            "72h": {
+              "n": 3,
+              "brier": 1.05,
+              "hits": 1
+            }
+          },
+          "by_source": {
+            "iran's": {
+              "n": 2,
+              "brier": 0.5,
+              "hits": 0
+            },
+            "real-world": {
+              "n": 2,
+              "brier": 1.0,
+              "hits": 0
+            },
+            "unknown": {
+              "n": 4,
+              "brier": 1.04,
+              "hits": 2
+            }
+          },
+          "conf_bins": {
+            "2": {
+              "n": 4,
+              "conf": 1.7999999999999998,
+              "freq": 0.0
+            },
+            "3": {
+              "n": 3,
+              "conf": 1.7999999999999998,
+              "freq": 0.0
+            },
+            "4": {
+              "n": 1,
+              "conf": 0.8,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 1,
+          "misses": 4
+        }
+      },
+      "markets": {
+        "name": "Financial Markets Agent",
+        "prev_prediction": {
+          "prediction": "Iran will issue a statement condemning the US for its continued military presence in the region, but this will be met with a strong response from the US and its allies.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "I am becoming increasingly cautious and patient, recognizing that the conflict is complex and multifaceted, and that a deal or ceasefire is still within reach.",
+        "learned": "The Iranian government's willingness to open humanitarian channels and strengthen diplomatic efforts suggests that it is seeking to de-escalate tensions and maintain some level of engagement with the international community.",
+        "belief": "The conflict is evolving into a complex game of diplomatic maneuvering, with each side seeking to exploit the other's vulnerabilities while maintaining a veneer of restraint.",
+        "stance": "Becoming more patient and opportunistic, as the conflict's trajectory is becoming increasingly uncertain and the stakes are being redefined.",
+        "prediction": "Iran will issue a statement condemning the US for its continued military presence in the region, but this will be met with a strong response from the US and its allies, leading to a further escalation of tensions.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "Iran will issue a statement condemning the US for its continued military presence in the region within the next 24 hours.",
+            "conf": 0.5
+          },
+          "pred_72h": {
+            "claim": "The US and Iran will engage in a series of high-level diplomatic meetings within the next 72 hours, with the aim of finding a mutually acceptable solution to the crisis.",
+            "conf": 0.5
+          },
+          "pred_7d": {
+            "claim": "The Strait of Hormuz will remain partially closed for the next 7 days, with tanker incidents continuing to rise.",
+            "conf": 0.5
+          },
+          "pred_14d": {
+            "claim": "The US will increase its military presence in the region within the next 14 days, in an effort to counter Iranian aggression.",
+            "conf": 0.5
+          }
+        },
+        "source": "",
+        "resolved": [
+          {
+            "horizon": "72h",
+            "claim": "70% | A ceasefire proposal from Iran will be met with skepticism by the US and its allies.",
+            "conf": 0.5,
+            "outcome": false,
+            "brier": 0.25,
+            "hit": false
+          },
+          {
+            "horizon": "24h",
+            "claim": "Iran will issue a statement condemning the US for its continued military presence in the region",
+            "conf": 0.6,
+            "outcome": false,
+            "brier": 0.36,
+            "hit": false
+          }
+        ],
+        "pending": [
+          {
+            "made": 4,
+            "due": 11,
+            "horizon": "7d",
+            "claim": "The US and Iran will exchange letters, paving the way for a potential deal to reopen the Strait of Hormuz",
+            "conf": 0.8,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 4,
+            "due": 18,
+            "horizon": "14d",
+            "claim": "The US and Iran will announce a framework for a deal to reopen the Strait of Hormuz, with a potential signing",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 5,
+            "due": 12,
+            "horizon": "7d",
+            "claim": "Strait of Hormuz becomes increasingly congested as Iranian naval forces attempt to counter US blockade (70)",
+            "conf": 0.5,
+            "source": "wire",
+            "status": "pending"
+          },
+          {
+            "made": 5,
+            "due": 19,
+            "horizon": "14d",
+            "claim": "The US begins to mobilize its military assets in the region, including the deployment of additional troops and equipment (80)",
+            "conf": 0.5,
+            "source": "wire",
+            "status": "pending"
+          },
+          {
+            "made": 5,
+            "due": 35,
+            "horizon": "30d",
+            "claim": "The conflict reaches a critical point, with the US and Iran engaging in a full-scale war in the Strait of Hormuz (90)",
+            "conf": 0.5,
+            "source": "wire",
+            "status": "pending"
+          },
+          {
+            "made": 6,
+            "due": 13,
+            "horizon": "7d",
+            "claim": "80% | A tanker incident or a new wave of missile strikes will occur, but diplomatic efforts will continue to dominate the narrative.",
+            "conf": 0.5,
+            "source": "wire",
+            "status": "pending"
+          },
+          {
+            "made": 6,
+            "due": 20,
+            "horizon": "14d",
+            "claim": "40% | A deal or ceasefire step will be announced, but its implementation will be uncertain.",
+            "conf": 0.5,
+            "source": "wire",
+            "status": "pending"
+          },
+          {
+            "made": 6,
+            "due": 36,
+            "horizon": "30d",
+            "claim": "20% | The conflict will enter a new phase, with a significant escalation or a major breakthrough.",
+            "conf": 0.5,
+            "source": "wire",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 10,
+            "horizon": "72h",
+            "claim": "The US will announce a new military buildup in the region, but it will be met with Iranian retaliation.",
+            "conf": 0.6,
+            "source": "xfeed",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 14,
+            "horizon": "7d",
+            "claim": "A tanker incident will occur, but it will not be attributed to the US or Iran.",
+            "conf": 0.3,
+            "source": "xfeed",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 21,
+            "horizon": "14d",
+            "claim": "The conflict will escalate, but the US will avoid direct military action.",
+            "conf": 0.7,
+            "source": "xfeed",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 37,
+            "horizon": "30d",
+            "claim": "A deal will be announced, but it will be a temporary ceasefire and will not address the underlying issues.",
+            "conf": 0.5,
+            "source": "xfeed",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 11,
+            "horizon": "72h",
+            "claim": "A major incident involving a US or Israeli strike on Iranian territory will occur within the next 72 hours, with a 20% chance of escalating the conflict",
+            "conf": 0.4,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 15,
+            "horizon": "7d",
+            "claim": "A new incident involving a US or Israeli strike on Iranian territory will occur within the next 7 days, with a 30% chance of escalating the conflict",
+            "conf": 0.2,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 22,
+            "horizon": "14d",
+            "claim": "The conflict will remain relatively contained, with a 70% chance of a deal or ceasefire step",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "Iran will issue a statement condemning the US for its continued military presence in the region within the next 24 hours.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 12,
+            "horizon": "72h",
+            "claim": "The US and Iran will engage in a series of high-level diplomatic meetings within the next 72 hours, with the aim of finding a mutually acceptable solution to the crisis.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 16,
+            "horizon": "7d",
+            "claim": "The Strait of Hormuz will remain partially closed for the next 7 days, with tanker incidents continuing to rise.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 23,
+            "horizon": "14d",
+            "claim": "The US will increase its military presence in the region within the next 14 days, in an effort to counter Iranian aggression.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 8,
+          "brier": 2.3699999999999997,
+          "hits": 1,
+          "misses": 7,
+          "false_pos": 7,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 5,
+              "brier": 1.5099999999999998,
+              "hits": 1
+            },
+            "72h": {
+              "n": 3,
+              "brier": 0.86,
+              "hits": 0
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 3,
+              "brier": 1.21,
+              "hits": 0
+            },
+            "wire": {
+              "n": 4,
+              "brier": 1.0,
+              "hits": 0
+            },
+            "xfeed": {
+              "n": 1,
+              "brier": 0.16,
+              "hits": 1
+            }
+          },
+          "conf_bins": {
+            "3": {
+              "n": 3,
+              "conf": 1.9,
+              "freq": 0.0
+            },
+            "2": {
+              "n": 5,
+              "conf": 2.4,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "central_banks": {
+        "name": "Central Banks (Fed + ECB composite)",
+        "prev_prediction": {
+          "prediction": "A formal joint statement by China, Turkey, and a Gulf coalition confirming the active resumption of back-channel talks focused on a \"phased reopening\" of the Strait of Hormuz will be issued within 48 hours.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "Patient; leveraging the temporary supply relief to allow inflation to cool without aggressive rate cuts, while monitoring the \"phased reopening\" framework for the first concrete de-escalation step.",
+        "learned": "Today proved that while kinetic intensity spiked across multiple fronts (EU, Israel, Turkey), the diplomatic track has not only remained open but has become the primary stabilizer, evidenced by the partial closure of the Strait of Hormuz being offset by supply relief and a resumption of back-channel talks involving China, Turkey, and Gulf states.",
+        "belief": "The conflict has entered a \"managed escalation\" phase where military actions serve as bargaining chips rather than decisive blows, with a credible ceasefire emerging as the only viable relief valve for both inflationary pressures and political confidence, effectively trapping the US between energy costs and recession risks unless a diplomatic breakthrough occurs.",
+        "stance": "Patient but watchful, leaning on the momentum of the newly opened third-party mediation tracks to allow for a gradual de-escalation without dramatic policy shifts.",
+        "prediction": "A formal joint statement confirming the active resumption of back-channel talks focused on a phased reopening of the Strait of Hormuz will be issued within the next 48 hours.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "A formal joint statement by China, Turkey, and a Gulf coalition confirming the active resumption of back-channel talks focused on a \"phased reopening\" of the Strait of Hormuz will be issued within 48 hours",
+            "conf": 0.75
+          },
+          "pred_72h": {
+            "claim": "Brent crude will settle between $28",
+            "conf": 0.5
+          }
+        },
+        "source": "",
+        "resolved": [
+          {
+            "horizon": "24h",
+            "claim": "A formal joint statement by China, Turkey, and a Gulf coalition confirming the active resumption of back-channel talks focused on a \"phased reopening\" of the Strait of Hormuz will be issued within 48 hours.",
+            "conf": 0.07,
+            "outcome": false,
+            "brier": 0.0049,
+            "hit": true
+          }
+        ],
+        "pending": [
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "A formal joint statement by China, Turkey, and a Gulf coalition confirming the active resumption of back-channel talks focused on a \"phased reopening\" of the Strait of Hormuz will be issued within 48 hours",
+            "conf": 0.75,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 12,
+            "horizon": "72h",
+            "claim": "Brent crude will settle between $28",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 7,
+          "brier": 1.7893999999999999,
+          "hits": 2,
+          "misses": 5,
+          "false_pos": 5,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 5,
+              "brier": 1.2893999999999999,
+              "hits": 2
+            },
+            "72h": {
+              "n": 2,
+              "brier": 0.5,
+              "hits": 0
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 7,
+              "brier": 1.7893999999999999,
+              "hits": 2
+            }
+          },
+          "conf_bins": {
+            "3": {
+              "n": 2,
+              "conf": 1.4300000000000002,
+              "freq": 0.0
+            },
+            "2": {
+              "n": 3,
+              "conf": 1.5,
+              "freq": 0.0
+            },
+            "0": {
+              "n": 2,
+              "conf": 0.13,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "us_public": {
+        "name": "US Public Opinion / Midterm Voters",
+        "prev_prediction": {
+          "prediction": "A formal \"framework deal\" or ceasefire step will be announced within 7 days if the US maintains kinetic pressure while keeping diplomatic channels open.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "Opportunistic \u2014 betting on the economic pain of a partially closed Strait to force the US and its allies to sweeten the diplomatic pill.",
+        "learned": "The market's violent reaction to a \"partially closed\" Strait of Hormuz (Brent $289) proves that kinetic strikes are currently the primary driver of risk premiums, while diplomatic channels remain a fragile, secondary lever that only stabilizes prices when backed by tangible supply relief.",
+        "belief": "The conflict has entered a \"high-intensity stalemate\" where kinetic pressure from the US, EU, and Turkey is forcing a diplomatic breakthrough, but the Iranian public's 10/10 protest rating and 62% inflation mean regime cohesion is the single point of failure for any long-term deal.",
+        "stance": "Opportunistic \u2014 leverage kinetic pain to force a framework deal before the US election cycle hardens into a binary \"annihilate or rebuild\" choice.",
+        "prediction": "A formal \"framework agreement\" text will be released from the UNGA sidelines within 72 hours, likely limiting enrichment to 60% in exchange for a temporary $2B liquidity injection and a ceasefire on direct strikes.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "US Air Force conducts a limited precision strike on a secondary Iranian air defense node or a third-party proxy supply line",
+            "conf": 0.45
+          },
+          "pred_72h": {
+            "claim": "Iran issues a formal statement accepting a \"framework\" for talks while simultaneously launching a limited retaliatory drone/",
+            "conf": 0.5
+          }
+        },
+        "source": "",
+        "resolved": [
+          {
+            "horizon": "72h",
+            "claim": "Iran signs a \"framework agreement\" limiting enrichment to 60% in exchange for $20B in cash and gas relief",
+            "conf": 0.3,
+            "outcome": false,
+            "brier": 0.09,
+            "hit": true
+          },
+          {
+            "horizon": "24h",
+            "claim": "US strikes on Iran will resume or intensify by late afternoon ET, negating any immediate pause",
+            "conf": 0.45,
+            "outcome": false,
+            "brier": 0.2025,
+            "hit": true
+          }
+        ],
+        "pending": [
+          {
+            "made": 6,
+            "due": 13,
+            "horizon": "7d",
+            "claim": "US public approval drops below 50% due to rising gas prices and war fatigue",
+            "conf": 0.6,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 6,
+            "due": 20,
+            "horizon": "14d",
+            "claim": "A",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 10,
+            "horizon": "72h",
+            "claim": "Iran will publicly announce a new \"diplomatic initiative\" or partial withdrawal of forces from a border region",
+            "conf": 0.55,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 14,
+            "horizon": "7d",
+            "claim": "A draft framework for a 6-month ceasefire will be released by the US and Iran on the UNGA sidelines |",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 11,
+            "horizon": "72h",
+            "claim": "Iran's Supreme Leader announces a 60% enrichment cap in exchange for a formal \"rebuilding\" or \"security guarantee\" package",
+            "conf": 0.55,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 15,
+            "horizon": "7d",
+            "claim": "A public \"framework deal\" or cease-fire step is announced by the US,",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "US Air Force conducts a limited precision strike on a secondary Iranian air defense node or a third-party proxy supply line",
+            "conf": 0.45,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 12,
+            "horizon": "72h",
+            "claim": "Iran issues a formal statement accepting a \"framework\" for talks while simultaneously launching a limited retaliatory drone/",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 8,
+          "brier": 2.3584,
+          "hits": 4,
+          "misses": 4,
+          "false_pos": 4,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 5,
+              "brier": 1.8584,
+              "hits": 2
+            },
+            "72h": {
+              "n": 3,
+              "brier": 0.5,
+              "hits": 2
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 8,
+              "brier": 2.3584,
+              "hits": 4
+            }
+          },
+          "conf_bins": {
+            "3": {
+              "n": 3,
+              "conf": 2.08,
+              "freq": 0.0
+            },
+            "2": {
+              "n": 4,
+              "conf": 1.8,
+              "freq": 0.0
+            },
+            "1": {
+              "n": 1,
+              "conf": 0.3,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "iran_public": {
+        "name": "Iranian Public (street + sentiment tracker)",
+        "prev_prediction": {
+          "prediction": "Iran will respond to the increased Hormuz pressure by taking a more aggressive stance, potentially leading to a series of small-scale military incidents with the US.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "The Iranian street is becoming increasingly desperate and frustrated, with protests reaching a boiling point, and the regime's hardliners struggling to maintain control.",
+        "learned": "The increased war intensity and diplomatic efforts from Russia, China, and Netanyahu have not led to a significant escalation or breakthrough, suggesting that the conflict may be stabilizing but not resolving.",
+        "belief": "The conflict is likely to continue with a mix of military incidents, diplomatic efforts, and economic pressure, with each side trying to gain leverage without triggering a major escalation.",
+        "stance": "I will maintain a patient and opportunistic posture, waiting for signs of exhaustion or weakness from either side before making a move.",
+        "prediction": "The US and Iran will engage in a series of diplomatic meetings, including a potential meeting between Trump and Rouhani, to discuss a possible ceasefire and prisoner exchange.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "The US and Iran will engage in a high-level diplomatic meeting at the UN, with Trump and Rouhani likely to discuss a potential ceasefire and prisoner exchange.",
+            "conf": 0.6
+          },
+          "pred_72h": {
+            "claim": "The US and Iran will agree on a framework for a ceasefire and prisoner exchange, but will still disagree on key issues such as the Strait of Hormuz.",
+            "conf": 0.7
+          },
+          "pred_7d": {
+            "claim": "The US will conduct a series of small-scale military incidents with Iran, including drone strikes and naval operations, to demonstrate its resolve.",
+            "conf": 0.4
+          },
+          "pred_14d": {
+            "claim": "The US will announce a new package of economic sanctions against Iran, including restrictions",
+            "conf": 0.5
+          }
+        },
+        "source": "",
+        "resolved": [
+          {
+            "horizon": "72h",
+            "claim": "The International Atomic Energy Agency (IAEA) will conduct a new round of inspections at Iran's suspected nuclear sites, potentially leading to a further escalation of tensions.",
+            "conf": 0.5,
+            "outcome": false,
+            "brier": 0.25,
+            "hit": false
+          },
+          {
+            "horizon": "24h",
+            "claim": "US and Iran will engage in a series of small-scale military incidents, 40%",
+            "conf": 0.6,
+            "outcome": false,
+            "brier": 0.36,
+            "hit": false
+          }
+        ],
+        "pending": [
+          {
+            "made": 4,
+            "due": 11,
+            "horizon": "7d",
+            "claim": "The Strait of Hormuz will reopen within 7 days, but the reopening will be subject to frequent closures and reopenings as the two sides negotiate.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 4,
+            "due": 18,
+            "horizon": "14d",
+            "claim": "The conflict will continue to be shaped by the economic costs, with the US and Iran engaging in a game of economic coercion and",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 5,
+            "due": 12,
+            "horizon": "7d",
+            "claim": "US and Iran to engage in a major naval confrontation in the Strait of Hormuz, 20%",
+            "conf": 0.5,
+            "source": "markets",
+            "status": "pending"
+          },
+          {
+            "made": 5,
+            "due": 19,
+            "horizon": "14d",
+            "claim": "US and Iran to launch a series of targeted airstrikes against each other's military targets, 30%",
+            "conf": 0.5,
+            "source": "markets",
+            "status": "pending"
+          },
+          {
+            "made": 5,
+            "due": 35,
+            "horizon": "30d",
+            "claim": "Regional tensions to escalate, with Saudi Arabia and the UAE increasing their military presence in the region, 50%",
+            "conf": 0.5,
+            "source": "markets",
+            "status": "pending"
+          },
+          {
+            "made": 6,
+            "due": 13,
+            "horizon": "7d",
+            "claim": "The Strait of Hormuz will remain partially closed, with tanker incidents continuing to plague the region.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 6,
+            "due": 20,
+            "horizon": "14d",
+            "claim": "The US will deploy additional troops to the region, but will also begin to explore alternative energy sources to reduce its reliance on Middle Eastern oil.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 6,
+            "due": 36,
+            "horizon": "30d",
+            "claim": "The US will announce a new strategy for the Middle East, including a commitment to supporting democratic regimes and countering",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 10,
+            "horizon": "72h",
+            "claim": "A major escalation of the conflict is unlikely, but the situation remains volatile, and the US and its allies may continue to pressure Iran through economic and diplomatic means.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 14,
+            "horizon": "7d",
+            "claim": "The Strait of Hormuz will remain partially closed, and tanker incidents will continue to be a concern.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 21,
+            "horizon": "14d",
+            "claim": "The US will announce a new package of economic incentives for Iran, but it will be met with skepticism and resistance from the",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 11,
+            "horizon": "72h",
+            "claim": "Iran will reject a third-party mediation proposal, potentially involving Turkey or Russia, in exchange for a partial lifting of the US blockade, 20%",
+            "conf": 0.8,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 15,
+            "horizon": "7d",
+            "claim": "The US will increase its military presence in the region, 30%",
+            "conf": 0.7,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 22,
+            "horizon": "14d",
+            "claim": "The conflict will continue to escalate, with both sides seeking to gain an upper hand, 50%",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "The US and Iran will engage in a high-level diplomatic meeting at the UN, with Trump and Rouhani likely to discuss a potential ceasefire and prisoner exchange.",
+            "conf": 0.6,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 12,
+            "horizon": "72h",
+            "claim": "The US and Iran will agree on a framework for a ceasefire and prisoner exchange, but will still disagree on key issues such as the Strait of Hormuz.",
+            "conf": 0.7,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 16,
+            "horizon": "7d",
+            "claim": "The US will conduct a series of small-scale military incidents with Iran, including drone strikes and naval operations, to demonstrate its resolve.",
+            "conf": 0.4,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 23,
+            "horizon": "14d",
+            "claim": "The US will announce a new package of economic sanctions against Iran, including restrictions",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 8,
+          "brier": 2.11,
+          "hits": 0,
+          "misses": 8,
+          "false_pos": 8,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 5,
+              "brier": 1.3599999999999999,
+              "hits": 0
+            },
+            "72h": {
+              "n": 3,
+              "brier": 0.75,
+              "hits": 0
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 6,
+              "brier": 1.6099999999999999,
+              "hits": 0
+            },
+            "markets": {
+              "n": 2,
+              "brier": 0.5,
+              "hits": 0
+            }
+          },
+          "conf_bins": {
+            "2": {
+              "n": 7,
+              "conf": 3.5,
+              "freq": 0.0
+            },
+            "3": {
+              "n": 1,
+              "conf": 0.6,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "israeli_public": {
+        "name": "Israeli Public (street + reservists)",
+        "prev_prediction": {
+          "prediction": "Within 24 hours, the US State Department will hold a press briefing explicitly acknowledging the Iranian \"Framework for Stabilization\" as the primary basis for a potential ceasefire, framing it as a \"binary choice\" victory for Trump.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "Opportunistic hawk; betting on the diplomatic framework's survival while hedging against kinetic overreaction.",
+        "learned": "The US \"binary choice\" rhetoric at the UNGA was a performative bluff designed to rally domestic support and pressure allies rather than a genuine intent to accept a stabilizing framework, evidenced by Trump's immediate rejection of Tehran's latest proposal despite high-level back-channel contact.",
+        "belief": "The conflict has entered a \"high-intensity standoff\" phase where kinetic strikes (EU, Turkey, Israel) and diplomatic posturing are used interchangeably to manage oil markets and domestic politics, with the Strait of Hormuz acting as a volatile lever that keeps global prices artificially high while preventing a true ceasefire.",
+        "stance": "Opportunistic and watchful; looking for cracks in the Iranian regime's cohesion (currently 55%) and the US political timeline (31 days to midterms) to force a deal or manage the bleeding.",
+        "prediction": "A temporary de-escalation of kinetic strikes in the next 48 hours as the US and EU attempt to stabilize the market after the price spike, followed by a renewed diplomatic push to lock in a \"partial\" deal that keeps Hormuz open but limits Iranian enrichment.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "The US State Department will hold a press briefing reiterating the \"binary choice\" but citing a 24-hour window for Iran to accept a modified framework before a limited kinetic response is authorized.",
+            "conf": 0.5
+          }
+        },
+        "source": "",
+        "resolved": [
+          {
+            "horizon": "24h",
+            "claim": "US State Department holds press briefing acknowledging Iranian Framework",
+            "conf": 0.75,
+            "outcome": false,
+            "brier": 0.5625,
+            "hit": false
+          }
+        ],
+        "pending": [
+          {
+            "made": 4,
+            "due": 11,
+            "horizon": "7d",
+            "claim": "A preliminary \"Framework Agreement\" is signed by Iranian and US representatives (possibly via Gulf intermediaries) outlining the sequence for Hormuz reopening.",
+            "conf": 0.55,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 11,
+            "horizon": "72h",
+            "claim": "Iran issues formal statement",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "The US State Department will hold a press briefing reiterating the \"binary choice\" but citing a 24-hour window for Iran to accept a modified framework before a limited kinetic response is authorized.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 6,
+          "brier": 3.02,
+          "hits": 0,
+          "misses": 6,
+          "false_pos": 6,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 4,
+              "brier": 2.41,
+              "hits": 0
+            },
+            "72h": {
+              "n": 2,
+              "brier": 0.61,
+              "hits": 0
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 6,
+              "brier": 3.02,
+              "hits": 0
+            }
+          },
+          "conf_bins": {
+            "3": {
+              "n": 4,
+              "conf": 2.85,
+              "freq": 0.0
+            },
+            "4": {
+              "n": 1,
+              "conf": 0.85,
+              "freq": 0.0
+            },
+            "2": {
+              "n": 1,
+              "conf": 0.5,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "media": {
+        "name": "Global Media Environment",
+        "prev_prediction": {
+          "prediction": "The US will announce a new set of sanctions targeting Iranian officials and entities, but will also signal a willingness to engage in talks, as a means of maintaining pressure while avoiding a full-blown escalation.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "I will become more patient and opportunistic, as the lack of major escalation and the continued diplomatic efforts suggest that the conflict is being managed through a delicate balance of interests.",
+        "learned": "The Iranian government's ability to maintain a high level of regime cohesion despite protests and economic pressure suggests that the regime has a strong grip on the population, at least for now.",
+        "belief": "The conflict is likely to be managed through a combination of diplomatic efforts and economic pressure, with the US and other parties seeking to avoid a full-blown escalation that could draw in more major players.",
+        "stance": "More desperate.",
+        "prediction": "The US will announce a new set of sanctions targeting Iranian officials and entities, but will also signal a willingness to engage in talks, as a means of maintaining pressure while avoiding a full-blown escalation.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "60% chance that the US will announce new sanctions targeting Iranian officials and entities, with a 40% chance that the Iranian government will respond with further concessions.",
+            "conf": 0.5
+          },
+          "pred_72h": {
+            "claim": "30% chance that a ceasefire or partial agreement will be announced, with a 70% chance that the conflict will continue to escalate.",
+            "conf": 0.5
+          },
+          "pred_7d": {
+            "claim": "20% chance that a major tanker incident will occur in the Strait of Hormuz, with a 80% chance that the incident will be attributed to Iranian forces.",
+            "conf": 0.5
+          },
+          "pred_14d": {
+            "claim": "40% chance that the US will increase its military presence in the region, with a 60% chance that the Iranian government will respond with",
+            "conf": 0.5
+          }
+        },
+        "source": "",
+        "resolved": [
+          {
+            "horizon": "72h",
+            "claim": "A ceasefire or partial agreement will be announced, but it will be met with skepticism and resistance from hardline groups on both sides, and the actual implementation of the agreement will be uncertain.",
+            "conf": 0.6,
+            "outcome": false,
+            "brier": 0.36,
+            "hit": false
+          },
+          {
+            "horizon": "24h",
+            "claim": "The US will announce new sanctions targeting Iranian officials and entities, and will also issue a statement reaffirming its commitment to a peaceful resolution.",
+            "conf": 0.5,
+            "outcome": false,
+            "brier": 0.25,
+            "hit": false
+          }
+        ],
+        "pending": [
+          {
+            "made": 4,
+            "due": 11,
+            "horizon": "7d",
+            "claim": "The Strait of Hormuz will remain partially closed, but with a gradual easing of tensions.",
+            "conf": 0.7,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 4,
+            "due": 18,
+            "horizon": "14d",
+            "claim": "The US will impose additional sanctions on Iran, but the Iranian government will respond with economic measures.",
+            "conf": 0.8,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 4,
+            "due": 34,
+            "horizon": "30d",
+            "claim": "A comprehensive deal will be reached, but it will be",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 5,
+            "due": 12,
+            "horizon": "7d",
+            "claim": "The Strait of Hormuz will remain partially closed, with ongoing tensions and potential for further escalation.",
+            "conf": 0.4,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 5,
+            "due": 19,
+            "horizon": "14d",
+            "claim": "The conflict will continue to be a major focus of international attention, with ongoing diplomatic efforts and economic pressure being applied to",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 6,
+            "due": 13,
+            "horizon": "7d",
+            "claim": "A significant escalation will occur, but",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 10,
+            "horizon": "72h",
+            "claim": "70% Ceasefire talks stall, but Iran and US maintain diplomatic channels | 40% Sanctions lead to economic escalation",
+            "conf": 0.5,
+            "source": "real-world",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 14,
+            "horizon": "7d",
+            "claim": "90% Increased tanker incidents in the Strait of Hormuz | 80% US military presence in the region remains unchanged",
+            "conf": 0.5,
+            "source": "real-world",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 21,
+            "horizon": "14d",
+            "claim": "60% Iran's hardliners gain more influence within the regime | 40% Economic sanctions lead to increased protests",
+            "conf": 0.5,
+            "source": "real-world",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 37,
+            "horizon": "30d",
+            "claim": "50% A regional power broker emerges to mediate between Iran and the US | 30% War intensifies, with increased military action",
+            "conf": 0.5,
+            "source": "real-world",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 11,
+            "horizon": "72h",
+            "claim": "A deal or ceasefire step will be reached within the next 10 days, as the continued diplomatic efforts and the economic pressure on Iran begin to take their toll.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 15,
+            "horizon": "7d",
+            "claim": "There will be a significant increase in tanker incidents in the Strait of Hormuz, as the conflict continues to escalate.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 22,
+            "horizon": "14d",
+            "claim": "The conflict will continue to be managed through a complex dance of diplomacy, with multiple actors seeking to balance their",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "60% chance that the US will announce new sanctions targeting Iranian officials and entities, with a 40% chance that the Iranian government will respond with further concessions.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 12,
+            "horizon": "72h",
+            "claim": "30% chance that a ceasefire or partial agreement will be announced, with a 70% chance that the conflict will continue to escalate.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 16,
+            "horizon": "7d",
+            "claim": "20% chance that a major tanker incident will occur in the Strait of Hormuz, with a 80% chance that the incident will be attributed to Iranian forces.",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 23,
+            "horizon": "14d",
+            "claim": "40% chance that the US will increase its military presence in the region, with a 60% chance that the Iranian government will respond with",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 8,
+          "brier": 2.54,
+          "hits": 2,
+          "misses": 6,
+          "false_pos": 6,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 5,
+              "brier": 1.38,
+              "hits": 1
+            },
+            "72h": {
+              "n": 3,
+              "brier": 1.1600000000000001,
+              "hits": 1
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 7,
+              "brier": 2.29,
+              "hits": 2
+            },
+            "real-world": {
+              "n": 1,
+              "brier": 0.25,
+              "hits": 0
+            }
+          },
+          "conf_bins": {
+            "3": {
+              "n": 3,
+              "conf": 1.7999999999999998,
+              "freq": 0.0
+            },
+            "2": {
+              "n": 4,
+              "conf": 1.8,
+              "freq": 0.0
+            },
+            "4": {
+              "n": 1,
+              "conf": 0.8,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      },
+      "humanitarian": {
+        "name": "Humanitarian Agencies (UN OCHA / ICRC composite)",
+        "prev_prediction": {
+          "prediction": "A localized kinetic incident (strike or near-miss) involving a tanker or mine-laying vessel in the Strait of Hormuz within the next 24 hours to re-enforce the \"partially closed\" status.",
+          "p_war": null,
+          "p_deal": null,
+          "brent_dir": ""
+        },
+        "prev_stance": "Opportunistic and watchful; expecting a \"flash-then-flicker\" pattern where a kinetic event triggers immediate diplomatic scrambling rather than a sustained escalation spiral.",
+        "learned": "The failure of the 24-hour kinetic incident prediction despite a \"partially closed\" status confirms that high war-risk insurance premiums and diplomatic momentum are currently suppressing immediate tanker strikes, allowing the Strait to function as a high-cost but open corridor.",
+        "belief": "The conflict is currently in a \"high-cost stalemate\" where kinetic intensity is low but economic pressure (Brent $289, inflation 62%) and domestic fragility (Iran protests 10/10) are accelerating toward a forced diplomatic resolution rather than total military collapse.",
+        "stance": "Opportunistic \u2014 waiting for the economic pain threshold to trigger a decisive political move from Tehran or Washington.",
+        "prediction": "A breakthrough in the UNGA-backed framework deal involving a temporary freeze on specific Iranian enrichment sites in exchange for a US security guarantee for Hormuz transit.",
+        "new_preds": {
+          "pred_24h": {
+            "claim": "A formal joint statement from the US and Iran confirming the resumption of limited humanitarian/energy tanker traffic through the Strait of Hormuz",
+            "conf": 0.65
+          },
+          "pred_72h": {
+            "claim": "At least one additional kinetic incident (strike or near-miss) involving a tanker or mine-laying vessel in the Strait of Hormuz",
+            "conf": 0.45
+          },
+          "pred_7d": {
+            "claim": "Brent crude settles above $310/bbl due to combined US-Iran kinetic",
+            "conf": 0.5
+          }
+        },
+        "source": "",
+        "resolved": [
+          {
+            "horizon": "24h",
+            "claim": "At least one additional kinetic incident (strike or near-miss) occurs in the Strait of Hormuz",
+            "conf": 0.68,
+            "outcome": false,
+            "brier": 0.4624,
+            "hit": false
+          }
+        ],
+        "pending": [
+          {
+            "made": 4,
+            "due": 11,
+            "horizon": "7d",
+            "claim": "Formal ratification of a 7-day Hormuz reopening framework by Tehran's Supreme Council",
+            "conf": 0.55,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 4,
+            "due": 18,
+            "horizon": "14d",
+            "claim": "US Congress passing a resolution to limit direct kinetic strikes in exchange for 30-day Hormuz stability",
+            "conf": 0.4,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 7,
+            "due": 10,
+            "horizon": "72h",
+            "claim": "A formal \"Framework Agreement\" text is released by the UNGA sideline contacts outlining a 30-day humanitarian/energy pause",
+            "conf": 0.45,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 8,
+            "due": 11,
+            "horizon": "72h",
+            "claim": "Brent crude prices",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 10,
+            "horizon": "24h",
+            "claim": "A formal joint statement from the US and Iran confirming the resumption of limited humanitarian/energy tanker traffic through the Strait of Hormuz",
+            "conf": 0.65,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 12,
+            "horizon": "72h",
+            "claim": "At least one additional kinetic incident (strike or near-miss) involving a tanker or mine-laying vessel in the Strait of Hormuz",
+            "conf": 0.45,
+            "source": "",
+            "status": "pending"
+          },
+          {
+            "made": 9,
+            "due": 16,
+            "horizon": "7d",
+            "claim": "Brent crude settles above $310/bbl due to combined US-Iran kinetic",
+            "conf": 0.5,
+            "source": "",
+            "status": "pending"
+          }
+        ],
+        "pred_stats": {
+          "n": 4,
+          "brier": 1.4474,
+          "hits": 1,
+          "misses": 3,
+          "false_pos": 3,
+          "false_neg": 0,
+          "by_horizon": {
+            "24h": {
+              "n": 3,
+              "brier": 1.0874,
+              "hits": 1
+            },
+            "72h": {
+              "n": 1,
+              "brier": 0.36,
+              "hits": 0
+            }
+          },
+          "by_source": {
+            "unknown": {
+              "n": 4,
+              "brier": 1.4474,
+              "hits": 1
+            }
+          },
+          "conf_bins": {
+            "2": {
+              "n": 1,
+              "conf": 0.45,
+              "freq": 0.0
+            },
+            "3": {
+              "n": 3,
+              "conf": 1.9300000000000002,
+              "freq": 0.0
+            }
+          }
+        },
+        "p_war": null,
+        "p_deal": null,
+        "brent_dir": "",
+        "scorecard": {
+          "hits": 0,
+          "misses": 5
+        }
+      }
+    }
   }
 ]
