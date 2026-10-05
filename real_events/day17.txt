@@ -1,0 +1,14 @@
+AUTO-FETCHED REAL-WORLD WIRE — 2026-10-05 12:00
+MARKET: Brent $102.44 (+0.19%)
+MARKET: WTI $90.69 (-0.46%)
+MARKET: Gold $4187.30 (+0.60%)
+MARKET: FR petrol €2.213/L | FR diesel €2.371/L (fuel-prices.eu)
+HEADLINES:
+  - Iran says Hormuz to remain closed until US meets conditions - Al Jazeera
+  - Live - Iran warns of stronger military response as maritime tensions rise - iranintl.com
+  - Mideast oil exports exceeded pre-Iran war levels: Kpler data - The New Arab
+  - Middle East crude oil exports exceed pre-war levels but tanker attacks increase - The Times of Israel
+  - US Bombs Iran for Ninth Day as Standoff Over Hormuz Deepens - energynow.com
+  - Middle East Crude Exports Recover, Iran's Shipments Zero - 조선일보
+  - Is Iran losing control of the Strait of Hormuz? - The New Arab
+  - Oil Falls as Investors Await Clarity After Iran-Israel Halt Attacks - EnergyNow
