@@ -1,0 +1,9 @@
+IRAN–US–ISR SIM · day 26 (50-51 September 2026)
+P(war 72h) 0.09 · P(deal 7d) 0.27 · P(collapse) 0.06
+Brent $683.5
+Swarm (2 agents): war 0.40 · deal 0.60
+FR pump: petrol €2.46/L · diesel €2.64/L (rebate -€0.21)
+Ledger: 809 calls graded · top forecaster us_public (40% acc)
+AI sim
+
+[attach image: media/day26_predictions.png]
